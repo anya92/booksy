@@ -1,15 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
+import { graphql } from 'react-apollo';
 
-export default ({ route }) => (
-  <div>
-    <h1>Fullstack React SSR</h1>
-    <button onClick={() => console.log('clicked')}>Click me</button>
+import AUTH_QUERY from '../queries/authQuery';
+
+const App = ({ data, route }) => {
+  if (data.loading) return <div>Loading...</div>;
+  if (data.error) return <div>Error</div>;
+  return (
     <div>
-      <Link to="/">Home</Link>
-      <Link to="/books">Books</Link>
+      <div>
+        <Link to="/">Home</Link>
+        {
+          data.auth
+          ? <a href="/auth/logout">Logout</a>
+          : <a href="/auth/google">Login with Google</a>
+        }
+      </div>
+      { renderRoutes(route.routes) }
     </div>
-    { renderRoutes(route.routes) }
-  </div>
-);
+  );  
+};
+
+export default graphql(AUTH_QUERY)(App);

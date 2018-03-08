@@ -1,7 +1,6 @@
 {
-  "name": "ssr-apollo",
+  "name": "booksy",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node build/bundle.js",
@@ -10,8 +9,14 @@
     "dev:build-server": "webpack --config webpack.server.js --watch --colors --mode development",
     "dev:build-client": "webpack --config webpack.client.js --watch --colors --mode development"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "react",
+    "ssr",
+    "graphql",
+    "apollo",
+    "books"
+  ],
+  "author": "Ania Brajtkopf",
   "license": "ISC",
   "dependencies": {
     "apollo-cache-inmemory": "^1.1.10",
@@ -19,6 +24,7 @@
     "apollo-link": "^1.2.1",
     "apollo-link-http": "^1.5.3",
     "apollo-link-ws": "^1.0.7",
+    "apollo-resolvers": "^1.1.0",
     "apollo-utilities": "^1.0.9",
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
@@ -35,6 +41,8 @@
     "graphql-tools": "^2.21.0",
     "mongoose": "^5.0.9",
     "node-fetch": "^2.1.1",
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^1.0.0",
     "react": "^16.2.0",
     "react-apollo": "^2.0.4",
     "react-dom": "^16.2.0",
