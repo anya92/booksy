@@ -41,7 +41,8 @@ export default (req, client, context) => {
             <script>
               window.__APOLLO_STATE__ = ${serialize(initialState)}
             </script>
-            <script src="bundle.js"></script>
+            <script src="vendor.js"></script>            
+            <script src="main.js"></script>
           </body>
         </html>
       `);
