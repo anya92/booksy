@@ -18,7 +18,6 @@ require('dotenv').config({ path: 'variables.env' });
 
 import createClient from './helpers/createClient';
 import renderer from './helpers/renderer';
-import schema from './graphql/schema';
 
 const app = express();
 const PORT = process.env.PORT || 7777;
@@ -31,7 +30,7 @@ mongoose.connect(process.env.DATABASE_URL);
 mongoose.connection.on('error', console.log);
 mongoose.Promise = global.Promise;
 
-require('./models/User');
+require('./models');
 require('./helpers/passport.js');
 
 app.use(session({
@@ -83,6 +82,8 @@ function isAuthenticated(req, res, next) {
 
 /* GRAPHQL ENDPOINTS */
 
+const schema = require('./graphql/schema');
+
 app.use(
   '/graphql',
   // isAuthenticated,
@@ -119,7 +120,13 @@ app.get('*', async (req, res) => {
 const server = createServer(app);
 
 server.listen(PORT, () => {
-  console.log(`Running on http://localhost:${PORT}/`);
+  console.log(`
+    ============================================
+    Running on http://localhost:${PORT}/
+    ---------------------------------------------
+    GraphiQL on http://localhost:${PORT}/graphiql
+    =============================================
+  `);
   new SubscriptionServer({
     execute,
     subscribe,

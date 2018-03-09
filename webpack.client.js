@@ -22,18 +22,18 @@ const config = {
     ],
   },
   optimization: {
-		splitChunks: {
-			cacheGroups: {
-				vendor: {
-					test: /node_modules/,
-					chunks: 'initial',
-					name: 'vendor',
-					priority: 10,
-					enforce: true,
-				},
-			},
-		},
-	},
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /node_modules/,
+          chunks: 'initial',
+          name: 'vendor',
+          priority: 10,
+          enforce: true,
+        },
+      },
+    },
+  },
 };
 
 module.exports = merge(baseConfig, config);

@@ -14,8 +14,8 @@ const App = ({ data, route }) => {
         <Link to="/">Home</Link>
         {
           data.auth
-          ? <a href="/auth/logout">Logout</a>
-          : <a href="/auth/google">Login with Google</a>
+          ? <div><a href="/auth/logout">Logout</a></div>
+          : <div><a href="/auth/google">Login with Google</a></div>
         }
       </div>
       { renderRoutes(route.routes) }
