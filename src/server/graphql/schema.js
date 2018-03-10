@@ -14,6 +14,7 @@ const typeDefs = `
     googleId: ID!
     email: String
     name: String
+    books: [Book]
   }
 
   type Book {
@@ -40,14 +41,26 @@ const typeDefs = `
     addBook(
       title: String!
       author: String!
-      image: String,
+      image: String
       description: String
       added: String
       tags: [String]
       toBorrow: Boolean
       toSell: Boolean
       state: AllowedStates
-    ) : Book
+    ): Book
+    
+    updateBook(
+      id: ID!
+      title: String
+      author: String
+      image: String
+      description: String
+      tags: [String]
+      toBorrow: Boolean
+      toSell: Boolean
+      state: AllowedStates
+    ): Book 
   }
 
 `;

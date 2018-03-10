@@ -22,10 +22,22 @@ export default {
     }
   },
 
+  User: {
+    books: async (user) => {
+      const books = await Book.find({ owner: user.id });
+      return books;
+    }
+  },
+
   Mutation: {
     addBook: async (root, args, context) => {
       const owner = context.user.id;
       const book = await (new Book({...args, owner})).save();
+      return book;
+    },
+
+    updateBook: async (root, { id, ...args }) => {
+      const book = await Book.findByIdAndUpdate(id, { ...args }, { new: true });
       return book;
     }
   }
