@@ -31,6 +31,12 @@ const typeDefs = `
     state: AllowedStates
   }
 
+  type Notification {
+    userId: ID
+    type: String
+    message: String
+  }
+
   type Query {
     auth: User
     book(id: ID!): Book
@@ -63,6 +69,9 @@ const typeDefs = `
     ): Book 
   }
 
+  type Subscription {
+    notification(userId: ID!): Notification
+  }
 `;
 
 module.exports = makeExecutableSchema({ typeDefs, resolvers });

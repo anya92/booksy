@@ -5,6 +5,13 @@ const Book = mongoose.model('Book');
 
 const pubsub = new PubSub();
 
+const NOTIFICATION_TOPIC = 'notification';
+
+const sendNotification = (userId, type, message) => {
+  const notification = { userId, type, message };
+  pubsub.publish(NOTIFICATION_TOPIC, { notification });
+}
+
 export default {
   Query: {
     auth: (root, args, context) => {
@@ -36,9 +43,21 @@ export default {
       return book;
     },
 
-    updateBook: async (root, { id, ...args }) => {
+    updateBook: async (root, { id, ...args }, context) => {
       const book = await Book.findByIdAndUpdate(id, { ...args }, { new: true });
+      
+      const userId = context.user.id;
+      sendNotification(userId, 'success', 'Successfully updated your book.');
+      
       return book;
+    }
+  },
+
+  Subscription: {
+    notification: {
+      subscribe: withFilter(() => pubsub.asyncIterator(NOTIFICATION_TOPIC), (payload, variables) => {
+        return payload.notification.userId == variables.userId;
+      }),
     }
   }
 

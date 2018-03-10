@@ -5,6 +5,8 @@ import { graphql } from 'react-apollo';
 
 import AUTH_QUERY from '../queries/authQuery';
 
+import Notifications from './Notifications';
+
 const App = ({ data, route }) => {
   if (data.loading) return <div>Loading...</div>;
   if (data.error) return <div>Error</div>;
@@ -18,6 +20,7 @@ const App = ({ data, route }) => {
           : <div><a href="/auth/google">Login with Google</a></div>
         }
       </div>
+      { data.auth && <Notifications userId={data.auth.id} /> }
       { renderRoutes(route.routes) }
     </div>
   );  
