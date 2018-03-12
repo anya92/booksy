@@ -26,6 +26,11 @@ export default {
     books: async () => {
       const books = await Book.find();
       return books;
+    },
+
+    userBooks: async (root, args, context) => {
+      const books = await Book.find({ owner: context.user.id });
+      return books;
     }
   },
 
@@ -38,8 +43,11 @@ export default {
 
   Mutation: {
     addBook: async (root, args, context) => {
-      const owner = context.user.id;
-      const book = await (new Book({...args, owner})).save();
+      const userId = context.user.id;
+      const book = await (new Book({...args, owner: userId})).save();
+
+      sendNotification(userId, 'success', `Successfully created ${book.title}.`);
+
       return book;
     },
 
@@ -47,7 +55,7 @@ export default {
       const book = await Book.findByIdAndUpdate(id, { ...args }, { new: true });
       
       const userId = context.user.id;
-      sendNotification(userId, 'success', 'Successfully updated your book.');
+      sendNotification(userId, 'success', `Successfully updated ${book.title}.`);
       
       return book;
     }

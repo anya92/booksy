@@ -6,7 +6,8 @@ import { ToastContainer, toast } from 'react-toastify';
 class Notifications extends Component {
 
   componentWillReceiveProps({ data: { notification: { type, message } } }) {
-    toast[type](message);
+    // toast[type](message);
+    toast(message);
   }
 
   render() {

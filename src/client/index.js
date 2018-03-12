@@ -19,6 +19,7 @@ const SUBSCRIPTIONS_ENDPOINT = 'ws://localhost:7777/subscriptions';
 
 const httpLink = new HttpLink({
   uri: GRAPHQL_ENDPOINT,
+  credentials: 'same-origin',
 });
 
 const wsLink = new WebSocketLink({

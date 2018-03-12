@@ -24,7 +24,7 @@ const bookSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  tags: [String],
+  category: String,
   toBorrow: {
     type: Boolean,
     default: true,

@@ -25,7 +25,7 @@ const typeDefs = `
     image: String,
     description: String
     added: String
-    tags: [String]
+    category: String
     toBorrow: Boolean
     toSell: Boolean
     state: AllowedStates
@@ -41,6 +41,7 @@ const typeDefs = `
     auth: User
     book(id: ID!): Book
     books: [Book]
+    userBooks: [Book]
   }
 
   type Mutation {
@@ -50,7 +51,7 @@ const typeDefs = `
       image: String
       description: String
       added: String
-      tags: [String]
+      category: String
       toBorrow: Boolean
       toSell: Boolean
       state: AllowedStates
@@ -62,7 +63,7 @@ const typeDefs = `
       author: String
       image: String
       description: String
-      tags: [String]
+      category: String
       toBorrow: Boolean
       toSell: Boolean
       state: AllowedStates
