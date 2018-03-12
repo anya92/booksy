@@ -11,7 +11,6 @@ import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 
-import App from './components/App';
 import routes from './routes';
 
 const GRAPHQL_ENDPOINT = 'http://localhost:7777/graphql';

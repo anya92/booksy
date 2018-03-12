@@ -1,9 +1,9 @@
 import React from 'react';
 
-import App from './components/App';
-import Home from './components/Home';
-import MyShelf from './components/MyShelf';
-import AddBook from './components/AddBook';
+import App from './pages/App';
+import Home from './pages/Home';
+import MyShelf from './pages/MyShelf';
+import AddBook from './pages/AddBook';
 
 export default [{
   component: App,

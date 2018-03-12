@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 
 import { ADD_BOOK_MUTATION } from '../queries/bookQuery';
 
-import BookForm from './BookForm';
+import BookForm from '../components/BookForm';
 
 class AddBook extends Component {
   handleSubmit(book) {
