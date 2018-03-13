@@ -6,13 +6,15 @@ import BookSide from './BookSide';
 const Grid = styled.div`
   display: grid;
   grid-gap: 40px;
-  grid-template-columns: repeat(auto-fit, 160px);
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  justify-content: center;
+  padding-top: 20px;
 `;
 
 const Book = styled.div`
   transition: all .2s ease-in-out;
   &:hover {
-    transform: translateY(-2px);
+    transform: scale(1.05);
   }
   cursor: pointer;
 `;
@@ -73,7 +75,15 @@ class BooksGrid extends Component {
             </Book>
           ))
         }
-        { this.state.showBookSide && <BookSide bookId={this.state.showBookId} close={this.hideSide.bind(this)} /> }
+        { 
+          this.state.showBookSide && (
+            <BookSide 
+              bookId={this.state.showBookId} 
+              close={this.hideSide.bind(this)}
+              auth={this.props.auth}
+            />
+          )
+        }
       </Grid>
     );
   }

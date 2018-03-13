@@ -30,7 +30,9 @@ export const FETCH_BOOK_BY_ID_QUERY = gql`
       title
       author
       description
+      category
       owner {
+        id
         name
         email
       }

@@ -8,12 +8,13 @@ const Navbar = styled.nav`
   left: 0;
   width: 100%;
   z-index: 2;
+  background: #FFF;
+  border-bottom: 1px solid #EEE;
   padding: 20px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  font-family: 'Open Sans', sans-serif;
 `;
 
 const Brand = styled.div`

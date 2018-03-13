@@ -29,7 +29,7 @@ export default {
     },
 
     userBooks: async (root, args, context) => {
-      const books = await Book.find({ owner: context.user.id });
+      const books = await Book.find({ owner: context.user.id }).sort({added: 'descending'});
       return books;
     }
   },

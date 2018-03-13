@@ -10,7 +10,10 @@ import SideNav from '../components/SideNav';
 import Notifications from '../components/Notifications';
 
 const Container = styled.div`
-  padding: 100px 20px 20px 250px;
+  padding: 80px 40px 20px 240px;
+  margin: 0 auto;
+  font-family: 'Open Sans', sans-serif;
+  color: #233;
 `;
 
 const App = ({ data, route }) => {
@@ -22,7 +25,7 @@ const App = ({ data, route }) => {
       <SideNav auth={data.auth} />
       <Container>
         { data.auth && <Notifications userId={data.auth.id} /> }
-        { renderRoutes(route.routes) }
+        { renderRoutes(route.routes, { auth: data.auth }) }
       </Container>
     </div>
   );  

@@ -8,12 +8,10 @@ const SideNav = styled.div`
   left: 0;
   bottom: 0;
   width: 200px;
-  z-index: 3;
+  z-index: 2;
   padding: 10px;
   padding-top: 40px;
   font-family: 'Open Sans', sans-serif;
-  -ms-overflow-style: none;
-  overflow: -moz-scrollbars-none;
   overflow-y: scroll;
   &::-webkit-scrollbar { 
     display: none; 
