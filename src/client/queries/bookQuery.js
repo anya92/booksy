@@ -23,6 +23,23 @@ export const FETCH_USER_BOOKS_QUERY = gql`
   }
 `;
 
+export const FETCH_BOOK_BY_ID_QUERY = gql`
+  query Book($id: ID!) {
+    book(id: $id) {
+      id
+      title
+      author
+      description
+      owner {
+        name
+        email
+      }
+      toBorrow
+      toSell
+    }
+  }
+`;
+
 export const ADD_BOOK_MUTATION = gql `
   mutation AddBook(
     $title: String! 

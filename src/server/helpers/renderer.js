@@ -33,6 +33,7 @@ export default (req, client, context) => {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>apollo ssr</title>
             <link rel="stylesheet" href="https://unpkg.com/modern-normalize@0.4.0/modern-normalize.css">
+            <link href="https://fonts.googleapis.com/css?family=Pacifico|Open+Sans:300,400,700" rel="stylesheet">
             <!--<link rel="stylesheet" href="modern-normalize.css"/>-->
             ${styleTags}
           </head>
