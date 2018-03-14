@@ -42,7 +42,7 @@ export const FETCH_BOOK_BY_ID_QUERY = gql`
   }
 `;
 
-export const ADD_BOOK_MUTATION = gql `
+export const ADD_BOOK_MUTATION = gql`
   mutation AddBook(
     $title: String! 
     $author: String! 
@@ -64,6 +64,14 @@ export const ADD_BOOK_MUTATION = gql `
       id
       title
       author
+    }
+  }
+`;
+
+export const REMOVE_BOOK_BY_ID_MUTATION = gql`
+  mutation RemoveBook($id: ID!) {
+    removeBook(id: $id) {
+      id
     }
   }
 `;

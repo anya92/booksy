@@ -44,11 +44,13 @@ export default {
   Mutation: {
     addBook: async (root, args, context) => {
       const userId = context.user.id;
-      const book = await (new Book({...args, owner: userId})).save();
-
-      sendNotification(userId, 'success', `Successfully created ${book.title}.`);
-
-      return book;
+      try {
+        const book = await (new Book({...args, owner: userId})).save();
+        sendNotification(userId, 'success', `Successfully created ${book.title}.`);
+        return book;
+      } catch(error) {
+        sendNotification(userId, 'error', `${error}`);
+      }     
     },
 
     updateBook: async (root, { id, ...args }, context) => {
@@ -58,7 +60,22 @@ export default {
       sendNotification(userId, 'success', `Successfully updated ${book.title}.`);
       
       return book;
-    }
+    },
+
+    removeBook: async (root, { id }, context) => {
+      const userId = context.user.id;
+      const book = await Book.findById(id);
+      if (userId == book.owner.id) {
+        await Book.remove(book, err => {
+          if (err) {
+            sendNotification(userId, 'error', `${err}`)
+          } else {
+            sendNotification(userId, 'success', `Successfully deleted ${book.title}.`);
+            return null;
+          }
+        });
+      }
+    },
   },
 
   Subscription: {

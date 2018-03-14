@@ -5,8 +5,11 @@ import styled from 'styled-components';
 const SideNav = styled.div`
   position: fixed;
   top: 80px;
-  left: 0;
   bottom: 0;
+  left: -220px;
+  @media all and (min-width: 768px) {
+    left: 0;
+  }
   width: 200px;
   z-index: 2;
   padding: 10px;

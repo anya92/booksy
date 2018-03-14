@@ -6,7 +6,7 @@ import { FETCH_USER_BOOKS_QUERY } from '../queries/bookQuery';
 
 import BooksGrid from '../components/BooksGrid';
 
-const Title = styled.h1`
+export const Title = styled.h1`
   margin: 40px 0;
   font-weight: 700;
 `;

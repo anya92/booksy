@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
-import{ graphql } from 'react-apollo';
+import { Link } from 'react-router-dom';
+import{ graphql, compose } from 'react-apollo';
 import styled from 'styled-components';
 
-import { FETCH_BOOK_BY_ID_QUERY } from '../queries/bookQuery';
+import {
+  FETCH_BOOK_BY_ID_QUERY, 
+  FETCH_USER_BOOKS_QUERY,
+  REMOVE_BOOK_BY_ID_MUTATION
+} from '../queries/bookQuery';
 
 const Side = styled.div`
   width: 400px;
+  max-width: 100%;
   position: fixed;
   top: 81px;
   bottom: 0;
@@ -41,8 +47,18 @@ const CloseButton = styled.div`
   cursor: pointer;
 `;
 
-const BookInfo = styled.div`
-
+const Slide = styled.div`
+  opacity: 0;
+  transform: ${props => props.down ? 'translateY(-50px)' : 'translateY(50px)'};
+  animation: ${props => props.down ? 'slideDown' : 'slideUp'} .4s .2s ease-out forwards;
+  @keyframes slideDown {
+    from { opacity: 0; transform: 'translateY(-50px)'; }
+    to { opacity: 1; transform: translateY(0); }    
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: 'translateY(50px)'; }
+    to { opacity: 1; transform: translateY(0); }    
+  }
 `;
 
 const BookAuthor = styled.div`
@@ -92,6 +108,10 @@ const Button = styled.button`
   color: #FFF;
   background: ${props => props.danger ? '#B33771' : '#9AECDB' };
   border-radius: 4px;
+  a {
+    color: #FFF;
+    text-decoration: none;
+  }
 `;
 
 const Background = styled.div`
@@ -101,7 +121,7 @@ const Background = styled.div`
   right: 0;
   bottom: 0;
   z-index: 3;
-  background: rgb(0, 0, 0);
+  background: #555;
   opacity: 0;
   animation: show .4s ease-out forwards;
   &.hide {
@@ -119,6 +139,24 @@ const Background = styled.div`
 
 class BookSide extends Component {
 
+  removeBook(id) {
+    // todo add confirm
+    this.props.mutate({
+      variables: {
+        id,
+      },
+      refetchQueries: [{
+        query: FETCH_USER_BOOKS_QUERY,
+      }],
+    }).then(() => this.closeSide());
+  }
+
+  closeSide() {
+    this.container.classList.add('hide');
+    this.background.classList.add('hide');
+    this.props.close();
+  }
+
   isOwner() {
     const { auth, data: { book } } = this.props;
     return auth.id === book.owner.id;
@@ -130,24 +168,34 @@ class BookSide extends Component {
 
     if (loading) return <div />;
     if (error) return <div>Error</div>;
+    
     return (
-      <BookInfo>
-        <BookAuthor>{book.author}</BookAuthor>
-        <BookTitle>{book.title}</BookTitle>
-        <BookCategory># {book.category}</BookCategory>
-        <BookDescription>{book.description}</BookDescription>
-        <BookOwner>Book owned by <strong>{book.owner.name}</strong></BookOwner>
-        {
-          auth && this.isOwner() 
-          ? <Buttons><Button>Edit</Button><Button danger>Delete</Button></Buttons>
-          : ( 
-              <Buttons>
-                { book.toBorrow && <Button>Borrow</Button> }
-                { book.toSell && <Button>Buy</Button> }                
-              </Buttons>
-            )
-        }
-      </BookInfo>  
+      <div>
+        <Slide down>
+          <BookAuthor>{book.author}</BookAuthor>
+          <BookTitle>{book.title}</BookTitle>
+          <BookCategory># {book.category}</BookCategory>
+        </Slide>
+        <Slide up>
+          <BookDescription>{book.description}</BookDescription>
+          <BookOwner>Book owned by <strong>{book.owner.name}</strong></BookOwner>
+          {
+            auth && this.isOwner() 
+            ? (
+                <Buttons>
+                  <Button><Link to={`/edit/${book.id}`}>Edit</Link></Button>
+                  <Button danger onClick={() => this.removeBook(book.id)}>Delete</Button>
+                </Buttons>
+              )
+            : ( 
+                <Buttons>
+                  { book.toBorrow && <Button>Borrow</Button> }
+                  { book.toSell && <Button>Buy</Button> }                
+                </Buttons>
+              )
+          }
+        </Slide>
+      </div>  
     );
   }
 
@@ -156,21 +204,19 @@ class BookSide extends Component {
       <div>
         <Background innerRef={ref => (this.background = ref)} />
         <Side innerRef={ref => (this.container = ref)}>
-          <CloseButton onClick={() => {
-            this.container.classList.add('hide');
-            this.background.classList.add('hide');
-            this.props.close();
-          }}>&times;</CloseButton>
+          <CloseButton onClick={() => this.closeSide()}>&times;</CloseButton>
           { this.renderContent() }
         </Side>
-
       </div>
     )
   }
 }
 
-export default graphql(FETCH_BOOK_BY_ID_QUERY, {
-  options: ({ bookId }) => { 
-    return { variables: { id: bookId } };
-  }
-})(BookSide);
+export default compose(
+  graphql(FETCH_BOOK_BY_ID_QUERY, {
+    options: ({ bookId }) => { 
+      return { variables: { id: bookId } };
+    }
+  }),
+  graphql(REMOVE_BOOK_BY_ID_MUTATION),
+)(BookSide);

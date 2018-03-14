@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast, style } from 'react-toastify';
+
+style({
+  colorDefault: "#CAD3C8",
+  colorInfo: "#25CCF7",
+  colorSuccess: "#58B19F",
+  colorWarning: "#EAB543",
+  colorError: "#B33771",
+});
 
 class Notifications extends Component {
 
   componentWillReceiveProps({ data: { notification: { type, message } } }) {
-    // toast[type](message);
-    toast(message);
+    toast[type](message, {
+      position: toast.POSITION.BOTTOM_RIGHT,
+    });
+    // toast(message);
   }
 
   render() {

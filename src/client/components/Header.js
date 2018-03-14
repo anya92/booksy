@@ -15,6 +15,7 @@ const Navbar = styled.nav`
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
+  font-family: 'Open sans', sans-serif;
 `;
 
 const Brand = styled.div`

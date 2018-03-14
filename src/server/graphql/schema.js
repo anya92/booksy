@@ -67,7 +67,11 @@ const typeDefs = `
       toBorrow: Boolean
       toSell: Boolean
       state: AllowedStates
-    ): Book 
+    ): Book
+
+    removeBook(
+      id: ID!
+    ) : Book
   }
 
   type Subscription {

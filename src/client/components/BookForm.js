@@ -16,26 +16,26 @@ class BookForm extends Component {
       apiResults: [],
     };
 
-    // let timeout = this.timeout = null;
+    let timeout = this.timeout = null;
   }
 
-  // googleBooksAPICall() {    
-  //   clearTimeout(this.timeout);
+  googleBooksAPICall() {    
+    clearTimeout(this.timeout);
 
-  //   this.timeout = setTimeout(async () => {
-  //     if (this.state.title) {
-  //       const res = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${this.state.title}&maxResults=5`);
-  //       const apiResults = res.data.items.map(({ volumeInfo: result }) => ({
-  //         title: result.title,
-  //         author: result.authors && result.authors[0],
-  //         image: result.imageLinks && result.imageLinks.thumbnail,
-  //         description: result.description,
-  //         categories: result.categories,
-  //       }));
-  //       this.setState({ apiResults });
-  //     }
-  //   }, 500);
-  // }
+    this.timeout = setTimeout(async () => {
+      if (this.state.title) {
+        const res = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${this.state.title}&maxResults=5`);
+        const apiResults = res.data.items.map(({ volumeInfo: result }) => ({
+          title: result.title,
+          author: result.authors && result.authors[0],
+          image: result.imageLinks && result.imageLinks.thumbnail,
+          description: result.description,
+          categories: result.categories,
+        }));
+        this.setState({ apiResults });
+      }
+    }, 500);
+  }
 
   handleInputChange(e, type) {
     const { value } = e.target;
@@ -47,8 +47,9 @@ class BookForm extends Component {
     // todo validation 
     const { title, author, image, description, category, toBorrow, toSell } = this.state;
     const book = { title, author, image, description, category, toBorrow, toSell };
-    console.log(book);
-    this.props.onSubmit(book);
+    if (title && author) {
+      this.props.onSubmit(book);
+    }
   }
 
   render() {
@@ -63,7 +64,7 @@ class BookForm extends Component {
               type="text" 
               value={this.state.title}
               onChange={e => this.handleInputChange(e, 'title')}
-              // onKeyUp={() => this.googleBooksAPICall()}
+              onKeyUp={() => this.googleBooksAPICall()}
             />
           </div>
           {/* Author */}
@@ -135,14 +136,18 @@ class BookForm extends Component {
           <button type="button" onClick={this.props.onCancel}>Cancel</button>
           <button type="submit">Save</button>
         </form>
-        {/* <div>
-          <h3>Results</h3>
-          {
-            this.state.apiResults.map(result => (
-              <div>{result}</div>
-            ))
-          }
-        </div> */}
+        { <div>
+            <h3>Results</h3>
+            {
+              this.state.apiResults.map(result => (
+                <div>
+                  {result.title} | {result.author} {result.image && <img src={result.image} alt=""/>}
+                  <br/> {result.description}
+                </div>
+              ))
+            }
+          </div> 
+        }
       </div>
     );
   }

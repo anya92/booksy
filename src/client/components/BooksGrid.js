@@ -12,9 +12,9 @@ const Grid = styled.div`
 `;
 
 const Book = styled.div`
-  transition: all .2s ease-in-out;
+  transition: all .2s ease-out;
   &:hover {
-    transform: scale(1.05);
+    transform: scale(1.01);
   }
   cursor: pointer;
 `;
@@ -22,6 +22,7 @@ const Book = styled.div`
 const BookCover = styled.div`
   img {
     width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 `;
@@ -29,8 +30,17 @@ const BookCover = styled.div`
 const BookDescription = styled.div`
   padding: 10px 0;
 `;
-const BookTitle = styled.div``;
-const BookAuthor = styled.div``;
+
+const BookTitle = styled.div`
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 16px;
+`;
+
+const BookAuthor = styled.div`
+  color: #999;
+  font-size: 14px;
+`;
 
 class BooksGrid extends Component {
   constructor(props) {
