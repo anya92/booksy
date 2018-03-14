@@ -29,6 +29,7 @@ export const FETCH_BOOK_BY_ID_QUERY = gql`
       id
       title
       author
+      image
       description
       category
       owner {
@@ -53,6 +54,34 @@ export const ADD_BOOK_MUTATION = gql`
     $toSell: Boolean
   ) {
     addBook(
+      title: $title
+      author: $author
+      image: $image
+      description: $description
+      category: $category
+      toBorrow: $toBorrow
+      toSell: $toSell
+    ) {
+      id
+      title
+      author
+    }
+  }
+`;
+
+export const EDIT_BOOK_MUTATION = gql`
+  mutation UpdateBook(
+    $id: ID!
+    $title: String! 
+    $author: String! 
+    $image: String 
+    $description: String 
+    $category: String 
+    $toBorrow: Boolean 
+    $toSell: Boolean
+  ) {
+    updateBook(
+      id: $id
       title: $title
       author: $author
       image: $image

@@ -59,8 +59,8 @@ const typeDefs = `
     
     updateBook(
       id: ID!
-      title: String
-      author: String
+      title: String!
+      author: String!
       image: String
       description: String
       category: String

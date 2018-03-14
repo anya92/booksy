@@ -35,6 +35,10 @@ const FormElement = styled.div`
     border: 1px solid #E0DDD9;
     outline: none;
     border-radius: 6px;
+    transition: all .3s ease-out;
+    &:focus {
+      border-color: #9aecdb;
+    }
   }
 `;
 
@@ -43,13 +47,13 @@ class BookForm extends Component {
     super(props);
 
     this.state = {
-      title: '',
-      author: '',
-      image: '',
-      description: '',
-      category: '',
-      toBorrow: true,
-      toSell: false,
+      title: props.book ? props.book.title : '',
+      author: props.book ? props.book.author : '',
+      image: props.book ? props.book.image : '',
+      description: props.book ? props.book.description : '',
+      category: props.book ? props.book.category : '',
+      toBorrow: props.book ? props.book.toBorrow : true,
+      toSell: props.book ? props.book.toSell : false,
       apiResults: [],
     };
 

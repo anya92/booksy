@@ -12,6 +12,8 @@ const Grid = styled.div`
 `;
 
 const Book = styled.div`
+  display: grid;
+  grid-template-rows: 1fr auto;
   transition: all .2s ease-out;
   &:hover {
     transform: scale(1.01);
@@ -20,6 +22,7 @@ const Book = styled.div`
 `;
 
 const BookCover = styled.div`
+  height: 100%;
   img {
     width: 100%;
     height: 100%;
