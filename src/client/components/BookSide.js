@@ -95,12 +95,12 @@ const BookOwner = styled.div`
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
 `;
-const Buttons = styled.div`
+export const Buttons = styled.div`
   display: grid;
   grid-gap: 20px;
   grid-template-columns: 1fr 1fr;
 `;
-const Button = styled.button`
+export const Button = styled.button`
   font-weight: 700;
   border: none;
   height: 50px;

@@ -1,5 +1,42 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import styled from 'styled-components';
+
+import { Buttons, Button } from './BookSide';
+
+const Grid = styled.div`
+  padding: 20px 40px;
+  display: grid;
+  grid-gap: 40px;
+  grid-template-columns: 1fr 2fr;
+`;
+
+const Image = styled.div`
+  display: grid;
+  justify-content: center;
+`;
+
+const Form = styled.form`
+
+`;
+
+const FormElement = styled.div`
+  padding: 10px;
+  label {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  input, textarea, select {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 300;
+    padding: 10px 15px;
+    border: 1px solid #E0DDD9;
+    outline: none;
+    border-radius: 6px;
+  }
+`;
 
 class BookForm extends Component {
   constructor(props) {
@@ -47,59 +84,61 @@ class BookForm extends Component {
     // todo validation 
     const { title, author, image, description, category, toBorrow, toSell } = this.state;
     const book = { title, author, image, description, category, toBorrow, toSell };
-    if (title && author) {
+    // if (title && author) {
       this.props.onSubmit(book);
-    }
+    // }
   }
 
   render() {
     const categoryOptions = ["Science fiction", "Drama", "Fiction", "Romance", "Horror", "Health", "Travel", "Children's", "Science", "History", "Poetry", "Comics", "Fantasy", "Biographies", "Other"]; // todo alphabetical order
     return (
-      <div>
-        <form onSubmit={e => this.onSubmit(e)}>
+      <Grid>
+        <Image>
+          { this.state.image && <img src={this.state.image} alt=""/> }
+        </Image> 
+        <Form onSubmit={e => this.onSubmit(e)}>
           {/* Title */}
-          <div>
-          <label htmlFor="">Title</label>
+          <FormElement>
+            <label>Title</label>
             <input 
               type="text" 
               value={this.state.title}
               onChange={e => this.handleInputChange(e, 'title')}
-              onKeyUp={() => this.googleBooksAPICall()}
+              // onKeyUp={() => this.googleBooksAPICall()}
             />
-          </div>
+          </FormElement>
           {/* Author */}
-          <div>
-            <label htmlFor="">Author</label>
+          <FormElement>
+            <label>Author</label>
             <input
               type="text" 
               value={this.state.author}
               onChange={e => this.handleInputChange(e, 'author')}
             />
-          </div>
+          </FormElement>
           {/* Image */}
-          <div>
-            <label htmlFor="">Book Cover</label>
+          <FormElement>
+            <label>Book Cover</label>
             <input
               type="text"
               placeholder="https://"
               value={this.state.image}
               onChange={e => this.handleInputChange(e, 'image')}
             />
-            { this.state.image && <img src={this.state.image} alt=""/> }
-          </div>
+          </FormElement>
           {/* Description */}
-          <div>
-            <label htmlFor="">Description</label>
+          <FormElement>
+            <label>Description</label>
             <textarea
               value={this.state.description}
               onChange={e => this.handleInputChange(e, 'description')}
-              rows={5}
+              rows={10}
               style={{ resize: 'none' }}
             />
-          </div>
+          </FormElement>
           {/* Category */}
-          <div>
-            <label htmlFor="">Category</label>
+          <FormElement>
+            <label>Category</label>
             <select
               id="category"
               value={this.state.category || 'Choose'}
@@ -112,43 +151,33 @@ class BookForm extends Component {
                 ))
               }
             </select>
-          </div>
+          </FormElement>
           {/* to borrow and/or sell */}
-          <div>
-            <label>Set your book available</label>
-            <div>
-              <label htmlFor="borrow">to borrow</label>
+          <FormElement>
+            <label>Set your book available to</label>
+            <FormElement>
+              <label htmlFor="borrow">borrow</label>
               <input
                 type="checkbox"
                 id="borrow"
                 checked={this.state.toBorrow}
                 onChange={() => this.setState(prevState => ({ toBorrow: !prevState.toBorrow }))}
               />
-              <label htmlFor="sell">to sell</label>
+              <label htmlFor="sell">sell</label>
               <input
                 type="checkbox"
                 id="sell"
                 checked={this.state.toSell}
                 onChange={() => this.setState(prevState => ({ toSell: !prevState.toSell }))}
               />
-            </div>    
-          </div>
-          <button type="button" onClick={this.props.onCancel}>Cancel</button>
-          <button type="submit">Save</button>
-        </form>
-        { <div>
-            <h3>Results</h3>
-            {
-              this.state.apiResults.map(result => (
-                <div>
-                  {result.title} | {result.author} {result.image && <img src={result.image} alt=""/>}
-                  <br/> {result.description}
-                </div>
-              ))
-            }
-          </div> 
-        }
-      </div>
+            </FormElement>    
+          </FormElement>
+          <Buttons>
+            <Button danger type="button" onClick={this.props.onCancel}>Cancel</Button>
+            <Button type="submit">Save</Button>
+          </Buttons>
+        </Form>
+      </Grid>
     );
   }
 }
