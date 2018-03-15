@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 import media from '../styled/mediaQueries';
 
-import BookSide from './BookSide';
+import SidePanel from './SidePanel';
 
 const Grid = styled.div`
   display: grid;
@@ -54,7 +54,7 @@ class BooksGrid extends Component {
     super(props);
 
     this.state = {
-      showBookSide: false,
+      showSidePanel: false,
       showBookId: '',
     };
   }
@@ -62,7 +62,7 @@ class BooksGrid extends Component {
   hideSide() {
     setTimeout(() => {
       this.setState({
-        showBookSide: false,
+        showSidePanel: false,
         showBookId: '',
       })
     }, 600);
@@ -76,7 +76,7 @@ class BooksGrid extends Component {
           books.map(book => (
             <Book 
               key={book.id}
-              onClick={() => this.setState({ showBookSide: true, showBookId: book.id })}
+              onClick={() => this.setState({ showSidePanel: true, showBookId: book.id })}
             >
               <BookCover>
                 <img src={book.image} alt={book.title} />
@@ -93,8 +93,8 @@ class BooksGrid extends Component {
           ))
         }
         { 
-          this.state.showBookSide && (
-            <BookSide 
+          this.state.showSidePanel && (
+            <SidePanel 
               bookId={this.state.showBookId} 
               close={this.hideSide.bind(this)}
               auth={this.props.auth}

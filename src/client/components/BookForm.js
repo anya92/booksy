@@ -3,7 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
 
-import { Buttons, Button } from './BookSide';
+import { ButtonsContainer, Button } from '../styled/Buttons';
 
 const Grid = styled.div`
   padding: 20px 40px;
@@ -180,10 +180,10 @@ class BookForm extends Component {
               />
             </FormElement>    
           </FormElement>
-          <Buttons>
+          <ButtonsContainer>
             <Button danger type="button" onClick={this.props.onCancel}>Cancel</Button>
             <Button type="submit">Save</Button>
-          </Buttons>
+          </ButtonsContainer>
         </Form>
       </Grid>
     );
