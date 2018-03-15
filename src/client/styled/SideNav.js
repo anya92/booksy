@@ -4,7 +4,7 @@ import media from './mediaQueries';
 
 export const Nav = styled.div`
   position: fixed;
-  top: 73px;
+  top: 74px;
   bottom: 0;
   left: 0;
   padding: 20px 0;

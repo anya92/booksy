@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 
+import media from '../styled/mediaQueries';
+
 import BookSide from './BookSide';
 
 const Grid = styled.div`
   display: grid;
-  grid-gap: 40px;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  ${media.phone`
+    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr;
+  `}
+  grid-gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   justify-content: center;
   padding-top: 20px;
 `;
@@ -14,9 +20,7 @@ const Grid = styled.div`
 const Book = styled.div`
   display: grid;
   grid-template-rows: 1fr auto;
-  transition: all .2s ease-out;
   &:hover {
-    transform: scale(1.01);
   }
   cursor: pointer;
 `;
