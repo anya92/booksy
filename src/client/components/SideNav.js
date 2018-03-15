@@ -4,53 +4,65 @@ import styled from 'styled-components';
 
 const SideNav = styled.div`
   position: fixed;
-  top: 80px;
+  top: 73px;
   bottom: 0;
-  left: -220px;
+  left: 0;
+  transform: translateX(-100%);
+  transition: all .5s ease-out;
+  border-right: 1px solid #eee;
+  background: #eee;
   @media all and (min-width: 768px) {
     left: 0;
   }
-  width: 200px;
+  &.open {
+    transform: translateX(0);
+  }
+  width: 240px;
   z-index: 2;
-  padding: 10px;
-  padding-top: 40px;
+  padding: 20px 0;
   font-family: 'Open Sans', sans-serif;
   overflow-y: scroll;
-  &::-webkit-scrollbar { 
+  /* &::-webkit-scrollbar { 
     display: none; 
-  }
+  } */
 `;
 
 const Links = styled.div`
+  padding: 10px 0;
   display: grid;
   grid-template-columns: 1fr;
-  grid-gap: 10px;
-  margin-bottom: 40px;
+  border-bottom: 1px solid #ddd;
   a {
     color: #555;
     text-decoration: none;
-    padding: 10px 15px;
+    padding: 10px 25px;
+    transition: background .3s ease-out;
+    &:hover:not(.active) {
+      background: #ddd;
+    }
     &.active {
       color: #FFF;
       background: #9AECDB;
-      border-radius: 4px;
     }
   }
 `;
 
 const Categories = styled.div`
-  padding: 10px;
+  padding: 10px 0;
   h4 {
-    font-weight: 300;
     text-transform: uppercase;
+    padding-left: 25px;
   }
   div {
-    margin: 5px 0;
+    padding: 10px 25px;
+    &:hover:not(.active) {
+      background: #ddd;
+    }
   }
 `;
 
 export default ({ auth }) => (
-  <SideNav>
+  <SideNav id="side-nav">
     {
       auth && (
         <Links>

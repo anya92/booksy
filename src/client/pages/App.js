@@ -23,10 +23,10 @@ const App = ({ data, route }) => {
     <div>
       <Header auth={data.auth} />
       <SideNav auth={data.auth} />
-      <Container>
+      {/* <Container>
         { data.auth && <Notifications userId={data.auth.id} /> }
         { renderRoutes(route.routes, { auth: data.auth }) }
-      </Container>
+      </Container> */}
     </div>
   );  
 };
