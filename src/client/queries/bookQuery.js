@@ -19,6 +19,7 @@ export const FETCH_USER_BOOKS_QUERY = gql`
       author
       image
       description
+      category
     }
   }
 `;
@@ -63,8 +64,6 @@ export const ADD_BOOK_MUTATION = gql`
       toSell: $toSell
     ) {
       id
-      title
-      author
     }
   }
 `;
@@ -91,8 +90,6 @@ export const EDIT_BOOK_MUTATION = gql`
       toSell: $toSell
     ) {
       id
-      title
-      author
     }
   }
 `;

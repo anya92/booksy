@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 
 import { Buttons, Button } from './BookSide';
 
@@ -88,9 +89,12 @@ class BookForm extends Component {
     // todo validation 
     const { title, author, image, description, category, toBorrow, toSell } = this.state;
     const book = { title, author, image, description, category, toBorrow, toSell };
-    // if (title && author) {
+    console.log(book);
+    if (title && author) {
       this.props.onSubmit(book);
-    // }
+    } else {
+      toast.error('Please supply a title and an author.');
+    }
   }
 
   render() {
