@@ -1,53 +1,8 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-
-import media from '../styled/mediaQueries';
 
 import SidePanel from './SidePanel';
 
-const Grid = styled.div`
-  display: grid;
-  ${media.phone`
-    grid-gap: 20px;
-    grid-template-columns: 1fr 1fr;
-  `}
-  grid-gap: 30px;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  justify-content: center;
-  padding-top: 20px;
-`;
-
-const Book = styled.div`
-  display: grid;
-  grid-template-rows: 1fr auto;
-  &:hover {
-  }
-  cursor: pointer;
-`;
-
-const BookCover = styled.div`
-  height: 100%;
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-`;
-
-const BookDescription = styled.div`
-  padding: 10px 0;
-`;
-
-const BookTitle = styled.div`
-  font-weight: 700;
-  margin-bottom: 10px;
-  font-size: 16px;
-`;
-
-const BookAuthor = styled.div`
-  color: #999;
-  font-size: 14px;
-`;
+import * as Grid from '../styled/BooksGrid';
 
 class BooksGrid extends Component {
   constructor(props) {
@@ -70,32 +25,32 @@ class BooksGrid extends Component {
         showSidePanel: false,
         showBookId: '',
       });
-      document.body.style.overflow = 'auto';
     }, 600);
+    document.body.style.overflow = 'auto';
   }
 
   render() {
     const { books } = this.props;
     return (
-      <Grid>
+      <Grid.Container>
         {
           books.map(book => (
-            <Book 
+            <Grid.Book 
               key={book.id}
               onClick={() => this.showPanel(book.id)}
             >
-              <BookCover>
+              <Grid.BookCover>
                 <img src={book.image} alt={book.title} />
-              </BookCover>
-              <BookDescription>
-                <BookTitle>
+              </Grid.BookCover>
+              <Grid.BookDescription>
+                <Grid.BookTitle>
                   {book.title}
-                </BookTitle>
-                <BookAuthor>
+                </Grid.BookTitle>
+                <Grid.BookAuthor>
                   {book.author}
-                </BookAuthor>
-              </BookDescription>
-            </Book>
+                </Grid.BookAuthor>
+              </Grid.BookDescription>
+            </Grid.Book>
           ))
         }
         { 
@@ -107,7 +62,7 @@ class BooksGrid extends Component {
             />
           )
         }
-      </Grid>
+      </Grid.Container>
     );
   }
 }

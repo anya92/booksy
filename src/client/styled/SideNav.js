@@ -13,6 +13,7 @@ export const Nav = styled.div`
   width: 240px;
   z-index: 2;
   font-family: 'Open Sans', sans-serif;
+  color: #555;
   overflow-y: scroll;
   transition: all .5s ease-out;
 

@@ -31,7 +31,7 @@ export default (req, client, context) => {
         <html>
           <head>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>apollo ssr</title>
+            <title>booksy</title>
             <link rel="stylesheet" href="https://unpkg.com/modern-normalize@0.4.0/modern-normalize.css">
             <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
             <link href="https://fonts.googleapis.com/css?family=Pacifico|Open+Sans:300,400,700" rel="stylesheet">
