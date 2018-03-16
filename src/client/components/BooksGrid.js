@@ -59,12 +59,18 @@ class BooksGrid extends Component {
     };
   }
 
-  hideSide() {
+  showPanel(id) {
+    document.body.style.overflow = 'hidden';
+    this.setState({ showSidePanel: true, showBookId: id });
+  }
+
+  hidePanel() {
     setTimeout(() => {
       this.setState({
         showSidePanel: false,
         showBookId: '',
-      })
+      });
+      document.body.style.overflow = 'auto';
     }, 600);
   }
 
@@ -76,7 +82,7 @@ class BooksGrid extends Component {
           books.map(book => (
             <Book 
               key={book.id}
-              onClick={() => this.setState({ showSidePanel: true, showBookId: book.id })}
+              onClick={() => this.showPanel(book.id)}
             >
               <BookCover>
                 <img src={book.image} alt={book.title} />
@@ -96,7 +102,7 @@ class BooksGrid extends Component {
           this.state.showSidePanel && (
             <SidePanel 
               bookId={this.state.showBookId} 
-              close={this.hideSide.bind(this)}
+              close={this.hidePanel.bind(this)}
               auth={this.props.auth}
             />
           )
