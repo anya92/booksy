@@ -1,47 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
 import { toast } from 'react-toastify';
 
+import * as Form from '../styled/Form';
 import { ButtonsContainer, Button } from '../styled/Buttons';
-
-const Grid = styled.div`
-  padding: 20px 40px;
-  display: grid;
-  grid-gap: 40px;
-  grid-template-columns: 1fr 2fr;
-`;
-
-const Image = styled.div`
-  display: grid;
-  justify-content: center;
-`;
-
-const Form = styled.form`
-
-`;
-
-const FormElement = styled.div`
-  padding: 10px;
-  label {
-    display: block;
-    font-weight: 700;
-    margin-bottom: 10px;
-  }
-  input, textarea, select {
-    width: 100%;
-    font-size: 16px;
-    font-weight: 300;
-    padding: 10px 15px;
-    border: 1px solid #E0DDD9;
-    outline: none;
-    border-radius: 6px;
-    transition: all .3s ease-out;
-    &:focus {
-      border-color: #9aecdb;
-    }
-  }
-`;
 
 class BookForm extends Component {
   constructor(props) {
@@ -55,7 +17,8 @@ class BookForm extends Component {
       category: props.book ? props.book.category : '',
       toBorrow: props.book ? props.book.toBorrow : true,
       toSell: props.book ? props.book.toSell : false,
-      apiResults: [],
+      // apiResults: [],
+      showBookCover: false,
     };
 
     let timeout = this.timeout = null;
@@ -89,7 +52,7 @@ class BookForm extends Component {
     // todo validation 
     const { title, author, image, description, category, toBorrow, toSell } = this.state;
     const book = { title, author, image, description, category, toBorrow, toSell };
-    console.log(book);
+
     if (title && author) {
       this.props.onSubmit(book);
     } else {
@@ -100,13 +63,10 @@ class BookForm extends Component {
   render() {
     const categoryOptions = ["Science fiction", "Drama", "Fiction", "Romance", "Horror", "Health", "Travel", "Children's", "Science", "History", "Poetry", "Comics", "Fantasy", "Biographies", "Other"]; // todo alphabetical order
     return (
-      <Grid>
-        <Image>
-          { this.state.image && <img src={this.state.image} alt=""/> }
-        </Image> 
-        <Form onSubmit={e => this.onSubmit(e)}>
+      <Form.Grid> 
+        <form onSubmit={e => this.onSubmit(e)}>
           {/* Title */}
-          <FormElement>
+          <Form.Element>
             <label>Title</label>
             <input 
               type="text" 
@@ -114,28 +74,40 @@ class BookForm extends Component {
               onChange={e => this.handleInputChange(e, 'title')}
               // onKeyUp={() => this.googleBooksAPICall()}
             />
-          </FormElement>
+          </Form.Element>
           {/* Author */}
-          <FormElement>
+          <Form.Element>
             <label>Author</label>
             <input
               type="text" 
               value={this.state.author}
               onChange={e => this.handleInputChange(e, 'author')}
             />
-          </FormElement>
-          {/* Image */}
-          <FormElement>
+          </Form.Element>
+          {/* Book Cover */}
+          <Form.Element>
             <label>Book Cover</label>
-            <input
-              type="text"
-              placeholder="https://"
-              value={this.state.image}
-              onChange={e => this.handleInputChange(e, 'image')}
-            />
-          </FormElement>
+            <Form.ElementWithAddon>
+              <Form.Addon>https://</Form.Addon>
+              <input
+                type="text"
+                value={this.state.image}
+                onChange={e => this.handleInputChange(e, 'image')}
+              />
+              <Form.Addon 
+                onClick={() => this.setState({ showBookCover: true })}>
+                <i className="fa fa-image" />
+              </Form.Addon>
+            </Form.ElementWithAddon>
+            <Form.BookCoverModal
+              open={this.state.showBookCover}
+            >
+              <img src={this.state.image} alt={this.state.title} />
+              <span onClick={() => this.setState({ showBookCover: false })}>&#x2715;</span>
+            </Form.BookCoverModal> 
+          </Form.Element>
           {/* Description */}
-          <FormElement>
+          <Form.Element>
             <label>Description</label>
             <textarea
               value={this.state.description}
@@ -143,9 +115,9 @@ class BookForm extends Component {
               rows={10}
               style={{ resize: 'none' }}
             />
-          </FormElement>
+          </Form.Element>
           {/* Category */}
-          <FormElement>
+          <Form.Element>
             <label>Category</label>
             <select
               id="category"
@@ -159,33 +131,37 @@ class BookForm extends Component {
                 ))
               }
             </select>
-          </FormElement>
+          </Form.Element>
           {/* to borrow and/or sell */}
-          <FormElement>
+          <Form.Element>
             <label>Set your book available to</label>
-            <FormElement>
-              <label htmlFor="borrow">borrow</label>
-              <input
-                type="checkbox"
-                id="borrow"
-                checked={this.state.toBorrow}
-                onChange={() => this.setState(prevState => ({ toBorrow: !prevState.toBorrow }))}
-              />
-              <label htmlFor="sell">sell</label>
-              <input
-                type="checkbox"
-                id="sell"
-                checked={this.state.toSell}
-                onChange={() => this.setState(prevState => ({ toSell: !prevState.toSell }))}
-              />
-            </FormElement>    
-          </FormElement>
+            <Form.Element>
+              <Form.Checkbox>
+                <input
+                  type="checkbox"
+                  id="borrow"
+                  checked={this.state.toBorrow}
+                  onChange={() => this.setState(prevState => ({ toBorrow: !prevState.toBorrow }))}
+                />
+                <label htmlFor="borrow">borrow</label>
+              </Form.Checkbox>             
+              <Form.Checkbox>
+                <input
+                  type="checkbox"
+                  id="sell"
+                  checked={this.state.toSell}
+                  onChange={() => this.setState(prevState => ({ toSell: !prevState.toSell }))}
+                />
+                <label htmlFor="sell">sell</label>
+              </Form.Checkbox>           
+            </Form.Element>    
+          </Form.Element>
           <ButtonsContainer>
             <Button danger type="button" onClick={this.props.onCancel}>Cancel</Button>
             <Button type="submit">Save</Button>
           </ButtonsContainer>
-        </Form>
-      </Grid>
+        </form>
+      </Form.Grid>
     );
   }
 }

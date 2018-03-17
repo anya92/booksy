@@ -51,7 +51,9 @@ class EditBook extends Component {
 export default compose(
   graphql(FETCH_BOOK_BY_ID_QUERY, {
     options: ({ match: { params: { id }} }) => { 
-      return { variables: { id } };
+      return { 
+        variables: { id },
+      };
     }
   }),
   graphql(EDIT_BOOK_MUTATION)

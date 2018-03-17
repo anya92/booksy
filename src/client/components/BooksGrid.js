@@ -26,7 +26,6 @@ class BooksGrid extends Component {
         showBookId: '',
       });
     }, 600);
-    document.body.style.overflow = 'auto';
   }
 
   render() {

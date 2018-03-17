@@ -13,6 +13,10 @@ import { ButtonsContainer, Button, LinkButton } from '../styled/Buttons';
 
 class SidePanel extends Component {
 
+  componentWillUnmount() {
+    document.body.style.overflow = 'auto';
+  }
+
   removeBook(id) {
     // todo add confirm
     this.props.mutate({
@@ -86,9 +90,8 @@ class SidePanel extends Component {
         <Panel.Background innerRef={ref => (this.background = ref)} />
         <Panel.Container innerRef={ref => (this.panel = ref)}>
           <Panel.Close
-            className="fa fa-times"
             onClick={() => this.closePanel()}
-          />
+          >&#x2715;</Panel.Close>
           { this.renderContent() }
         </Panel.Container>
       </div>

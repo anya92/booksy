@@ -55,11 +55,12 @@ export const Container = styled.div`
   }
 `;
 
-export const Close = styled.i`
+export const Close = styled.div`
   position: absolute;
   top: 10px;
   right: 10px;
-  font-size: 36px;
+  font-size: 30px;
+  font-weight: 700;  
   color: #555;
   cursor: pointer;
 `;

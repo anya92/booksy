@@ -10,6 +10,7 @@ export default ({ auth }) => (
     {
       auth ? (
         <SideNav.AuthLinks>
+          <NavLink activeClassName="active" to="/account">My account</NavLink>
           <NavLink activeClassName="active" to="/my-shelf">My shelf</NavLink>
           <NavLink activeClassName="active" to="/add">Add a new book</NavLink>
           <NavLink activeClassName="active" to="/messages">Messages</NavLink>
