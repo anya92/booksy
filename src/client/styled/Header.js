@@ -104,6 +104,10 @@ export const SearchBar = styled.div`
   ${media.tablet`
     display: block;
     margin-right: 20px;
+    input {
+      margin-right: 20px;
+      margin-left: 0;
+    }
 
     i {
       display: none;

@@ -25,6 +25,22 @@ export const Nav = styled.div`
   `}
 `;
 
+export const UserInfo = styled.div`
+  padding-bottom: 10px;
+  color: #555;
+  border-bottom: 1px solid #ddd;
+`;
+
+export const Username = styled.div`
+  padding: 10px 25px;
+  font-weight: 700;
+`;
+
+export const Email = styled.div`
+  padding: 10px 25px;
+  font-size: 14px;
+`;
+
 export const AuthLinks = styled.div`
   padding: 10px 0;
   display: grid;

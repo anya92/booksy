@@ -32,7 +32,7 @@ export default ({ auth }) => (
           }}
         />
       </Navbar.SearchBar>
-      <Navbar.Icon
+      {/* <Navbar.Icon
         ellipsis
         className="fa fa-ellipsis-v"
         onClick={() => document.getElementById('auth').classList.toggle('open')}
@@ -59,7 +59,7 @@ export default ({ auth }) => (
               </Navbar.Link>
             </Navbar.Auth>
           )
-      }
+      } */}
     </Navbar.Wrapper>
   </Navbar.Nav>
 );
