@@ -10,7 +10,7 @@ export const Container = styled.div`
   grid-gap: 30px;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   justify-content: center;
-  padding-top: 20px;
+  padding-top: 40px;
 `;
 
 export const Book = styled.div`
