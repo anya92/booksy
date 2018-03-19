@@ -41,8 +41,8 @@ const typeDefs = `
     id: ID
     requestType: String
     book: Book
-    bookOwner: User
-    user: User
+    receiver: User
+    sender: User
     message: String
     date: String
     accepted: Boolean
@@ -53,6 +53,8 @@ const typeDefs = `
     book(id: ID!): Book
     books: [Book]
     userBooks: [Book]
+    requestsToUser: [Request]
+    requestsFromUser: [Request]
   }
 
   type Mutation {

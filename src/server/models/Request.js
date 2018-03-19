@@ -9,11 +9,11 @@ const requestSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Book',
   },
-  bookOwner: {
+  receiver: { // book owner
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
-  user: {
+  sender: { // request author
     type: Schema.Types.ObjectId,
     ref: 'User',
   },
@@ -33,8 +33,8 @@ const requestSchema = new Schema({
 
 function autopopulate(next) {
   this.populate('book');
-  this.populate('bookOwner');
-  this.populate('user');
+  this.populate('receiver');
+  this.populate('sender');
   next();
 }
 

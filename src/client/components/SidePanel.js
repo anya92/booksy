@@ -5,6 +5,7 @@ import{ graphql, compose } from 'react-apollo';
 import {
   FETCH_BOOK_BY_ID_QUERY, 
   FETCH_USER_BOOKS_QUERY,
+  FETCH_BOOKS_QUERY,
   REMOVE_BOOK_BY_ID_MUTATION,
   REQUEST_BOOK_MUTATION,
 } from '../queries/bookQuery';
@@ -30,6 +31,8 @@ class SidePanel extends Component {
         },
         refetchQueries: [{
           query: FETCH_USER_BOOKS_QUERY,
+        }, {
+          query: FETCH_BOOKS_QUERY,
         }],
       }).then(() => this.closePanel());
     }

@@ -17,11 +17,41 @@ export default ({ auth }) => {
               <SideNav.Email>{auth.email}</SideNav.Email>
             </SideNav.UserInfo>
             <SideNav.AuthLinks>
-              <NavLink onClick={() => closeSideNav()} activeClassName="active" to="/my-shelf">My shelf</NavLink>
-              <NavLink onClick={() => closeSideNav()} activeClassName="active" to="/add">Add a new book</NavLink>
-              <NavLink onClick={() => closeSideNav()} activeClassName="active" to="/messages">Messages</NavLink>
-              <NavLink onClick={() => closeSideNav()} activeClassName="active" to="/account">Settings</NavLink>
-              <NavLink onClick={() => closeSideNav()} activeClassName="active" to="/bookmarks">Bookmarks</NavLink>
+              <NavLink 
+                onClick={() => closeSideNav()} 
+                activeClassName="active" 
+                to="/my-shelf"
+              >
+                My shelf
+              </NavLink>
+              <NavLink 
+                onClick={() => closeSideNav()} 
+                activeClassName="active" 
+                to="/add"
+              >
+                Add a new book
+              </NavLink>
+              <NavLink 
+                onClick={() => closeSideNav()} 
+                activeClassName="active" 
+                to="/requests"
+              >
+                Requests <span style={{ background: '#DDD' }}> 0 </span>
+              </NavLink>
+              <NavLink 
+                onClick={() => closeSideNav()} 
+                activeClassName="active" 
+                to="/account"
+              >
+                Settings
+              </NavLink>
+              <NavLink 
+                onClick={() => closeSideNav()} 
+                activeClassName="active" 
+                to="/bookmarks"
+              >
+                Bookmarks
+              </NavLink>
               <a href="/auth/logout">Logout</a>
             </SideNav.AuthLinks>
           </div>  

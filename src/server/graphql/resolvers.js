@@ -25,13 +25,23 @@ export default {
     },
 
     books: async () => {
-      const books = await Book.find();
+      const books = await Book.find().sort({added: 'descending'});
       return books;
     },
 
     userBooks: async (root, args, context) => {
       const books = await Book.find({ owner: context.user.id }).sort({added: 'descending'});
       return books;
+    },
+
+    requestsToUser: async (root, args, context) => {
+      const requests = await Request.find({ receiver: context.user.id }).sort({ data: 'descending' });
+      return requests;
+    },
+
+    requestsFromUser: async (root, args, context) => {
+      const requests = await Request.find({ sender: context.user.id }).sort({ data: 'descending' });
+      return requests; 
     }
   },
 
@@ -84,13 +94,16 @@ export default {
       const bookOwner = book.owner.id;
       const request = await (new Request({ 
         book: bookId, 
-        user: userId,
+        sender: userId,
+        receiver: bookOwner, 
         requestType,
         message,
-        bookOwner, 
       })).save();
+      
       sendNotification(bookOwner, 'info', `${context.user.name} wants to ${requestType} your book.`);
+      
       sendNotification(userId, 'success', 'Your request has been successfully submitted.');
+      
       return request;
     } 
   },

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 
-import { ADD_BOOK_MUTATION, FETCH_USER_BOOKS_QUERY } from '../queries/bookQuery';
+import { ADD_BOOK_MUTATION, FETCH_USER_BOOKS_QUERY, FETCH_BOOKS_QUERY } from '../queries/bookQuery';
 
 import BookForm from '../components/BookForm';
 import { Title } from './MyShelf';
@@ -14,6 +14,8 @@ class AddBook extends Component {
       },
       refetchQueries: [{
         query: FETCH_USER_BOOKS_QUERY,
+      }, {
+        query: FETCH_BOOKS_QUERY,
       }],
     }).then(() => this.props.history.push('/my-shelf'));
   }
