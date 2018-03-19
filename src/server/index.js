@@ -140,7 +140,7 @@ const server = createServer(app);
 
 server.listen(PORT, () => {
   console.log(`
-    ============================================
+    =============================================
     Running on http://localhost:${PORT}/
     ---------------------------------------------
     GraphiQL on http://localhost:${PORT}/graphiql

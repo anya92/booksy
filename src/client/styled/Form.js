@@ -34,6 +34,7 @@ export const Element = styled.div`
   }
   select {
     max-width: 300px;
+    cursor: pointer;
   }
 `;
 

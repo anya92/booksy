@@ -101,3 +101,19 @@ export const REMOVE_BOOK_BY_ID_MUTATION = gql`
     }
   }
 `;
+
+export const REQUEST_BOOK_MUTATION = gql`
+  mutation RequestBook(
+    $bookId: ID! 
+    $requestType: String!
+    $message: String
+  ) {
+    requestBook(
+      bookId: $bookId 
+      requestType: $requestType
+      message: $message
+    ) {
+      id
+    }
+  }
+`;

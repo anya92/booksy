@@ -37,6 +37,17 @@ const typeDefs = `
     message: String
   }
 
+  type Request {
+    id: ID
+    requestType: String
+    book: Book
+    bookOwner: User
+    user: User
+    message: String
+    date: String
+    accepted: Boolean
+  }
+
   type Query {
     auth: User
     book(id: ID!): Book
@@ -72,8 +83,15 @@ const typeDefs = `
     removeBook(
       id: ID!
     ) : Book
+
+    requestBook(
+      bookId: ID!
+      requestType: String!
+      message: String
+    ) : Request
   }
 
+  
   type Subscription {
     notification(userId: ID!): Notification
   }

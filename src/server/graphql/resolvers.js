@@ -2,6 +2,7 @@ import { PubSub, withFilter } from 'graphql-subscriptions';
 import mongoose from 'mongoose';
 
 const Book = mongoose.model('Book');
+const Request = mongoose.model('Request');
 
 const pubsub = new PubSub();
 
@@ -76,6 +77,22 @@ export default {
         });
       }
     },
+
+    requestBook: async (root, { bookId, requestType, message }, context) => {
+      const userId = context.user.id;
+      const book = await Book.findById(bookId);
+      const bookOwner = book.owner.id;
+      const request = await (new Request({ 
+        book: bookId, 
+        user: userId,
+        requestType,
+        message,
+        bookOwner, 
+      })).save();
+      sendNotification(bookOwner, 'info', `${context.user.name} wants to ${requestType} your book.`);
+      sendNotification(userId, 'success', 'Your request has been successfully submitted.');
+      return request;
+    } 
   },
 
   Subscription: {

@@ -5,7 +5,8 @@ import{ graphql, compose } from 'react-apollo';
 import {
   FETCH_BOOK_BY_ID_QUERY, 
   FETCH_USER_BOOKS_QUERY,
-  REMOVE_BOOK_BY_ID_MUTATION
+  REMOVE_BOOK_BY_ID_MUTATION,
+  REQUEST_BOOK_MUTATION,
 } from '../queries/bookQuery';
 
 import * as Panel from '../styled/SidePanel';
@@ -23,7 +24,7 @@ class SidePanel extends Component {
 
   removeBook(id, title) {
     if (this.confirmRemove(title)) {
-      this.props.mutate({
+      this.props.removeBook({
         variables: {
           id,
         },
@@ -32,6 +33,15 @@ class SidePanel extends Component {
         }],
       }).then(() => this.closePanel());
     }
+  }
+
+  requestBook(bookId, requestType) {
+    this.props.requestBook({
+      variables: {
+        bookId,
+        requestType,
+      },
+    }).then(() => console.log('requested'));
   }
 
   closePanel() {
@@ -67,8 +77,8 @@ class SidePanel extends Component {
     }
     return (
       <ButtonsContainer>
-        { book.toBorrow && <Button>Borrow</Button> }
-        { book.toSell && <Button>Buy</Button> } 
+        { book.toBorrow && <Button onClick={() => this.requestBook(book.id, 'borrow')}>Borrow</Button> }
+        { book.toSell && <Button onClick={() => this.requestBook(book.id, 'buy')}>Buy</Button> } 
       </ButtonsContainer>
     );
   }
@@ -119,5 +129,6 @@ export default compose(
       return { variables: { id: bookId } };
     }
   }),
-  graphql(REMOVE_BOOK_BY_ID_MUTATION),
+  graphql(REMOVE_BOOK_BY_ID_MUTATION, { name: 'removeBook' }),
+  graphql(REQUEST_BOOK_MUTATION, { name: 'requestBook' }),
 )(SidePanel);
