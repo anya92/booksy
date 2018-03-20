@@ -7,6 +7,7 @@ const Request = mongoose.model('Request');
 const pubsub = new PubSub();
 
 const NOTIFICATION_TOPIC = 'notification';
+const REQUEST_SENT_TOPIC = 'request_sent';
 
 const sendNotification = (userId, type, message) => {
   const notification = { userId, type, message };
@@ -102,6 +103,14 @@ export default {
       
       sendNotification(bookOwner, 'info', `${context.user.name} wants to ${requestType} your book.`);
       
+      request
+        .populate('book')
+        .populate('sender')
+        .execPopulate().then(request => {
+          pubsub.publish(REQUEST_SENT_TOPIC, { requestSent: request });
+        });
+      
+
       sendNotification(userId, 'success', 'Your request has been successfully submitted.');
       
       return request;
@@ -112,6 +121,11 @@ export default {
     notification: {
       subscribe: withFilter(() => pubsub.asyncIterator(NOTIFICATION_TOPIC), (payload, variables) => {
         return payload.notification.userId == variables.userId;
+      }),
+    },
+    requestSent: {
+      subscribe: withFilter(() => pubsub.asyncIterator(REQUEST_SENT_TOPIC), (payload, variables) => {
+        return payload.requestSent.receiver == variables.userId;
       }),
     }
   }

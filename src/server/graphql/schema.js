@@ -96,6 +96,7 @@ const typeDefs = `
   
   type Subscription {
     notification(userId: ID!): Notification
+    requestSent(userId: ID!): Request
   }
 `;
 
