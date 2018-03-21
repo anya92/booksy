@@ -14,25 +14,27 @@ const categories = ["Science fiction", "Drama", "Fiction", "Romance", "Horror", 
 class SideNavigation extends Component {
 
   componentDidMount() {
-    this.props.data.subscribeToMore({
-      document: REQUEST_SENT_SUBSCRIPTION,
-      variables: {
-        userId: this.props.auth.id,
-      },
-      updateQuery: (prev, { subscriptionData }) => {
-        if (!subscriptionData.data) {
-          return prev;
+    if (this.props.auth) {
+      this.props.data.subscribeToMore({
+        document: REQUEST_SENT_SUBSCRIPTION,
+        variables: {
+          userId: this.props.auth.id,
+        },
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) {
+            return prev;
+          }
+          const newRequest = subscriptionData.data.requestSent;
+          
+          document.getElementById('requests-length').style.background = '#BADA55';
+  
+          return {
+            ...prev,
+            requestsToUser: [newRequest, ...prev.requestsToUser]
+          };
         }
-        const newRequest = subscriptionData.data.requestSent;
-        
-        document.getElementById('requests-length').style.background = '#BADA55';
-
-        return {
-          ...prev,
-          requestsToUser: [newRequest, ...prev.requestsToUser]
-        };
-      }
-    });
+      });
+    }
   }
 
   closeSideNav() {
@@ -40,7 +42,11 @@ class SideNavigation extends Component {
   }
 
   render() {
-    const { auth, data: { requestsToUser: requests } } = this.props;
+    const { auth } = this.props;
+    let requests;
+    if (auth) {
+      requests = this.props.data.requestsToUser;
+    }
     return (
       <SideNav.Nav id="side-nav">
         {
@@ -70,7 +76,10 @@ class SideNavigation extends Component {
                   activeClassName="active" 
                   to="/requests"
                 >
-                  Requests <span id="requests-length" style={{ background: '#DDD', padding: '8px' }}>{requests.length}</span>
+                  Requests 
+                  <span id="requests-length" style={{ background: '#DDD', padding: '8px' }}>
+                    {requests.length}
+                  </span>
                 </NavLink>
                 <NavLink 
                   onClick={() => this.closeSideNav()} 
@@ -108,4 +117,6 @@ class SideNavigation extends Component {
   }
 };
 
-export default graphql(FETCH_REQUESTS_TO_USER_QUERY)(SideNavigation);
+export default graphql(FETCH_REQUESTS_TO_USER_QUERY, {
+  skip: ({ auth }) => !auth,
+})(SideNavigation);

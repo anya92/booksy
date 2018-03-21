@@ -20,7 +20,7 @@ const Item = styled.div`
   line-height: 28px;
 `;
 
-const Date = styled.div`
+const Added = styled.div`
   margin-top: 10px;
   font-size: 14px;
   font-weight: 300;
@@ -53,8 +53,16 @@ class Request extends Component {
           requestsToUser.map(({ id, sender, requestType, book, date, accepted }) => (
             <Item key={id}>
               <div><strong>{sender.name}</strong> has requested to {requestType} <strong><em>{book.title}</em></strong> by <strong>{book.author}</strong>.</div>
-              { <Date>{moment(new Date(date)).fromNow()}</Date> }
-              { !accepted ? <ButtonsContainer><Button small>Accept</Button><Button small danger>Cancel</Button></ButtonsContainer> : <div>Accepted</div> }
+              { <Added>{moment(new Date(date).toISOString()).fromNow()}</Added> }
+              { 
+                !accepted 
+                ? (
+                  <ButtonsContainer>
+                    <Button small>Accept</Button>
+                    <Button small danger>Cancel</Button>
+                  </ButtonsContainer>
+                 ) : <div>Accepted</div> 
+              }
             </Item> 
           ))
         }  
@@ -63,8 +71,12 @@ class Request extends Component {
           requestsFromUser.map(({ id, receiver, requestType, book, date, accepted }) => (
             <Item key={id}>
               <div>You have requested to {requestType} <strong><em>{book.title}</em></strong> by <strong>{book.author}</strong> from <strong>{receiver.name}</strong>.</div>
-              { <Date>{moment(new Date(date)).fromNow()}</Date> }
-              { !accepted ? <RequestInfo>Your request is yet to be accepted.</RequestInfo> : <RequestInfo>{receiver.name} has accepted your request.</RequestInfo> }
+              { <Added>{moment(new Date(date).toISOString()).fromNow()}</Added> }
+              { 
+                !accepted 
+                ? <RequestInfo>Your request is yet to be accepted.</RequestInfo> 
+                : <RequestInfo>{receiver.name} has accepted your request.</RequestInfo> 
+              }
             </Item>
           ))
         }

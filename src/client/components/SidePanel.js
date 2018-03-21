@@ -6,6 +6,7 @@ import {
   FETCH_BOOK_BY_ID_QUERY, 
   FETCH_USER_BOOKS_QUERY,
   FETCH_BOOKS_QUERY,
+  FETCH_REQUESTS_FROM_USER_QUERY,
   REMOVE_BOOK_BY_ID_MUTATION,
   REQUEST_BOOK_MUTATION,
 } from '../queries/bookQuery';
@@ -44,6 +45,9 @@ class SidePanel extends Component {
         bookId,
         requestType,
       },
+      refetchQueries: [{
+        query: FETCH_REQUESTS_FROM_USER_QUERY,
+      }]
     }).then(() => console.log('requested'));
   }
 
