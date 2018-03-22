@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 
-import { FETCH_BOOKS_QUERY } from '../queries/bookQuery';
+import { FETCH_ALL_BOOKS_QUERY } from '../graphql/queries';
 
 import BooksGrid from '../components/BooksGrid';
 
@@ -14,4 +14,4 @@ class Home extends Component {
   }
 }
 
-export default graphql(FETCH_BOOKS_QUERY)(Home);
+export default graphql(FETCH_ALL_BOOKS_QUERY)(Home);

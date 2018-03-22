@@ -2,7 +2,7 @@ import React from 'react';
 import { renderRoutes } from 'react-router-config';
 import { graphql } from 'react-apollo';
 
-import AUTH_QUERY from '../queries/authQuery';
+import { AUTH_QUERY } from '../graphql/queries';
 
 import Header from '../components/Header';
 import SideNav from '../components/SideNav';

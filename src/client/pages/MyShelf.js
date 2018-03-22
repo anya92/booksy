@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { graphql } from 'react-apollo';
 
-import { FETCH_USER_BOOKS_QUERY } from '../queries/bookQuery';
+import { FETCH_USER_BOOKS_QUERY } from '../graphql/queries';
 
 import BooksGrid from '../components/BooksGrid';
 

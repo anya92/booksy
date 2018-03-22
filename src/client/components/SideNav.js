@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { NavLink } from 'react-router-dom';
 
-import { 
+import {
   FETCH_REQUESTS_TO_USER_QUERY,
-  FETCH_REQUESTS_FROM_USER_QUERY,  
+  FETCH_REQUESTS_FROM_USER_QUERY, 
+} from '../graphql/queries';
+
+import {  
   REQUEST_SENT_SUBSCRIPTION,
   REQUEST_ACCEPTED_SUBSCRIPTION,
-} from '../queries/requestQuery';
+} from '../graphql/subscriptions';
 
 import * as SideNav from '../styled/SideNav';
 

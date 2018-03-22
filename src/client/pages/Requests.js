@@ -6,8 +6,9 @@ import styled from 'styled-components';
 import { 
   FETCH_REQUESTS_TO_USER_QUERY,
   FETCH_REQUESTS_FROM_USER_QUERY,
-  ACCEPT_REQUEST_MUTATION,
-} from '../queries/requestQuery';
+} from '../graphql/queries';
+
+import { ACCEPT_REQUEST_MUTATION } from '../graphql/mutations';
 
 import { ButtonsContainer, Button } from '../styled/Buttons';
 

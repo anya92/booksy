@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
 
-import { ADD_BOOK_MUTATION, FETCH_USER_BOOKS_QUERY, FETCH_BOOKS_QUERY } from '../queries/bookQuery';
+import {
+  FETCH_USER_BOOKS_QUERY, 
+  FETCH_BOOKS_QUERY,
+} from '../graphql/queries';
+
+import { ADD_BOOK_MUTATION } from '../graphql/mutations';
 
 import BookForm from '../components/BookForm';
 import { Title } from './MyShelf';

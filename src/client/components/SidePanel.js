@@ -6,11 +6,13 @@ import {
   FETCH_BOOK_BY_ID_QUERY, 
   FETCH_USER_BOOKS_QUERY,
   FETCH_BOOKS_QUERY,
+  FETCH_REQUESTS_FROM_USER_QUERY,
+} from '../graphql/queries';
+
+import {
   REMOVE_BOOK_BY_ID_MUTATION,
   REQUEST_BOOK_MUTATION,
-} from '../queries/bookQuery';
-
-import { FETCH_REQUESTS_FROM_USER_QUERY } from '../queries/requestQuery';
+} from '../graphql/mutations';
 
 import * as Panel from '../styled/SidePanel';
 import { ButtonsContainer, Button, LinkButton } from '../styled/Buttons';

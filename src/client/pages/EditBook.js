@@ -4,9 +4,10 @@ import { graphql, compose } from 'react-apollo';
 import {
   FETCH_BOOK_BY_ID_QUERY,
   FETCH_BOOKS_QUERY,
-  EDIT_BOOK_MUTATION,
   FETCH_USER_BOOKS_QUERY,
-} from '../queries/bookQuery';
+} from '../graphql/queries';
+
+import { EDIT_BOOK_MUTATION } from '../graphql/mutations';
 
 import BookForm from '../components/BookForm';
 import { Title } from './MyShelf';
