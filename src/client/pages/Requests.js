@@ -11,26 +11,37 @@ import {
 
 import { ButtonsContainer, Button } from '../styled/Buttons';
 
-const Item = styled.div`
+const Tr = styled.tr`
   margin: 20px 0;
-  padding: 10px 15px;
-  background: #eee;
-  border-radius: 4px;
   color: #333;
+  font-size: 14px;
+  line-height: 28px;
+  &:nth-child(odd) {
+    background: #EEE;
+  }
+  td {
+    padding: 12px;
+    white-space: nowrap;
+
+  } 
+`;
+
+const Table = styled.table`
+  margin-top: 20px;
+  border-collapse: collapse;
+  width: 100%;
+`;
+
+const Thead = styled.thead`
+  border-top: 1px solid #eee;
+  color: #555;
   font-size: 16px;
   line-height: 28px;
-`;
+  th {
+    padding: 12px;
+    text-align: left;
 
-const Added = styled.div`
-  margin-top: 10px;
-  font-size: 14px;
-  font-weight: 300;
-`;
-
-const RequestInfo = styled.div`
-  margin-top: 10px;
-  font-size: 14px;
-  font-weight: 400;
+  }
 `;
 
 class Request extends Component {
@@ -61,37 +72,73 @@ class Request extends Component {
     return (
       <div>
         <h1>Requests to you</h1>
-        {
-          requestsToUser.map(({ id, sender, requestType, book, date, accepted }) => (
-            <Item key={id}>
-              <div><strong>{sender.name}</strong> has requested to {requestType} <strong><em>{book.title}</em></strong> by <strong>{book.author}</strong>.</div>
-              { <Added>{moment(new Date(date).toISOString()).fromNow()}</Added> }
-              { 
-                !accepted 
-                ? (
-                  <ButtonsContainer>
-                    <Button small onClick={() => this.acceptRequest(id)}>Accept</Button>
-                    <Button small danger>Cancel</Button>
-                  </ButtonsContainer>
-                 ) : <div>Accepted</div> 
+        <div style={{ maxWidth: '100%', overflowX: 'auto' }}>
+          <Table>
+            <Thead>
+              <tr>
+                <th>#</th>
+                <th>title</th>
+                <th>author</th>
+                <th>type</th>
+                <th>sender</th>
+                <th>time</th>
+                <th>status</th>
+              </tr>
+            </Thead>
+            <tbody>
+              {
+                requestsToUser.map(({ id, sender, requestType, book, date, accepted }, i) => (
+                  <Tr key={id}>
+                    <td>{i + 1}</td>
+                    <td>{book.title}</td>
+                    <td>{book.author}</td>
+                    <td>{requestType}</td>
+                    <td>{sender.name}</td>
+                    <td>{moment(new Date(date).toISOString()).fromNow()}</td>
+                    <td>
+                      { 
+                        accepted 
+                        ? 'accepted' : 
+                        <Button small onClick={() => this.acceptRequest(id)}>Accept</Button> 
+                      }
+                    </td>
+                  </Tr> 
+                ))
               }
-            </Item> 
-          ))
-        }  
+            </tbody>
+          </Table>
+        </div>
         <h1>Your requests</h1>
-        {
-          requestsFromUser.map(({ id, receiver, requestType, book, date, accepted }) => (
-            <Item key={id}>
-              <div>You have requested to {requestType} <strong><em>{book.title}</em></strong> by <strong>{book.author}</strong> from <strong>{receiver.name}</strong>.</div>
-              { <Added>{moment(new Date(date).toISOString()).fromNow()}</Added> }
-              { 
-                !accepted 
-                ? <RequestInfo>Your request is yet to be accepted.</RequestInfo> 
-                : <RequestInfo>{receiver.name} has accepted your request.</RequestInfo> 
+        <div style={{ maxWidth: '100%', overflowX: 'auto' }}>
+          <Table>
+            <Thead>
+              <tr>
+                <th>#</th>
+                <th>title</th>
+                <th>author</th>
+                <th>type</th>
+                <th>receiver</th>
+                <th>time</th>
+                <th>status</th>
+              </tr>
+            </Thead>
+            <tbody>
+              {
+                requestsFromUser.map(({ id, receiver, requestType, book, date, accepted }, i) => (
+                  <Tr key={id}>
+                    <td>{i + 1}</td>
+                    <td>{book.title}</td>
+                    <td>{book.author}</td>
+                    <td>{requestType}</td>
+                    <td>{receiver.name}</td>
+                    <td>{moment(new Date(date).toISOString()).fromNow()}</td>
+                    <td>{ accepted ? 'accepted' : 'not accepted' }</td>
+                  </Tr> 
+                ))
               }
-            </Item>
-          ))
-        }
+            </tbody>
+          </Table>
+        </div>
       </div>
     );
   }
