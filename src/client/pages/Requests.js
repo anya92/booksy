@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { 
   FETCH_REQUESTS_TO_USER_QUERY,
   FETCH_REQUESTS_FROM_USER_QUERY,
+  ACCEPT_REQUEST_MUTATION,
 } from '../queries/requestQuery';
 
 import { ButtonsContainer, Button } from '../styled/Buttons';
@@ -38,6 +39,17 @@ class Request extends Component {
     document.getElementById('requests-length').style.background = '#DDD';
   }
 
+  acceptRequest(id) {
+    this.props.acceptRequest({
+      variables: {
+        id
+      },
+      refetchQueries: [{
+        query: FETCH_REQUESTS_TO_USER_QUERY,
+      }],
+    });
+  }
+
   render() {
     const { 
       toUser: { loading: loadingToUser, error: errorToUser, requestsToUser },
@@ -58,7 +70,7 @@ class Request extends Component {
                 !accepted 
                 ? (
                   <ButtonsContainer>
-                    <Button small>Accept</Button>
+                    <Button small onClick={() => this.acceptRequest(id)}>Accept</Button>
                     <Button small danger>Cancel</Button>
                   </ButtonsContainer>
                  ) : <div>Accepted</div> 
@@ -88,4 +100,5 @@ class Request extends Component {
 export default compose(
   graphql(FETCH_REQUESTS_TO_USER_QUERY, { name: 'toUser' }),
   graphql(FETCH_REQUESTS_FROM_USER_QUERY, { name: 'fromUser' }),
+  graphql(ACCEPT_REQUEST_MUTATION, { name: 'acceptRequest' }),
 )(Request);

@@ -32,9 +32,7 @@ const requestSchema = new Schema({
 });
 
 function autopopulate(next) {
-  this.populate('book');
-  this.populate('receiver');
-  this.populate('sender');
+  this.populate('book receiver sender');
   next();
 }
 

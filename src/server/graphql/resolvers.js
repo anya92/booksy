@@ -8,6 +8,7 @@ const pubsub = new PubSub();
 
 const NOTIFICATION_TOPIC = 'notification';
 const REQUEST_SENT_TOPIC = 'request_sent';
+const REQUEST_ACCEPTED_TOPIC = 'request_accepted';
 
 const sendNotification = (userId, type, message) => {
   const notification = { userId, type, message };
@@ -36,12 +37,12 @@ export default {
     },
 
     requestsToUser: async (root, args, context) => {
-      const requests = await Request.find({ receiver: context.user.id }).sort({ data: 'descending' });
+      const requests = await Request.find({ receiver: context.user.id }).sort({ date: 'descending' });
       return requests;
     },
 
     requestsFromUser: async (root, args, context) => {
-      const requests = await Request.find({ sender: context.user.id }).sort({ data: 'descending' });
+      const requests = await Request.find({ sender: context.user.id }).sort({ date: 'descending' });
       return requests; 
     }
   },
@@ -104,17 +105,33 @@ export default {
       sendNotification(bookOwner, 'info', `${context.user.name} wants to ${requestType} your book.`);
       
       request
-        .populate('book')
-        .populate('sender')
+        .populate('book sender')
         .execPopulate().then(request => {
           pubsub.publish(REQUEST_SENT_TOPIC, { requestSent: request });
         });
-      
 
       sendNotification(userId, 'success', 'Your request has been successfully submitted.');
       
       return request;
-    } 
+    },
+    
+    acceptRequest: async (root, { id }, context) => {
+      const request = await Request.findByIdAndUpdate(
+        id, 
+        { $set: { accepted: true, date: Date.now() } }, 
+        { new: true },
+      );
+      
+      request
+        .populate('book sender receiver')
+        .execPopulate().then(request => {
+          pubsub.publish(REQUEST_ACCEPTED_TOPIC, { requestAccepted: request });
+          sendNotification(request.sender.id, 'info', 'Your request has been accepted.');
+        });
+
+      return request;
+    },
+
   },
 
   Subscription: {
@@ -127,7 +144,11 @@ export default {
       subscribe: withFilter(() => pubsub.asyncIterator(REQUEST_SENT_TOPIC), (payload, variables) => {
         return payload.requestSent.receiver == variables.userId;
       }),
+    },
+    requestAccepted: {
+      subscribe: withFilter(() => pubsub.asyncIterator(REQUEST_ACCEPTED_TOPIC), (payload, variables) => {
+        return payload.requestAccepted.sender.id == variables.userId;
+      }),
     }
   }
-
 };

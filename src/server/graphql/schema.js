@@ -90,13 +90,16 @@ const typeDefs = `
       bookId: ID!
       requestType: String!
       message: String
-    ) : Request
+    ): Request
+
+    acceptRequest(id: ID!): Request
   }
 
   
   type Subscription {
     notification(userId: ID!): Notification
     requestSent(userId: ID!): Request
+    requestAccepted(userId: ID!): Request
   }
 `;
 

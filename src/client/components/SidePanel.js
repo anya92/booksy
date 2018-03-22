@@ -6,10 +6,11 @@ import {
   FETCH_BOOK_BY_ID_QUERY, 
   FETCH_USER_BOOKS_QUERY,
   FETCH_BOOKS_QUERY,
-  FETCH_REQUESTS_FROM_USER_QUERY,
   REMOVE_BOOK_BY_ID_MUTATION,
   REQUEST_BOOK_MUTATION,
 } from '../queries/bookQuery';
+
+import { FETCH_REQUESTS_FROM_USER_QUERY } from '../queries/requestQuery';
 
 import * as Panel from '../styled/SidePanel';
 import { ButtonsContainer, Button, LinkButton } from '../styled/Buttons';
@@ -46,8 +47,8 @@ class SidePanel extends Component {
         requestType,
       },
       refetchQueries: [{
-        query: FETCH_REQUESTS_FROM_USER_QUERY,
-      }]
+        query: FETCH_REQUESTS_FROM_USER_QUERY,       
+      }],
     }).then(() => console.log('requested'));
   }
 

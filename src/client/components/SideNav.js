@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import { NavLink } from 'react-router-dom';
 
 import { 
   FETCH_REQUESTS_TO_USER_QUERY,
+  FETCH_REQUESTS_FROM_USER_QUERY,  
   REQUEST_SENT_SUBSCRIPTION,
+  REQUEST_ACCEPTED_SUBSCRIPTION,
 } from '../queries/requestQuery';
 
 import * as SideNav from '../styled/SideNav';
@@ -15,7 +17,7 @@ class SideNavigation extends Component {
 
   componentDidMount() {
     if (this.props.auth) {
-      this.props.data.subscribeToMore({
+      this.props.toUser.subscribeToMore({
         document: REQUEST_SENT_SUBSCRIPTION,
         variables: {
           userId: this.props.auth.id,
@@ -34,6 +36,26 @@ class SideNavigation extends Component {
           };
         }
       });
+
+      this.props.fromUser.subscribeToMore({
+        document: REQUEST_ACCEPTED_SUBSCRIPTION,
+        variables: {
+          userId: this.props.auth.id,
+        },
+        updateQuery: (prev, { subscriptionData }) => {
+          if (!subscriptionData.data) {
+            return prev;
+          }
+          const acceptedRequest = subscriptionData.data.requestAccepted;
+
+          return {
+            ...prev,
+            requestsFromUser: prev.requestsFromUser.map(request => 
+              (request.id == acceptedRequest.id ? acceptedRequest : request)
+            ),
+          };
+        }
+      });
     }
   }
 
@@ -43,9 +65,9 @@ class SideNavigation extends Component {
 
   render() {
     const { auth } = this.props;
-    let requests;
+    let requestsToUser;
     if (auth) {
-      requests = this.props.data.requestsToUser;
+      requestsToUser = this.props.toUser.requestsToUser;
     }
     return (
       <SideNav.Nav id="side-nav">
@@ -78,7 +100,7 @@ class SideNavigation extends Component {
                 >
                   Requests 
                   <span id="requests-length" style={{ background: '#DDD', padding: '8px' }}>
-                    {requests.length}
+                    {requestsToUser.length}
                   </span>
                 </NavLink>
                 <NavLink 
@@ -117,6 +139,13 @@ class SideNavigation extends Component {
   }
 };
 
-export default graphql(FETCH_REQUESTS_TO_USER_QUERY, {
-  skip: ({ auth }) => !auth,
-})(SideNavigation);
+export default compose(
+  graphql(FETCH_REQUESTS_TO_USER_QUERY, {
+    name: 'toUser', 
+    skip: ({ auth }) => !auth,
+  }),
+  graphql(FETCH_REQUESTS_FROM_USER_QUERY, {
+    name: 'fromUser', 
+    skip: ({ auth }) => !auth,
+  }),
+)(SideNavigation);
