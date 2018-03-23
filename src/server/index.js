@@ -112,7 +112,12 @@ app.use('/graphiql', graphiqlExpress({
 app.get('*', async (req, res) => {
   const client = createClient(req);
   const context = {};
+
   const content = await renderer(req, client, context);
+
+  if (context.url) {
+    return res.redirect(301, context.url);
+  }
 
   res.send(content);
 });

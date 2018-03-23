@@ -7,6 +7,8 @@ import AddBook from './pages/AddBook';
 import EditBook from './pages/EditBook';
 import Requests from './pages/Requests';
 
+import requireAuth from './HOC/requireAuth';
+
 export default [{
   component: App,
   routes: [
@@ -17,11 +19,11 @@ export default [{
     },
     {
       path: '/my-shelf',
-      component: MyShelf,
+      component: requireAuth(MyShelf),
     },
     {
       path: '/add',
-      component: AddBook,
+      component: requireAuth(AddBook),
     },
     {
       path: '/edit/:id',
@@ -29,7 +31,7 @@ export default [{
     },
     {
       path: '/requests',
-      component: Requests,
+      component: requireAuth(Requests),
     },
   ]
 }];
