@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo';
 
 import {
   FETCH_BOOK_BY_ID_QUERY,
-  FETCH_BOOKS_QUERY,
+  FETCH_ALL_BOOKS_QUERY,
   FETCH_USER_BOOKS_QUERY,
 } from '../graphql/queries';
 
@@ -23,7 +23,7 @@ class EditBook extends Component {
       refetchQueries: [{
         query: FETCH_USER_BOOKS_QUERY,
       }, {
-        query: FETCH_BOOKS_QUERY,
+        query: FETCH_ALL_BOOKS_QUERY,
       }],
     }).then(() => this.props.history.push('/my-shelf'))
     .catch(console.log);

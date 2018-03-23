@@ -10,5 +10,5 @@ export default function requireAuth(WrappedComponent) {
       }
       return <WrappedComponent {...this.props} />
     }
-  }
+  };
 }

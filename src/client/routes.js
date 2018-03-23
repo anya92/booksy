@@ -8,6 +8,7 @@ import EditBook from './pages/EditBook';
 import Requests from './pages/Requests';
 
 import requireAuth from './HOC/requireAuth';
+import requireBookOwner from './HOC/requireBookOwner';
 
 export default [{
   component: App,
@@ -27,7 +28,7 @@ export default [{
     },
     {
       path: '/edit/:id',
-      component: EditBook,
+      component: requireBookOwner(EditBook),
     },
     {
       path: '/requests',
