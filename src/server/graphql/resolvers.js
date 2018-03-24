@@ -21,9 +21,13 @@ export default {
       return context.user;
     },
 
-    book: async (root, { id }) => {
-      const book = await Book.findById(id);
-      return book;
+    book: async (root, { id }, context) => {
+      try {
+        const book = await Book.findById(id);
+        return book;
+      } catch(error) {
+        throw new Error(error);
+      }
     },
 
     books: async () => {

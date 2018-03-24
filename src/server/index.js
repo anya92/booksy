@@ -92,7 +92,7 @@ app.use(
     const user = req.user;
 
     const context = createExpressContext({
-      user
+      user,
     }, res);
 
     return {
