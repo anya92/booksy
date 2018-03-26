@@ -68,9 +68,10 @@ class SideNavigation extends Component {
 
   render() {
     const { auth } = this.props;
-    let requestsToUser;
+    let numberOfNotAcceptedRequests;
     if (auth) {
-      requestsToUser = this.props.toUser.requestsToUser;
+      const { requestsToUser } = this.props.toUser;
+      numberOfNotAcceptedRequests = requestsToUser.filter(request => !request.accepted).length;
     }
     return (
       <SideNav.Nav id="side-nav">
@@ -103,7 +104,7 @@ class SideNavigation extends Component {
                 >
                   Requests 
                   <span id="requests-length" style={{ background: '#DDD', padding: '8px' }}>
-                    {requestsToUser.length}
+                    { numberOfNotAcceptedRequests }
                   </span>
                 </NavLink>
                 <NavLink 

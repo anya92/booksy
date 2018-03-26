@@ -14,7 +14,7 @@ export const Title = styled.h1`
 const Filter = styled.div`
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
-  padding: 20px;
+  padding: 20px 0;
   margin: 20px 0;
   display: flex;
   justify-content: space-between;
@@ -112,7 +112,7 @@ class MyShelf extends Component {
     if (data.error) return <div>Error</div>; // todo -> error component
     
     let categories = new Set();
-    data.userBooks.forEach(book => categories.add(book.category));
+    data.userBooks.forEach(book => (book.category && categories.add(book.category)));
 
     return (
       <div>

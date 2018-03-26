@@ -124,22 +124,22 @@ app.get('*', async (req, res) => {
 
 /* BROWSER-SYNC CONFIGURATION */
 
-if (app.get('env') == 'development') {
-  const browserSync = require('browser-sync');
-  const config = {
-    files: ["build/**/*.js", "public/*.js"],
-    open: false,
-    notify: false,
-    reloadDelay: 500,
-    reloadOnRestart: true,
-    proxy: {
-      target: 'localhost:7777',
-      ws: true,
-    },
-  };
-  const bs = browserSync(config);
-  app.use(require('connect-browser-sync')(bs));
-}
+// if (app.get('env') == 'development') {
+//   const browserSync = require('browser-sync');
+//   const config = {
+//     files: ["build/**/*.js", "public/*.js"],
+//     open: false,
+//     notify: false,
+//     reloadDelay: 500,
+//     reloadOnRestart: true,
+//     proxy: {
+//       target: 'localhost:7777',
+//       ws: true,
+//     },
+//   };
+//   const bs = browserSync(config);
+//   app.use(require('connect-browser-sync')(bs));
+// }
 
 const server = createServer(app);
 

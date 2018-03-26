@@ -28,6 +28,10 @@ class BooksGrid extends Component {
     }, 600);
   }
 
+  addDefaultSrc(e){
+    e.target.src = 'https://cor-cdn-static.bibliocommons.com/assets/default_covers/icon-book-93409e4decdf10c55296c91a97ac2653.png';
+  }
+
   render() {
     const { books } = this.props;
     return (
@@ -39,7 +43,7 @@ class BooksGrid extends Component {
               onClick={() => this.showPanel(book.id)}
             >
               <Grid.BookCover>
-                <img src={book.image} alt={book.title} />
+                <img onError={this.addDefaultSrc} src={book.image} alt={book.title} />
               </Grid.BookCover>
               <Grid.BookDescription>
                 <Grid.BookTitle>

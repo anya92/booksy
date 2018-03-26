@@ -5,19 +5,20 @@ import media from './mediaQueries';
 export const Container = styled.div`
   display: grid;
   ${media.phone`
-    grid-gap: 20px;
+  grid-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   `}
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   grid-gap: 30px;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  justify-content: center;
-  padding-top: 40px;
+  padding-top: 20px;
 `;
 
 export const Book = styled.div`
   display: grid;
   grid-template-rows: 1fr auto;
+  transition: transform .2s ease-out;
   &:hover {
-    /* ??? */
+    transform: translateY(-2px);
   }
   cursor: pointer;
 `;

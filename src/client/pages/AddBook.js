@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 
 import {
   FETCH_USER_BOOKS_QUERY, 
-  FETCH_BOOKS_QUERY,
+  FETCH_ALL_BOOKS_QUERY,
 } from '../graphql/queries';
 
 import { ADD_BOOK_MUTATION } from '../graphql/mutations';
@@ -20,7 +20,7 @@ class AddBook extends Component {
       refetchQueries: [{
         query: FETCH_USER_BOOKS_QUERY,
       }, {
-        query: FETCH_BOOKS_QUERY,
+        query: FETCH_ALL_BOOKS_QUERY,
       }],
     }).then(() => this.props.history.push('/my-shelf'));
   }
