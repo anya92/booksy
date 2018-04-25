@@ -12,7 +12,7 @@ export const Nav = styled.div`
   border-right: 1px solid #eee;
   width: 240px;
   z-index: 2;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Nunito', 'Open Sans', sans-serif;
   color: #555;
   overflow-y: scroll;
   transition: all .5s ease-out;
@@ -56,7 +56,7 @@ export const AuthLinks = styled.div`
     }
     &.active {
       color: #FFF;
-      background: #9AECDB;
+      background: ${props => props.theme.green};
     }
   }
 `;

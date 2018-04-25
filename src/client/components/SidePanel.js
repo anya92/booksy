@@ -125,7 +125,7 @@ class SidePanel extends Component {
         <Panel.Container innerRef={ref => (this.panel = ref)}>
           <Panel.Close
             onClick={() => this.closePanel()}
-          >&#x2715;</Panel.Close>
+          >&times;</Panel.Close>
           { this.renderContent() }
         </Panel.Container>
       </div>

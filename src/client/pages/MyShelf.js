@@ -54,8 +54,6 @@ const DropdownButton = styled.button`
   }
 `;
 
-
-
 const DropdownLink = styled.div`
   cursor: pointer;
   padding: 12px 16px;
@@ -70,7 +68,7 @@ class MyShelf extends Component {
 
     this.state = {
       category: 'all',
-      filteredBooks: [],
+      filteredBooks: props.data.userBooks || [],
     };
   }
 

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import media from './mediaQueries';
 
 export default styled.div`
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Nunito', 'Open Sans', sans-serif;
   color: #333;
   padding: 20px;
   padding-top: 80px;

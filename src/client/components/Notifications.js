@@ -13,12 +13,12 @@ style({
 
 class Notifications extends Component {
 
-  componentWillReceiveProps({ data: { notification: { type, message } } }) {
-    toast[type](message, {
-      position: toast.POSITION.BOTTOM_RIGHT,
-    });
-    // toast(message);
-  }
+  // componentWillReceiveProps({ data: { notification: { type, message } } }) {
+  //   toast[type](message, {
+  //     position: toast.POSITION.BOTTOM_RIGHT,
+  //   });
+  //   // toast(message);
+  // }
 
   render() {
     return <ToastContainer />;

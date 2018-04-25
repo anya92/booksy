@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 import media from './mediaQueries';
 
-const brandColor = '#F97F51';
-
 export const Nav = styled.nav`
   position: fixed;
   overflow-y: visible;
@@ -12,7 +10,7 @@ export const Nav = styled.nav`
   z-index: 2;
   background: #FFF;
   box-shadow: 0 1px 1px rgba(0, 0, 0, .14);
-  font-family: 'Open sans', sans-serif;
+  font-family: 'Nunito', 'Open sans', sans-serif;
   color: #555;
 `;
   
@@ -29,7 +27,7 @@ export const Brand = styled.div`
   font-size: 28px;
   margin: 0 20px;
   a {
-    color: ${brandColor};
+    color: ${props => props.theme.mainColor};
     text-decoration: none;
   }
   ${media.untilDesktop`
@@ -146,7 +144,7 @@ export const Link = styled.div`
   
   a {
     font-size: 18px;
-    color: ${brandColor};
+    color: ${props => props.theme.mainColor};
     text-decoration: none;
   }
 `;

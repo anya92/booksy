@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import SidePanel from './SidePanel';
-
 import * as Grid from '../styled/BooksGrid';
 
 class BooksGrid extends Component {

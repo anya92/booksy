@@ -20,13 +20,13 @@ export const Button = styled.button`
     `} 
   cursor: pointer;
   color: #FFF;
-  background: ${props => props.danger ? '#B33771' : '#9AECDB' };
+  background: ${props => props.danger ? props.theme.red : props.theme.green };
   border-radius: 4px;
 `;
 
 export const LinkButton = styled.div`
   height: 50px;
-  background: #9AECDB;
+  background: ${props => props.theme.green};
   border-radius: 4px;
   font-weight: 400;
   font-size: 18px;  
