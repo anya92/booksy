@@ -64,42 +64,47 @@ class FilterAndSort extends Component {
     };
   }
 
-  filterAndSort() {}
+  setFilter(category) {
+    this.setState(() => ({ category }), () => {
+      this.toggleFilter();
+      this.filterAndSort();
+    });
+  }
 
-
-  filterBooks(category) {
-    const { books, setBooks } = this.props;
+  filterBooks(books) {
+    const { category } = this.state;
     const filteredBooks = books.filter(book => (
       category == 'all' ? book : book.category == category
     ));
 
-    setBooks(filteredBooks);
-
-    this.setState(() => ({ category }), () => this.toggleFilter());
+    return filteredBooks;
   }
 
-  sortBooks(sortBy) {
+  setSortBy(sortBy) {
     this.setState(prevState => ({
       descending: sortBy == prevState.sortBy ? !prevState.descending : true,
       sortBy,
     }), () => {
-      const { books } = this.props;
-      const { descending } = this.state;
-      // sort books
-      let sortedBooks;
-
-      if (sortBy == 'date added') {
-        sortedBooks = descending
-        ? [...books].sort((a, b) => new Date(b.added) - new Date(a.added))
-        : [...books].sort((a, b) => new Date(a.added) - new Date(b.added));
-      } else {
-        sortedBooks = descending
-        ? [...books].sort((a, b) => a.title > b.title)
-        : [...books].sort((a, b) => a.title < b.title);
-      }
-      this.props.setBooks(sortedBooks);
       this.toggleSort();
-    });    
+      this.filterAndSort();
+    });
+  }  
+
+  sortBooks(books) {
+    const { descending, sortBy } = this.state;
+    // sort books
+    let sortedBooks;
+
+    if (sortBy == 'date added') {
+      sortedBooks = descending
+      ? [...books].sort((a, b) => new Date(b.added) - new Date(a.added))
+      : [...books].sort((a, b) => new Date(a.added) - new Date(b.added));
+    } else {
+      sortedBooks = descending
+      ? [...books].sort((a, b) => a.title > b.title)
+      : [...books].sort((a, b) => a.title < b.title);
+    }
+    return sortedBooks;
   }
 
   toggleFilter() {
@@ -117,6 +122,16 @@ class FilterAndSort extends Component {
     this.sortDropdown.classList.toggle('down');
   }
 
+  filterAndSort() {
+    const { books, setBooks } = this.props;
+    // filter books
+    const filteredBooks = this.filterBooks(books);
+    // sort books
+    const sortedBooks = this.sortBooks(filteredBooks);
+    // set books
+    setBooks(sortedBooks);
+  }
+
   render() {
     let categories = new Set();
     this.props.books.forEach(book => (book.category && categories.add(book.category)));
@@ -126,15 +141,15 @@ class FilterAndSort extends Component {
         <Dropdown innerRef={ref => (this.filterDropdown = ref)}>
           Category:
           <DropdownButton onClick={this.toggleFilter.bind(this)}>
-            {this.state.category.toLowerCase()} 
+            { this.state.category.toLowerCase() } 
             <i ref={ref => (this.categoryChevron = ref)} className="fa fa-chevron-down" />
           </DropdownButton>
           <DropdownContent>
-            <DropdownLink onClick={() => this.filterBooks('all')}>all</DropdownLink>
+            <DropdownLink onClick={() => this.setFilter('all')}>all</DropdownLink>
             {
               [...categories].map((category, i) => (
-                <DropdownLink key={i} onClick={() => this.filterBooks(category)}>
-                  {category.toLowerCase()}
+                <DropdownLink key={i} onClick={() => this.setFilter(category)}>
+                  { category.toLowerCase() }
                 </DropdownLink>
               ))
             }
@@ -151,8 +166,12 @@ class FilterAndSort extends Component {
             }
           </DropdownButton>
           <DropdownContent>
-            <DropdownLink onClick={() => this.sortBooks('date added')}>date</DropdownLink>
-            <DropdownLink onClick={() => this.sortBooks('title')}>title</DropdownLink>
+            <DropdownLink onClick={() => this.setSortBy('date added')}>
+              date
+            </DropdownLink>
+            <DropdownLink onClick={() => this.setSortBy('title')}>
+              title
+            </DropdownLink>
           </DropdownContent>
         </Dropdown>
       </Filter>
