@@ -18,6 +18,8 @@ export const FETCH_ALL_BOOKS_QUERY = gql`
       title
       author
       image
+      category
+      added
     }
   }
 `;

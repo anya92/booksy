@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Filter = styled.div`
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
-  padding: 20px 0;
+  padding: 10px 0;
   margin: 20px 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
