@@ -2,19 +2,20 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const Filter = styled.div`
-  /* border-top: 1px solid #eee; */
+  border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
   padding: 20px 0;
   margin: 20px 0;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 20px;
 `;
 
 const DropdownContent = styled.div`
   display: none;
   position: absolute;
-  left: 0;
   top: 30px;
+  left: 0;
   background-color: #f9f9f9;
   min-width: 140px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -58,10 +59,12 @@ class FilterAndSort extends Component {
 
     this.state = {
       category: 'all',
-      sortBy: 'date',
+      sortBy: 'date added',
       descending: true,
     };
   }
+
+  filterAndSort() {}
 
 
   filterBooks(category) {
@@ -85,7 +88,7 @@ class FilterAndSort extends Component {
       // sort books
       let sortedBooks;
 
-      if (sortBy == 'date') {
+      if (sortBy == 'date added') {
         sortedBooks = descending
         ? [...books].sort((a, b) => new Date(b.added) - new Date(a.added))
         : [...books].sort((a, b) => new Date(a.added) - new Date(b.added));
@@ -96,9 +99,7 @@ class FilterAndSort extends Component {
       }
       this.props.setBooks(sortedBooks);
       this.toggleSort();
-    });
-
-    
+    });    
   }
 
   toggleFilter() {
@@ -150,7 +151,7 @@ class FilterAndSort extends Component {
             }
           </DropdownButton>
           <DropdownContent>
-            <DropdownLink onClick={() => this.sortBooks('date')}>date</DropdownLink>
+            <DropdownLink onClick={() => this.sortBooks('date added')}>date</DropdownLink>
             <DropdownLink onClick={() => this.sortBooks('title')}>title</DropdownLink>
           </DropdownContent>
         </Dropdown>
