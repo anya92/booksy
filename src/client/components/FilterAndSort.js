@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const Filter = styled.div`
-  border-top: 1px solid #eee;
+  /* border-top: 1px solid #eee; */
   border-bottom: 1px solid #eee;
   padding: 20px 0;
   margin: 20px 0;
@@ -58,11 +58,13 @@ class FilterAndSort extends Component {
 
     this.state = {
       category: 'all',
-    }
+      sortBy: 'date',
+      descending: true,
+    };
   }
 
 
-  setFilter(category) {
+  filterBooks(category) {
     const { books, setBooks } = this.props;
     const filteredBooks = books.filter(book => (
       category == 'all' ? book : book.category == category
@@ -70,13 +72,38 @@ class FilterAndSort extends Component {
 
     setBooks(filteredBooks);
 
-    this.setState(() => ({ category }), () => this.toggleDropdown());
+    this.setState(() => ({ category }), () => this.toggleFilter());
   }
 
-  toggleDropdown() {
-    this.categoryDropdown.classList.toggle('down');
+  sortBooks(sortBy) {
+    this.setState(prevState => ({
+      descending: sortBy == prevState.sortBy ? !prevState.descending : true,
+      sortBy,
+    }), () => {
+      const { books } = this.props;
+      const { descending } = this.state;
+      // sort books
+      let sortedBooks;
 
-    if (this.categoryDropdown.classList.contains('down')) {
+      if (sortBy == 'date') {
+        sortedBooks = descending
+        ? [...books].sort((a, b) => new Date(b.added) - new Date(a.added))
+        : [...books].sort((a, b) => new Date(a.added) - new Date(b.added));
+      } else {
+        sortedBooks = descending
+        ? [...books].sort((a, b) => a.title > b.title)
+        : [...books].sort((a, b) => a.title < b.title);
+      }
+      this.props.setBooks(sortedBooks);
+      this.toggleSort();
+    });
+
+    
+  }
+
+  toggleFilter() {
+    this.filterDropdown.classList.toggle('down');
+    if (this.filterDropdown.classList.contains('down')) {
       this.categoryChevron.classList.remove('fa-chevron-down');
       this.categoryChevron.classList.add('fa-chevron-up');
     } else {
@@ -85,28 +112,48 @@ class FilterAndSort extends Component {
     }
   }
 
+  toggleSort() {
+    this.sortDropdown.classList.toggle('down');
+  }
+
   render() {
     let categories = new Set();
     this.props.books.forEach(book => (book.category && categories.add(book.category)));
+
     return (
       <Filter>
-        <Dropdown innerRef={ref => (this.categoryDropdown = ref)}>
-            <DropdownButton onClick={this.toggleDropdown.bind(this)}>
-              {this.state.category.toLowerCase()} 
-              <i ref={ref => (this.categoryChevron = ref)} className="fa fa-chevron-down" />
-            </DropdownButton>
-            <DropdownContent>
-              <DropdownLink onClick={() => this.setFilter('all')}>all</DropdownLink>
-              {
-                [...categories].map((category, i) => (
-                  <DropdownLink key={i} onClick={() => this.setFilter(category)}>
-                    {category.toLowerCase()}
-                  </DropdownLink>
-                ))
-              }
-            </DropdownContent>
-          </Dropdown>
-          <div>Sort by: date</div>
+        <Dropdown innerRef={ref => (this.filterDropdown = ref)}>
+          Category:
+          <DropdownButton onClick={this.toggleFilter.bind(this)}>
+            {this.state.category.toLowerCase()} 
+            <i ref={ref => (this.categoryChevron = ref)} className="fa fa-chevron-down" />
+          </DropdownButton>
+          <DropdownContent>
+            <DropdownLink onClick={() => this.filterBooks('all')}>all</DropdownLink>
+            {
+              [...categories].map((category, i) => (
+                <DropdownLink key={i} onClick={() => this.filterBooks(category)}>
+                  {category.toLowerCase()}
+                </DropdownLink>
+              ))
+            }
+          </DropdownContent>
+        </Dropdown>
+        <Dropdown innerRef={ref => (this.sortDropdown = ref)}>
+          Sort by:
+          <DropdownButton onClick={this.toggleSort.bind(this)}>
+            {this.state.sortBy} 
+            {
+              this.state.descending 
+              ? <i className="fa fa-angle-double-down" />
+              : <i className="fa fa-angle-double-up" />
+            }
+          </DropdownButton>
+          <DropdownContent>
+            <DropdownLink onClick={() => this.sortBooks('date')}>date</DropdownLink>
+            <DropdownLink onClick={() => this.sortBooks('title')}>title</DropdownLink>
+          </DropdownContent>
+        </Dropdown>
       </Filter>
     );
   }

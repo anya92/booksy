@@ -31,6 +31,7 @@ export const FETCH_USER_BOOKS_QUERY = gql`
       image
       description
       category
+      added
     }
   }
 `;
