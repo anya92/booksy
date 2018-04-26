@@ -81,3 +81,11 @@ export const ACCEPT_REQUEST_MUTATION = gql`
     }
   }
 `;
+
+export const BOOKMARK_BOOK_MUTATION = gql`
+  mutation BookmarkBook($id: ID!) {
+    bookmarkBook(id: $id) {
+      id
+    }
+  }
+`;

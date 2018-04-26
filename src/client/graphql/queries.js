@@ -7,6 +7,9 @@ export const AUTH_QUERY = gql`
       googleId
       email
       name
+      bookmarks {
+        id
+      }
     }
   }
 `;

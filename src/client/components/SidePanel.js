@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import{ graphql, compose } from 'react-apollo';
 
 import {
+  AUTH_QUERY,
   FETCH_BOOK_BY_ID_QUERY, 
   FETCH_USER_BOOKS_QUERY,
   FETCH_ALL_BOOKS_QUERY,
@@ -12,6 +13,7 @@ import {
 import {
   REMOVE_BOOK_BY_ID_MUTATION,
   REQUEST_BOOK_MUTATION,
+  BOOKMARK_BOOK_MUTATION,
 } from '../graphql/mutations';
 
 import * as Panel from '../styled/SidePanel';
@@ -54,6 +56,17 @@ class SidePanel extends Component {
     }).then(() => console.log('requested'));
   }
 
+  bookmarkBook(id) {
+    this.props.bookmarkBook({
+      variables: {
+        id
+      },
+      refetchQueries: [{
+        query: AUTH_QUERY,
+      }],
+    }).then(() => console.log('bookmarked'));
+  }
+
   closePanel() {
     this.panel.classList.add('hide');
     this.background.classList.add('hide');
@@ -93,16 +106,29 @@ class SidePanel extends Component {
     );
   }
 
+  renderBookmark() {
+    const { auth, data: { book } } = this.props;
+    if (auth) {
+      const bookmarksIds = auth.bookmarks.map(bookmark => bookmark.id);
+      return bookmarksIds.includes(book.id) 
+        ? <i className="fa fa-bookmark-o" onClick={() => this.bookmarkBook(book.id)} />
+        : <i className="fa fa-bookmark" onClick={() => this.bookmarkBook(book.id)} />;
+    }
+  }
+
   renderContent() {
     const { loading, error, book } = this.props.data;
     const { auth } = this.props;
 
     if (loading) return <div />;
     if (error) return <div>Error</div>;
-    
+
     return (
       <div>
         <Panel.Slide down>
+          <Panel.Bookmark>
+            { this.renderBookmark() }
+          </Panel.Bookmark>
           <Panel.BookAuthor>{book.author}</Panel.BookAuthor>
           <Panel.BookTitle>{book.title}</Panel.BookTitle>
           <Panel.BookCategory>{book.category && `#${book.category}`}</Panel.BookCategory>
@@ -141,4 +167,5 @@ export default compose(
   }),
   graphql(REMOVE_BOOK_BY_ID_MUTATION, { name: 'removeBook' }),
   graphql(REQUEST_BOOK_MUTATION, { name: 'requestBook' }),
+  graphql(BOOKMARK_BOOK_MUTATION, { name: 'bookmarkBook' }),
 )(SidePanel);

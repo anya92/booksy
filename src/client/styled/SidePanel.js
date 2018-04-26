@@ -81,7 +81,13 @@ export const Slide = styled.div`
   }
 `;
 
+export const Bookmark = styled.div`
+  font-size: 1.5rem;
+  cursor: pointer;
+`;
+
 export const BookAuthor = styled.div`
+  text-align: center;
   font-size: 14px;
   font-weight: 700;
 `;
