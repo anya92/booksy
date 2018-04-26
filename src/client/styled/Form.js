@@ -5,18 +5,20 @@ import media from './mediaQueries';
 export const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  ${media.tablet`
+  max-width: 800px;
+  /* ${media.tablet`
     grid-gap: 40px;
     grid-template-columns: 2fr 1fr;
-  `}
+  `} */
 `;
 
 export const Element = styled.div`
-  padding: 10px;
+  padding: 10px 0;
   label {
     display: block;
+    font-size: 1.1rem;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin: 10px 0;
   }
   input, textarea, select {
     width: 100%;
@@ -27,14 +29,19 @@ export const Element = styled.div`
     outline: none;
     border-radius: 6px;
     transition: all .3s ease-out;
+    margin: 1px;
     &:focus {
-      border-color: #9aecdb;
+      border-width: 2px;
+      border-color: ${props => props.theme.mainColor};
       margin: 0;
     }
   }
   select {
     max-width: 300px;
     cursor: pointer;
+  }
+  textarea {
+    line-height: 28px;
   }
 `;
 
@@ -54,9 +61,11 @@ export const Addon = styled.div`
   justify-content: center;
   &:first-child {
     border-radius: 6px 0 0 6px;
+    margin-right: -1px;    
   }
   &:last-child {
     border-radius: 0 6px 6px 0;    
+    margin-left: -1px;
     cursor: pointer;
   }
 `;
@@ -94,23 +103,31 @@ export const BookCoverModal = styled.div`
   `}
 `;
 
-export const Checkbox = styled.div`
+export const Checkboxes = styled.div`
   margin-top: 10px;
+  width: 400px;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 1fr;
+`;
+
+export const Checkbox = styled.div`
   text-align: center;
   input[type="checkbox"] {
     display: none;
     & + label {
+      padding: 10px;
+      font-size: 1.2rem;
       margin: 0;
-      background: #EEE;
-      padding: 15px 20px;
+      color: #EEE;
+      border: 3px solid #EEE;
       width: 100%;
-      max-width: 160px;
-      border-radius: 6px;
       cursor: pointer;
     }
 
     &:checked + label {
-      background: #9aecdb;
+      border-color: #333;
+      color: #333;
     }
   }
 `;

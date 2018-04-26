@@ -116,26 +116,10 @@ class BookForm extends Component {
               style={{ resize: 'none' }}
             />
           </Form.Element>
-          {/* Category */}
-          <Form.Element>
-            <label>Category</label>
-            <select
-              id="category"
-              value={this.state.category || 'Choose'}
-              onChange={e => this.handleInputChange(e, 'category')}
-            >
-              <option disabled hidden>Choose</option>
-              {
-                categoryOptions.map((category, i) => (
-                  <option key={i} value={category}>{category}</option>
-                ))
-              }
-            </select>
-          </Form.Element>
           {/* to borrow and/or sell */}
           <Form.Element>
             <label>Set your book available to</label>
-            <Form.Element>
+            <Form.Checkboxes>
               <Form.Checkbox>
                 <input
                   type="checkbox"
@@ -154,7 +138,23 @@ class BookForm extends Component {
                 />
                 <label htmlFor="sell">sell</label>
               </Form.Checkbox>           
-            </Form.Element>    
+            </Form.Checkboxes>    
+          </Form.Element>
+          {/* Category */}
+          <Form.Element>
+            <label>Category</label>
+            <select
+              id="category"
+              value={this.state.category || 'Choose'}
+              onChange={e => this.handleInputChange(e, 'category')}
+            >
+              <option disabled hidden>Choose</option>
+              {
+                categoryOptions.map((category, i) => (
+                  <option key={i} value={category}>{category}</option>
+                ))
+              }
+            </select>
           </Form.Element>
           <ButtonsContainer>
             <Button danger type="button" onClick={this.props.onCancel}>Cancel</Button>

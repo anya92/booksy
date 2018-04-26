@@ -1,13 +1,15 @@
 import React from 'react';
 import { branch, renderComponent, withProps } from 'recompose';
 
+import { Loader, Error, ErrorButton } from '../styled/LoaderAndError';
+
 const renderWhileLoading = (component, propName = 'data') =>
   branch(
     props => props[propName] && props[propName].loading,
     renderComponent(component),
   );
 
-const LoadingPlaceholder = () => <h1>Loading...</h1>;
+const LoadingPlaceholder = () => <Loader>booksy</Loader>;
 
 const renderForError = (component, propName = "data") =>
   branch(
@@ -16,10 +18,11 @@ const renderForError = (component, propName = "data") =>
   );
 
 const ErrorComponent = props => (
-  <span>
-    Something went wrong, you can try to
-    <button onClick={props.refetch}>refetch</button>
-  </span>
+  <Error>
+    Something went wrong :( <br/>
+    You can try to 
+    <ErrorButton onClick={props.refetch}>refetch</ErrorButton>.
+  </Error>
 );
 
 const setRefetchProp = (propName = "data") =>

@@ -1,5 +1,5 @@
 export default {
-  mainColor: '#3F7CAC',
-  red: '#EF767A',
-  green: '#23F0C7',
+  mainColor: '#5D8D8F',
+  red: '#894240',
+  green: '#327579',
 };

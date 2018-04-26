@@ -40,7 +40,7 @@ class EditBook extends Component {
 
     return (
       <React.Fragment>
-        <h1>Edit "<em>{book.title}</em>"</h1>
+        <h1>Edit <em style={{ fontWeight: '300' }}>{book.title}</em></h1>
         <BookForm
           book={book}
           onSubmit={this.handleSubmit.bind(this)}
