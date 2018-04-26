@@ -6,25 +6,15 @@ import loadingAndErrorHandler from '../HOC/loadingAndErrorHandler';
 
 import BooksGrid from '../components/BooksGrid';
 
-class MyShelf extends Component {
-
-  render() {
-    const { userBooks, auth } = this.props;
-
-    // if (data.loading) return <div>Loading...</div>; // todo -> loading component
-    // if (data.error) return <div>Error</div>; // todo -> error component
-
-    return (
-      <React.Fragment>
-        <h1>My shelf</h1>
-        <BooksGrid 
-          books={userBooks.userBooks} 
-          auth={auth}
-        />
-      </React.Fragment>
-    );
-  }
-};
+const MyShelf = ({ userBooks, auth }) => (
+  <React.Fragment>
+    <h1>My shelf</h1>
+    <BooksGrid 
+      books={userBooks.userBooks} 
+      auth={auth}
+    />
+  </React.Fragment>
+);
 
 export default compose(
   graphql(FETCH_USER_BOOKS_QUERY, { name: 'userBooks' }),

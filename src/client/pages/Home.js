@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 
 import { FETCH_ALL_BOOKS_QUERY } from '../graphql/queries';
+import loadingAndErrorHandler from '../HOC/loadingAndErrorHandler';
 
 import BooksGrid from '../components/BooksGrid';
 
-class Home extends Component {
-  render() {
-    const { data, auth } = this.props;
+const Home = ({ allBooks, auth }) => (
+  <React.Fragment>
+    <h1>All books</h1>
+    <BooksGrid 
+      books={allBooks.books} 
+      auth={auth}
+    />
+  </React.Fragment>
+);
 
-    if (data.loading) return <div>Loading...</div>;
-    if (data.error) return <div>Error</div>;
+export default compose(
+  graphql(FETCH_ALL_BOOKS_QUERY, { name: 'allBooks' }),
+  loadingAndErrorHandler('allBooks')
+)(Home);
 
-    return (
-      <React.Fragment>
-        <h1>All books</h1>
-        <BooksGrid books={data.books} auth={auth} />
-      </React.Fragment>
-    );
-  }
-}
-
-export default graphql(FETCH_ALL_BOOKS_QUERY)(Home);
