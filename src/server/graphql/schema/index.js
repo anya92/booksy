@@ -4,7 +4,7 @@ import Query from './query';
 import Mutation from './mutation';
 import Subscription from './subscription';
 
-import resolvers from './resolvers';
+import resolvers from '../resolvers';
 
 const typeDefs = [
   Query,
