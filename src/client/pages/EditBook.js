@@ -10,7 +10,6 @@ import {
 import { EDIT_BOOK_MUTATION } from '../graphql/mutations';
 
 import BookForm from '../components/BookForm';
-import { Title } from './MyShelf';
 
 class EditBook extends Component {
   handleSubmit(book) {
@@ -40,14 +39,14 @@ class EditBook extends Component {
     if (error) return <div>Error</div>;
 
     return (
-      <div>
-        <Title>Edit <em>{book.title}</em></Title>
+      <React.Fragment>
+        <h1>Edit "<em>{book.title}</em>"</h1>
         <BookForm
           book={book}
           onSubmit={this.handleSubmit.bind(this)}
           onCancel={this.handleCancel.bind(this)}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }

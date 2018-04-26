@@ -9,7 +9,6 @@ import {
 import { ADD_BOOK_MUTATION } from '../graphql/mutations';
 
 import BookForm from '../components/BookForm';
-import { Title } from './MyShelf';
 
 class AddBook extends Component {
   handleSubmit(book) {
@@ -31,13 +30,13 @@ class AddBook extends Component {
 
   render() {
     return (
-      <div>
-        <Title>Add a new book</Title>
+      <React.Fragment>
+        <h1>Add a new book</h1>
         <BookForm
           onSubmit={this.handleSubmit.bind(this)}
           onCancel={this.handleCancel.bind(this)}
         />
-      </div>
+      </React.Fragment>
     );
   }
 }
