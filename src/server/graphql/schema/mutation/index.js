@@ -35,5 +35,7 @@ export default `
     ): Request
 
     acceptRequest(id: ID!): Request
+
+    bookmarkBook(id: ID!): User
   }
 `;

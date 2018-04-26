@@ -8,6 +8,7 @@ import {
   REQUEST_ACCEPTED_TOPIC,
 } from './subscriptionHelpers';
 
+const User = mongoose.model('User');
 const Book = mongoose.model('Book');
 const Request = mongoose.model('Request');
 
@@ -87,5 +88,16 @@ export default {
       });
 
     return request;
+  },
+
+  bookmarkBook: async (root, { id }, context) => {
+    const bookmarks = context.user.bookmarks.map(o => o.toString());
+    const operator = bookmarks.includes(id) ? '$pull' : '$addToSet';
+
+    const user = await User.findByIdAndUpdate(context.user.id,
+      { [operator]: { bookmarks: id } },
+      { new: true }
+    );
+    return user;
   },
 };

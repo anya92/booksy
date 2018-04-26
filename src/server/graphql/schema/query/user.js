@@ -7,6 +7,7 @@ const User = `
     email: String
     name: String
     books: [Book]
+    bookmarks: [Book]
   }
 `;
 
