@@ -135,6 +135,7 @@ class FilterAndSort extends Component {
   render() {
     let categories = new Set();
     this.props.books.forEach(book => (book.category && categories.add(book.category)));
+    const { descending, sortBy } = this.state;
 
     return (
       <Filter>
@@ -167,10 +168,14 @@ class FilterAndSort extends Component {
           </DropdownButton>
           <DropdownContent>
             <DropdownLink onClick={() => this.setSortBy('date added')}>
-              date
+              date added { sortBy == 'date added' && (descending 
+              ? <i className="fa fa-angle-double-up" /> 
+              : <i className="fa fa-angle-double-down" />) }
             </DropdownLink>
             <DropdownLink onClick={() => this.setSortBy('title')}>
-              title
+              title { sortBy == 'title' && (descending 
+              ? <i className="fa fa-angle-double-up" /> 
+              : <i className="fa fa-angle-double-down" />) }
             </DropdownLink>
           </DropdownContent>
         </Dropdown>
