@@ -17,14 +17,14 @@ const App = ({ data, route }) => {
   if (data.error) return <div>Error</div>;
   return (
     <ThemeProvider theme={theme}>
-      <div>
+      <React.Fragment>
         <Header auth={data.auth} />
         <SideNav auth={data.auth} />
         <Container>
           { data.auth && <Notifications userId={data.auth.id} /> }
           { renderRoutes(route.routes, { auth: data.auth }) }
         </Container>
-      </div>  
+      </React.Fragment>  
     </ThemeProvider>
   );  
 };
