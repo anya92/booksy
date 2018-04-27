@@ -4,6 +4,7 @@ import{ graphql, compose } from 'react-apollo';
 
 import {
   AUTH_QUERY,
+  FETCH_BOOKMARKS_QUERY,
   FETCH_BOOK_BY_ID_QUERY, 
   FETCH_USER_BOOKS_QUERY,
   FETCH_ALL_BOOKS_QUERY,
@@ -61,6 +62,9 @@ class SidePanel extends Component {
       variables: {
         id,
       },
+      refetchQueries: [{
+        query: FETCH_BOOKMARKS_QUERY,       
+      }],
       optimisticResponse: {
         __typename: 'Mutation',
         bookmarkBook: {

@@ -4,7 +4,6 @@ export const AUTH_QUERY = gql`
   query {
     auth {
       id
-      googleId
       email
       name
       bookmarks {
@@ -103,6 +102,19 @@ export const FETCH_REQUESTS_FROM_USER_QUERY = gql`
       date
       accepted
       message
+    }
+  }
+`;
+
+export const FETCH_BOOKMARKS_QUERY = gql`
+  query {
+    bookmarks {
+      id
+      title
+      author
+      image
+      category
+      added
     }
   }
 `;

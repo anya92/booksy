@@ -9,6 +9,7 @@ const Query = `
     book(id: ID!): Book
     books: [Book]
     userBooks: [Book]
+    bookmarks: [Book]
     requestsToUser: [Request]
     requestsFromUser: [Request]
   }

@@ -27,6 +27,13 @@ export default {
     return books;
   },
 
+  bookmarks: async (root, args, context) => {
+    const bookmarks = await Book.find({
+      _id: { $in: context.user.bookmarks }
+    });
+    return bookmarks;
+  },
+
   requestsToUser: async (root, args, context) => {
     const requests = await Request.find({ receiver: context.user.id }).sort({ date: 'descending' });
     return requests;

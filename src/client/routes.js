@@ -6,6 +6,7 @@ import MyShelf from './pages/MyShelf';
 import AddBook from './pages/AddBook';
 import EditBook from './pages/EditBook';
 import Requests from './pages/Requests';
+import Bookmarks from './pages/Bookmarks';
 
 import requireAuth from './HOC/requireAuth';
 import requireBookOwner from './HOC/requireBookOwner';
@@ -33,6 +34,10 @@ export default [{
     {
       path: '/requests',
       component: requireAuth(Requests),
+    },
+    {
+      path: '/bookmarks',
+      component: requireAuth(Bookmarks),
     },
   ]
 }];
