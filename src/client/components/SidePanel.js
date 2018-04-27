@@ -59,12 +59,29 @@ class SidePanel extends Component {
   bookmarkBook(id) {
     this.props.bookmarkBook({
       variables: {
-        id
+        id,
       },
-      refetchQueries: [{
-        query: AUTH_QUERY,
-      }],
-    }).then(() => console.log('bookmarked'));
+      optimisticResponse: {
+        __typename: 'Mutation',
+        bookmarkBook: {
+          __typename: 'Book',
+          id,
+        },
+      },
+      update: (proxy, { data: { bookmarkBook } }) => {
+
+        const data = proxy.readQuery({ query: AUTH_QUERY });
+        const bookmarksIds = data.auth.bookmarks.map(bookmark => bookmark.id);
+
+        if (!bookmarksIds.includes(bookmarkBook.id)) {
+          data.auth.bookmarks.push(bookmarkBook);
+        } else {
+          data.auth.bookmarks = [...data.auth.bookmarks].filter(bookmark => bookmark.id !== bookmarkBook.id);
+        }
+
+        proxy.writeQuery({ query: AUTH_QUERY, data });
+      },
+    });
   }
 
   closePanel() {
@@ -111,8 +128,8 @@ class SidePanel extends Component {
     if (auth) {
       const bookmarksIds = auth.bookmarks.map(bookmark => bookmark.id);
       return bookmarksIds.includes(book.id) 
-        ? <i className="fa fa-bookmark-o" onClick={() => this.bookmarkBook(book.id)} />
-        : <i className="fa fa-bookmark" onClick={() => this.bookmarkBook(book.id)} />;
+        ? <i className="fa fa-bookmark" onClick={() => this.bookmarkBook(book.id)} />
+        : <i className="fa fa-bookmark-o" onClick={() => this.bookmarkBook(book.id)} />;
     }
   }
 
@@ -149,9 +166,9 @@ class SidePanel extends Component {
       <div>
         <Panel.Background innerRef={ref => (this.background = ref)} />
         <Panel.Container innerRef={ref => (this.panel = ref)}>
-          <Panel.Close
-            onClick={() => this.closePanel()}
-          >&times;</Panel.Close>
+          <Panel.Close onClick={() => this.closePanel()}>
+            &times;
+          </Panel.Close>
           { this.renderContent() }
         </Panel.Container>
       </div>

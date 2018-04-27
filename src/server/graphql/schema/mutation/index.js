@@ -36,6 +36,6 @@ export default `
 
     acceptRequest(id: ID!): Request
 
-    bookmarkBook(id: ID!): User
+    bookmarkBook(id: ID!): Book
   }
 `;

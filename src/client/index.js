@@ -41,6 +41,7 @@ const apolloClient = new ApolloClient({
   link,
   cache: new InMemoryCache({
     dataIdFromObject: o => o.id,
+    connectToDevtools: true,
   }).restore(window.__APOLLO_STATE__),
 }); 
 

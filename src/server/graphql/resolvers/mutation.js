@@ -98,6 +98,7 @@ export default {
       { [operator]: { bookmarks: id } },
       { new: true }
     );
-    return user;
+    const book = await Book.findById(id);
+    return book;
   },
 };
