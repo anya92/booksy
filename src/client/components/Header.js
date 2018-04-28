@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 import * as Navbar from '../styled/Header';
+import Search from './Search';
 
 export default ({ auth }) => (
   <Navbar.Nav>
@@ -20,21 +21,7 @@ export default ({ auth }) => (
           document.getElementById('search-bar').classList.add('display');
         }}
       />
-      <Navbar.SearchBar id="search-bar">
-        <Navbar.SearchInput>
-          <i className="fa fa-search" />
-          <input type="text" placeholder="Search books" />
-        </Navbar.SearchInput>
-        <Navbar.Icon 
-          className="fa fa-times"
-          onClick={() => {
-            document.getElementById('search-bar').classList.add('hide');
-            setTimeout(() => (
-              document.getElementById('search-bar').classList.remove('display')
-            ), 500);
-          }}
-        />
-      </Navbar.SearchBar>
+      <Search />
       <Navbar.Icon
         ellipsis
         className="fa fa-ellipsis-v"

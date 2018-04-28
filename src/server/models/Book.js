@@ -43,7 +43,6 @@ const bookSchema = new Schema({
 bookSchema.index({
   title: 'text',
   author: 'text',
-  description: 'text',
 });
 
 function autopopulate(next) {

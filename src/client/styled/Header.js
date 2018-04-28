@@ -93,10 +93,9 @@ export const SearchBar = styled.div`
     outline: none;
     border-radius: 20px;
     transition: all .3s ease-out;
-    /* margin-left: 20px; */
     background: #E0DDD9;
     &:focus {
-      border-color: #9aecdb;
+      border-color: ${props => props.theme.mainColor};
       background: #FFF;
     }
   }
@@ -122,6 +121,21 @@ export const SearchInput = styled.div`
     top: 8.5px;
     left: 16px;
   }
+`;
+
+export const SearchResults = styled.div`
+  position: absolute;
+  background: #FFF;
+  width: 100%;
+  max-width: 320px;
+  top: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  z-index: 5;
+`;
+
+export const SearchResult = styled.div`
+  padding: 10px;
+
 `;
 
 export const Auth = styled.div`
