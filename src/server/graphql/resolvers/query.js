@@ -42,5 +42,16 @@ export default {
   requestsFromUser: async (root, args, context) => {
     const requests = await Request.find({ sender: context.user.id }).sort({ date: 'descending' });
     return requests; 
-  }
+  },
+
+  searchBook: async (root, { filter }) => {
+    const books = await Book.find({
+      $text: {
+        $search: filter
+      }
+    }, {
+      score: { $meta: 'textScore' }
+    }).sort({ score: { $meta: 'textScore' } });
+    return books;
+  },
 };

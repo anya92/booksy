@@ -12,6 +12,7 @@ const Query = `
     bookmarks: [Book]
     requestsToUser: [Request]
     requestsFromUser: [Request]
+    searchBook(filter: String!): [Book]
   }
 `;
 
