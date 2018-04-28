@@ -21,7 +21,10 @@ export default ({ auth }) => (
         }}
       />
       <Navbar.SearchBar id="search-bar">
-        <input type="text" placeholder="Search..." />
+        <Navbar.SearchInput>
+          <i className="fa fa-search" />
+          <input type="text" placeholder="Search books" />
+        </Navbar.SearchInput>
         <Navbar.Icon 
           className="fa fa-times"
           onClick={() => {

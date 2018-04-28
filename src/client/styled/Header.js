@@ -48,6 +48,7 @@ export const Icon = styled.i`
 `;
 
 export const SearchBar = styled.div`
+  /* position: relative; */
   ${media.phone`
     display: none;
 
@@ -87,15 +88,16 @@ export const SearchBar = styled.div`
     height: 100%;
     font-size: 16px;
     font-weight: 300;
-    padding: 5px 15px;
-    border: 1px solid #E0DDD9;
+    padding: 5px 20px 5px 36px;
+    border: 2px solid #E0DDD9;
     outline: none;
-    border-radius: 6px;
+    border-radius: 20px;
     transition: all .3s ease-out;
-    margin-left: 20px;
-
+    /* margin-left: 20px; */
+    background: #E0DDD9;
     &:focus {
       border-color: #9aecdb;
+      background: #FFF;
     }
   }
 
@@ -106,11 +108,20 @@ export const SearchBar = styled.div`
       margin-right: 20px;
       margin-left: 0;
     }
-
     i {
       display: none;
     }
   `}
+`;
+
+export const SearchInput = styled.div`
+  position: relative;
+  i {
+    display: block;
+    position: absolute;
+    top: 8.5px;
+    left: 16px;
+  }
 `;
 
 export const Auth = styled.div`
