@@ -107,7 +107,7 @@ class SidePanel extends Component {
     if (this.isOwner()) {
       return (
         <ButtonsContainer>
-          <LinkButton>
+          <LinkButton onClick={() => this.closePanel()}>
             <Link to={`/edit/${book.id}`}>Edit</Link>
           </LinkButton>
           <Button 

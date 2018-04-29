@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 
+import { Consumer } from './SidePanelContext';
+
 import * as Navbar from '../styled/Header';
 
 const FETCH_BOOK = gql`
@@ -64,16 +66,21 @@ class Search extends Component {
             ), 500);
           }}
         />
-        <Navbar.SearchResults>
-          {
-            this.state.results.map(book => (
-              <Navbar.SearchResult key={book.id}>
-                <div>{book.title}</div>
-                <div>{book.author}</div>
-              </Navbar.SearchResult>
-            ))
-          }
-        </Navbar.SearchResults>
+        <Consumer>
+          {(context) => (
+            <Navbar.SearchResults>
+              {
+                this.state.results.map(book => (
+                  <Navbar.SearchResult key={book.id} onClick={() => context.showPanel(book.id)}>
+                    <div>{book.title}</div>
+                    <div>{book.author}</div>
+                  </Navbar.SearchResult>
+                ))
+              }
+            </Navbar.SearchResults>
+          )}
+        </Consumer>
+        
       </Navbar.SearchBar>
     )
   }
