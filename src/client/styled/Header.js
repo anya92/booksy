@@ -135,7 +135,9 @@ export const SearchResults = styled.div`
 
 export const SearchResult = styled.div`
   padding: 10px;
-
+  &.active {
+    background: #F0F0F0;
+  }
 `;
 
 export const Auth = styled.div`
