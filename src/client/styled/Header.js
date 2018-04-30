@@ -135,6 +135,8 @@ export const SearchResults = styled.div`
 
 export const SearchResult = styled.div`
   padding: 10px;
+  cursor: pointer;
+  
   &.active {
     background: #F0F0F0;
   }

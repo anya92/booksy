@@ -168,7 +168,7 @@ class SidePanel extends Component {
   render() {
     return (
       <div>
-        <Panel.Background innerRef={ref => (this.background = ref)} />
+        <Panel.Background innerRef={ref => (this.background = ref)} onClick={() => this.closePanel()} />
         <Panel.Container innerRef={ref => (this.panel = ref)}>
           <Panel.Close onClick={() => this.closePanel()}>
             &times;

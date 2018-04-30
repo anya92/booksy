@@ -23,7 +23,25 @@ class Search extends Component {
     this.state = {
       search: '',
       results: [],
+      displayResults: false,
     };
+  }
+
+  componentDidMount() {
+    document.body.addEventListener('click', e => {
+      if (e.target.classList.contains('search__result') || e.target.parentElement.classList.contains('search__result')) {
+        return;
+      }
+      if (e.target == this.input) {
+        return;
+      }
+
+      this.setState(() => ({ displayResults: false }));
+    });
+  }
+
+  componentWillUnmount() {
+    document.body.removeEventListener('click');
   }
 
   handleInputChange(e) {
@@ -43,7 +61,7 @@ class Search extends Component {
     const currentActiveResult = document.querySelector('.active');
     let nextActiveResult;
 
-    if(e.keyCode == 40 && currentActiveResult) {
+    if (e.keyCode == 40 && currentActiveResult) {
       nextActiveResult = currentActiveResult.nextElementSibling || results[0];
     } else if (e.keyCode == 40) {
       nextActiveResult = results[0];
@@ -81,12 +99,14 @@ class Search extends Component {
             <React.Fragment>
               <Navbar.SearchInput>
                 <i className="fa fa-search" />
-                <input 
+                <input
+                  ref={ref => (this.input = ref)}
                   type="text" 
                   placeholder="Search books"
                   value={this.state.search}
                   onChange={e => this.handleInputChange(e)}
                   onKeyUp={e => this.handleInputKeyUp(e, context)}
+                  onFocus={() => this.setState(() => ({ displayResults: true }))}
                 />
               </Navbar.SearchInput>
               <Navbar.Icon 
@@ -98,24 +118,26 @@ class Search extends Component {
                   ), 500);
                 }}
               />
-              <Navbar.SearchResults>
-                {
-                  this.state.results.map(book => (
-                    <Navbar.SearchResult 
-                      key={book.id} 
-                      onClick={() => context.showPanel(book.id)}
-                      className="search__result"
-                      id={book.id}>
-                      <div>{book.title}</div>
-                      <div>{book.author}</div>
-                    </Navbar.SearchResult>
-                  ))
-                }
-              </Navbar.SearchResults>
+              {
+                this.state.displayResults && 
+                <Navbar.SearchResults innerRef={ref => (this.searchResults = ref)}>
+                  {
+                    this.state.results.map(book => (
+                      <Navbar.SearchResult 
+                        key={book.id} 
+                        onClick={() => context.showPanel(book.id)}
+                        className="search__result"
+                        id={book.id}>
+                        <div>{book.title}</div>
+                        <div>{book.author}</div>
+                      </Navbar.SearchResult>
+                    ))
+                  }
+                </Navbar.SearchResults>
+              }
             </React.Fragment>
           )}
         </Consumer>
-        
       </Navbar.SearchBar>
     )
   }
