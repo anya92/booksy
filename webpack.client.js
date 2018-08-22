@@ -1,6 +1,17 @@
 const path = require('path');
 const merge = require('webpack-merge');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
 const baseConfig = require('./webpack.base');
+
+// console.log(dotenv.config(), process.env);
+
+// const env = dotenv.config({ path: 'variables.env' }).parsed;
+
+// const envKeys = Object.keys(env).reduce((prev, next) => {
+//   prev[`process.env.${next}`] = JSON.stringify(env[next]);
+//   return prev;
+// }, {});
 
 const config = {
   entry: {
@@ -21,19 +32,9 @@ const config = {
       },
     ],
   },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /node_modules/,
-          chunks: 'initial',
-          name: 'vendor',
-          priority: 10,
-          enforce: true,
-        },
-      },
-    },
-  },
+  // plugins: [
+  //   new webpack.DefinePlugin(envKeys)
+  // ]
 };
 
 module.exports = merge(baseConfig, config);

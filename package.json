@@ -2,12 +2,18 @@
   "name": "booksy",
   "version": "1.0.0",
   "main": "index.js",
+  "now": {
+    "dotenv": "variables.env"
+  },
   "scripts": {
     "start": "node build/bundle.js",
     "dev": "npm-run-all --parallel dev:*",
     "dev:server": "nodemon --watch build --exec node build/bundle.js",
-    "dev:build-server": "webpack --config webpack.server.js --watch --colors --mode development",
-    "dev:build-client": "webpack --config webpack.client.js --watch --colors --mode development"
+    "dev:build-server": "webpack --config webpack.server.js --watch --mode development",
+    "dev:build-client": "webpack --config webpack.client.js --watch --mode development",
+    "build": "npm-run-all --parallel prod:*",
+    "prod:build-server": "webpack --config webpack.server.js --mode production",
+    "prod:build-client": "webpack --config webpack.client.js --mode production"
   },
   "keywords": [
     "react",
@@ -43,7 +49,7 @@
     "graphql-tools": "^2.21.0",
     "lodash": "^4.17.10",
     "moment": "^2.21.0",
-    "mongoose": "^5.0.9",
+    "mongoose": "^5.2.9",
     "node-fetch": "^2.1.1",
     "passport": "^0.4.0",
     "passport-google-oauth20": "^1.0.0",
@@ -67,12 +73,14 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
     "css-loader": "^0.28.10",
     "isomorphic-style-loader": "^4.0.0",
     "nodemon": "^1.17.1",

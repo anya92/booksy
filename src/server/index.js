@@ -25,7 +25,9 @@ const PORT = process.env.PORT || 7777;
 app.use('*', cors());
 app.use(express.static('public'));
 
-mongoose.connect(process.env.DATABASE_URL);
+mongoose.connect(process.env.DATABASE_URL, {
+  useNewUrlParser: true,
+});
 
 mongoose.connection.on('error', console.log);
 mongoose.Promise = global.Promise;
@@ -122,25 +124,6 @@ app.get('*', async (req, res) => {
   res.send(content);
 });
 
-/* BROWSER-SYNC CONFIGURATION */
-
-// if (app.get('env') == 'development') {
-//   const browserSync = require('browser-sync');
-//   const config = {
-//     files: ["build/**/*.js", "public/*.js"],
-//     open: false,
-//     notify: false,
-//     reloadDelay: 500,
-//     reloadOnRestart: true,
-//     proxy: {
-//       target: 'localhost:7777',
-//       ws: true,
-//     },
-//   };
-//   const bs = browserSync(config);
-//   app.use(require('connect-browser-sync')(bs));
-// }
-
 const server = createServer(app);
 
 server.listen(PORT, () => {
@@ -151,6 +134,7 @@ server.listen(PORT, () => {
     GraphiQL on http://localhost:${PORT}/graphiql
     =============================================
   `);
+  
   new SubscriptionServer({
     execute,
     subscribe,
