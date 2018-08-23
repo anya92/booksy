@@ -13,15 +13,29 @@ style({
 
 class Notifications extends Component {
 
-  // componentWillReceiveProps({ data: { notification: { type, message } } }) {
-  //   toast[type](message, {
-  //     position: toast.POSITION.BOTTOM_RIGHT,
-  //   });
-  //   // toast(message);
-  // }
+  getSnapshotBeforeUpdate(prevProps) {
+    const { notification } = this.props.data;
+    const prevNotification = prevProps.data.notification;
+    if (notification && !prevNotification) return true;
+    if (notification && (prevNotification.message !== notification.message)) {
+      return true;
+    }
+    return null;
+  }
 
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
+    if (snapshot !== null) {
+      const { type, message } = this.props.data.notification;
+      toast[type](message, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    }
+  }
+  
   render() {
-    return <ToastContainer />;
+    return (
+      <ToastContainer />
+    );
   }
 }
 

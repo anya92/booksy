@@ -1,4 +1,5 @@
-import { PubSub } from 'graphql-subscriptions';
+// import { PubSub } from 'graphql-subscriptions';
+import { PubSub } from 'apollo-server-express';
 
 export const pubsub = new PubSub();
 

@@ -14,12 +14,14 @@ import { getMainDefinition } from 'apollo-utilities';
 import routes from './routes';
 
 const httpLink = new HttpLink({
-  uri: 'https://booksy.now.sh/graphql',
+  uri: 'http://localhost:7777/graphql',
+  // uri: 'https://booksy.now.sh/graphql',
   credentials: 'same-origin',
 });
 
 const wsLink = new WebSocketLink({
-  uri: 'wss://booksy.now.sh/subscriptions',
+  uri: 'ws://localhost:7777/graphql',
+  // uri: 'wss://booksy.now.sh/subscriptions',
   options: {
     reconnect: true
   },

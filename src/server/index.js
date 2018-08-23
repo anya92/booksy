@@ -2,11 +2,12 @@ import 'babel-polyfill';
 import express from 'express';
 import { createServer } from 'http';
 import cors from 'cors';
-import bodyParser from 'body-parser';
-import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
-import { execute, subscribe } from 'graphql';
-import { createExpressContext } from 'apollo-resolvers';
-import { SubscriptionServer } from 'subscriptions-transport-ws';
+// import bodyParser from 'body-parser';
+import { ApolloServer } from 'apollo-server-express';
+// import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
+// import { execute, subscribe } from 'graphql';
+// import { createExpressContext } from 'apollo-resolvers';
+// import { SubscriptionServer } from 'subscriptions-transport-ws';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import session from 'express-session';
@@ -73,41 +74,55 @@ app.get('/api/current_user', (req, res) => {
   res.json({user : req.user });
 });
 
-function isAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next();
-  } else {
-    // req.session.bounceTo = req.header('Referer') || '/';
-    res.redirect('/auth/google');
-  }    
-}
+// function isAuthenticated(req, res, next) {
+//   if (req.isAuthenticated()) {
+//     return next();
+//   } else {
+//     // req.session.bounceTo = req.header('Referer') || '/';
+//     res.redirect('/auth/google');
+//   }    
+// }
 
 /* GRAPHQL ENDPOINTS */
 
 const schema = require('./graphql/schema');
 
-app.use(
-  '/graphql',
-  // isAuthenticated,
-  bodyParser.json(),
-  graphqlExpress((req, res) => {
-    const user = req.user;
+const server = new ApolloServer({
+  schema,
+  context: ({ req, connection }) => {
+    if (connection) {
+      return {};
+    } else {
+      const { user } = req;
+      return { user };
+    }
+  },
+});
 
-    const context = createExpressContext({
-      user,
-    }, res);
+server.applyMiddleware({ app });
 
-    return {
-      schema,
-      context,
-    };
-  }),
-);
+// app.use(
+//   '/graphql',
+//   // isAuthenticated,
+//   bodyParser.json(),
+//   graphqlExpress((req, res) => {
+//     const user = req.user;
 
-app.use('/graphiql', graphiqlExpress({
-  endpointURL: '/graphql',
-  subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`,
-}));
+//     const context = createExpressContext({
+//       user,
+//     }, res);
+
+//     return {
+//       schema,
+//       context,
+//     };
+//   }),
+// );
+
+// app.use('/graphiql', graphiqlExpress({
+//   endpointURL: '/graphql',
+//   subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`,
+// }));
 
 /* RENDERING REACT APP */
 
@@ -124,23 +139,34 @@ app.get('*', async (req, res) => {
   res.send(content);
 });
 
-const server = createServer(app);
+const httpServer = createServer(app);
+server.installSubscriptionHandlers(httpServer);
 
-server.listen(PORT, () => {
+httpServer.listen(PORT, () => {
   console.log(`
     =============================================
-    Running on http://localhost:${PORT}/
+    🚀 Server ready at http://localhost:${PORT}/
     ---------------------------------------------
-    GraphiQL on http://localhost:${PORT}/graphiql
+    🚀 GraphQL ready at http://localhost:${PORT}/${server.graphqlPath}
     =============================================
   `);
-  
-  new SubscriptionServer({
-    execute,
-    subscribe,
-    schema,
-  }, {
-    server,
-    path: '/subscriptions',
-  });
 });
+
+// httpServer.listen(PORT, () => {
+//   console.log(`
+//     =============================================
+//     Running on http://localhost:${PORT}/
+//     ---------------------------------------------
+//     GraphiQL on http://localhost:${PORT}/graphiql
+//     =============================================
+//   `);
+  
+//   new SubscriptionServer({
+//     execute,
+//     subscribe,
+//     schema,
+//   }, {
+//     server,
+//     path: '/subscriptions',
+//   });
+// });
