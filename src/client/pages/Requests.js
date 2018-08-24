@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
-import moment from 'moment';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
 import styled from 'styled-components';
 
 import { 
@@ -95,7 +95,7 @@ class Request extends Component {
                     <td>{book.author}</td>
                     <td>{requestType}</td>
                     <td>{sender.name}</td>
-                    <td>{moment(new Date(date).toISOString()).fromNow()}</td>
+                    <td>{ distanceInWordsToNow(new Date(date).toISOString()) } ago</td>
                     <td>
                       { 
                         accepted 
@@ -132,7 +132,7 @@ class Request extends Component {
                     <td>{book.author}</td>
                     <td>{requestType}</td>
                     <td>{receiver.name}</td>
-                    <td>{moment(new Date(date).toISOString()).fromNow()}</td>
+                    <td>{ distanceInWordsToNow(new Date(date).toISOString()) } ago</td>
                     <td>{ accepted ? 'accepted' : 'not accepted' }</td>
                   </Tr> 
                 ))
