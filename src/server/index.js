@@ -2,16 +2,12 @@ import 'babel-polyfill';
 import express from 'express';
 import { createServer } from 'http';
 import cors from 'cors';
-// import bodyParser from 'body-parser';
 import { ApolloServer } from 'apollo-server-express';
-// import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
-// import { execute, subscribe } from 'graphql';
-// import { createExpressContext } from 'apollo-resolvers';
-// import { SubscriptionServer } from 'subscriptions-transport-ws';
 import mongoose from 'mongoose';
 import passport from 'passport';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
+import Loadable from 'react-loadable';
 
 const MongoStore = require('connect-mongo')(session);
 
@@ -101,29 +97,6 @@ const server = new ApolloServer({
 
 server.applyMiddleware({ app });
 
-// app.use(
-//   '/graphql',
-//   // isAuthenticated,
-//   bodyParser.json(),
-//   graphqlExpress((req, res) => {
-//     const user = req.user;
-
-//     const context = createExpressContext({
-//       user,
-//     }, res);
-
-//     return {
-//       schema,
-//       context,
-//     };
-//   }),
-// );
-
-// app.use('/graphiql', graphiqlExpress({
-//   endpointURL: '/graphql',
-//   subscriptionsEndpoint: `ws://localhost:${PORT}/subscriptions`,
-// }));
-
 /* RENDERING REACT APP */
 
 app.get('*', async (req, res) => {
@@ -142,31 +115,14 @@ app.get('*', async (req, res) => {
 const httpServer = createServer(app);
 server.installSubscriptionHandlers(httpServer);
 
-httpServer.listen(PORT, () => {
-  console.log(`
-    =============================================
-    🚀 Server ready at http://localhost:${PORT}/
-    ---------------------------------------------
-    🚀 GraphQL ready at http://localhost:${PORT}/${server.graphqlPath}
-    =============================================
-  `);
+Loadable.preloadAll().then(() => {
+  httpServer.listen(PORT, () => {
+    console.log(`
+      =============================================
+      🚀 Server ready at http://localhost:${PORT}/
+      ---------------------------------------------
+      🚀 GraphQL ready at http://localhost:${PORT}/${server.graphqlPath}
+      =============================================
+    `);
+  });
 });
-
-// httpServer.listen(PORT, () => {
-//   console.log(`
-//     =============================================
-//     Running on http://localhost:${PORT}/
-//     ---------------------------------------------
-//     GraphiQL on http://localhost:${PORT}/graphiql
-//     =============================================
-//   `);
-  
-//   new SubscriptionServer({
-//     execute,
-//     subscribe,
-//     schema,
-//   }, {
-//     server,
-//     path: '/subscriptions',
-//   });
-// });

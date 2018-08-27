@@ -10,6 +10,7 @@ import { split } from 'apollo-link';
 import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
+import Loadable from 'react-loadable';
 
 import routes from './routes';
 
@@ -44,11 +45,13 @@ const apolloClient = new ApolloClient({
   }).restore(window.__APOLLO_STATE__),
 }); 
 
-hydrate(
-  <ApolloProvider client={apolloClient}>
-    <BrowserRouter>
-      <div>{ renderRoutes(routes) }</div>
-    </BrowserRouter>
-  </ApolloProvider>, 
-  document.getElementById('root')
-);
+Loadable.preloadReady().then(() => {
+  hydrate(
+    <ApolloProvider client={apolloClient}>
+      <BrowserRouter>
+        <div>{ renderRoutes(routes) }</div>
+      </BrowserRouter>
+    </ApolloProvider>, 
+    document.getElementById('root')
+  );
+});

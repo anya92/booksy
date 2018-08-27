@@ -3,6 +3,7 @@ const merge = require('webpack-merge');
 const webpack = require('webpack');
 const dotenv = require('dotenv');
 const baseConfig = require('./webpack.base');
+const ReactLoadablePlugin = require('react-loadable/webpack').ReactLoadablePlugin;
 
 // console.log(dotenv.config(), process.env);
 
@@ -32,6 +33,11 @@ const config = {
       },
     ],
   },
+  plugins: [
+    new ReactLoadablePlugin({
+      filename: './public/react-loadable.json',
+    }),
+  ],
   // plugins: [
   //   new webpack.DefinePlugin(envKeys)
   // ]
