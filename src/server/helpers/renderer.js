@@ -11,27 +11,25 @@ import routes from '../../client/routes';
 import stats from '../../../public/react-loadable.json';
 
 export default (req, client, context) => {
-
-  const sheet = new ServerStyleSheet();
-
-  let modules = [];
-
-  const App = (
-    <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-      <ApolloProvider client={client}>
-        <StyleSheetManager sheet={sheet.instance}>
-          <StaticRouter location={req.path} context={context}>
-            <div>{renderRoutes(routes)}</div>
-          </StaticRouter>
-        </StyleSheetManager>  
-      </ApolloProvider>
-    </Loadable.Capture>
-  );
-
-  let bundles = getBundles(stats, modules);
-
   return new Promise((resolve, reject) => {
+    const sheet = new ServerStyleSheet();
+
+    let modules = [];
+
+    const App = (
+      <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+        <ApolloProvider client={client}>
+          <StyleSheetManager sheet={sheet.instance}>
+            <StaticRouter location={req.path} context={context}>
+                <div>{renderRoutes(routes)}</div>
+            </StaticRouter>
+          </StyleSheetManager>
+        </ApolloProvider>
+      </Loadable.Capture>
+    );
+
     renderToStringWithData(App).then(content => {
+      let bundles = getBundles(stats, modules);
       const initialState = client.extract();
       const styleTags = sheet.getStyleTags();
       
@@ -52,9 +50,11 @@ export default (req, client, context) => {
             <script>
               window.__APOLLO_STATE__ = ${serialize(initialState)}
             </script>
-            ${bundles.map(bundle => {
-              return `<script src="/${bundle.file}"></script>`
-            }).join('\n')}
+            ${
+              bundles.map(bundle => {
+                return `<script src="/${bundle.file}"></script>`
+              }).join('\n')
+            }
             <script src="/vendors.js"></script>            
             <script src="/main.js"></script>
           </body>

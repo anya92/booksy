@@ -1,39 +1,40 @@
 import Loadable from 'react-loadable';
-import React from 'react';
 
 import App from './pages/App';
 
 import requireAuth from './HOC/requireAuth';
 import requireBookOwner from './HOC/requireBookOwner';
 
+const loading = () => null;
+
 const AsyncHome = Loadable({
   loader: () => import('./pages/Home'),
-  loading: () => <div />,
+  loading,
 });
 
 const AsyncMyShelf = Loadable({
   loader: () => import('./pages/MyShelf'),
-  loading: () => <div />, 
+  loading, 
 });
 
 const AsyncAddBook = Loadable({
   loader: () => import('./pages/AddBook'),
-  loading: () => <div />,
+  loading,
 });
 
 const AsyncEditBook = Loadable({
   loader: () => import('./pages/EditBook'),
-  loading: () => <div />,
+  loading,
 });
 
 const AsyncRequests = Loadable({
   loader: () => import('./pages/Requests'),
-  loading: () => <div />,
+  loading,
 });
 
 const AsyncBookmarks = Loadable({
   loader: () => import('./pages/Bookmarks'),
-  loading: () => <div />,
+  loading,
 });
 
 export default [{
