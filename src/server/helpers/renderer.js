@@ -11,7 +11,6 @@ import routes from '../../client/routes';
 import stats from '../../../public/react-loadable.json';
 
 export default (req, client, context) => {
-  return new Promise((resolve, reject) => {
     const sheet = new ServerStyleSheet();
 
     let modules = [];
@@ -28,12 +27,12 @@ export default (req, client, context) => {
       </Loadable.Capture>
     );
 
-    renderToStringWithData(App).then(content => {
+    return renderToStringWithData(App).then(content => {
       let bundles = getBundles(stats, modules);
       const initialState = client.extract();
       const styleTags = sheet.getStyleTags();
       
-      resolve(`
+      return Promise.resolve(`
         <!doctype html>
         <html>
           <head>
@@ -60,6 +59,5 @@ export default (req, client, context) => {
           </body>
         </html>
       `);
-    }).catch(error => reject(error))
-  });
+    }).catch(error => Promise.reject(error))
 }

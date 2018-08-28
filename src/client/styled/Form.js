@@ -6,11 +6,12 @@ export const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   max-width: 800px;
+
+`;
   /* ${media.tablet`
     grid-gap: 40px;
     grid-template-columns: 2fr 1fr;
   `} */
-`;
 
 export const Element = styled.div`
   padding: 10px 0;

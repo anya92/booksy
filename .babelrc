@@ -16,6 +16,7 @@
   ],
   "plugins": [
     "transform-class-properties",
-    "react-loadable/babel"
+    "react-loadable/babel",
+    ["styled-components", { "ssr": true, "displayName": true }]
   ]
 }
