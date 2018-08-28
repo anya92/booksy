@@ -1,9 +1,10 @@
 const path = require('path');
 const merge = require('webpack-merge');
-const webpack = require('webpack');
-const dotenv = require('dotenv');
+// const webpack = require('webpack');
+// const dotenv = require('dotenv');
 const baseConfig = require('./webpack.base');
 const ReactLoadablePlugin = require('react-loadable/webpack').ReactLoadablePlugin;
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 // console.log(dotenv.config(), process.env);
 
@@ -20,7 +21,7 @@ const config = {
   },
   output: {
     path: path.resolve(__dirname, 'public'),
-    filename: '[name].js'
+    filename: '[name].[chunkhash].js'
   },
   module: {
     rules: [
@@ -37,6 +38,7 @@ const config = {
     new ReactLoadablePlugin({
       filename: './public/react-loadable.json',
     }),
+    new ManifestPlugin(),
   ],
   // plugins: [
   //   new webpack.DefinePlugin(envKeys)

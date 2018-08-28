@@ -81,6 +81,7 @@
     "babel-preset-stage-3": "^6.24.1",
     "isomorphic-style-loader": "^4.0.0",
     "nodemon": "^1.17.1",
-    "npm-run-all": "^4.1.2"
+    "npm-run-all": "^4.1.2",
+    "webpack-manifest-plugin": "^2.0.3"
   }
 }

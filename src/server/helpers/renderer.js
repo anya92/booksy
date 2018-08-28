@@ -8,6 +8,7 @@ import Loadable from 'react-loadable';
 import { getBundles } from 'react-loadable/webpack'
 
 import routes from '../../client/routes';
+import manifest from '../../../public/manifest.json';
 import stats from '../../../public/react-loadable.json';
 
 export default (req, client, context) => {
@@ -31,7 +32,7 @@ export default (req, client, context) => {
       let bundles = getBundles(stats, modules);
       const initialState = client.extract();
       const styleTags = sheet.getStyleTags();
-      
+
       return Promise.resolve(`
         <!doctype html>
         <html>
@@ -54,8 +55,8 @@ export default (req, client, context) => {
                 return `<script src="/${bundle.file}"></script>`
               }).join('\n')
             }
-            <script src="/vendors.js"></script>            
-            <script src="/main.js"></script>
+            <script src="/${manifest["main.js"]}"></script>
+            <script src="/${manifest["vendor.js"]}"></script>
           </body>
         </html>
       `);
