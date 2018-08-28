@@ -6,6 +6,10 @@ const User = `
     googleId: ID!
     email: String
     name: String
+    firstName: String
+    lastName: String
+    city: String
+    country: String
     books: [Book]
     bookmarks: [Book]
   }

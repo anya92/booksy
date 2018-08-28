@@ -6,7 +6,11 @@ const userSchema = new Schema({
   email: String,
   bookmarks: [
     { type: Schema.Types.ObjectId, ref: 'Book' }
-  ]
+  ],
+  firstName: String,
+  lastName: String,
+  city: String,
+  country: String,
 });
 
 mongoose.model('User', userSchema);

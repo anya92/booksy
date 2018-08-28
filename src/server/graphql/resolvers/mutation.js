@@ -13,6 +13,17 @@ const Book = mongoose.model('Book');
 const Request = mongoose.model('Request');
 
 export default {
+  updateUser: async (root, args, context) => {
+    const userId = args.id;
+    try {
+      const user = await User.findByIdAndUpdate(userId, { ...args }, { new: true });
+      sendNotification(userId, 'success', 'Successfully updated your profile.');
+      return user;
+    } catch (error) {
+      sendNotification(userId, 'error', `${error}`);
+    }
+  },
+
   addBook: async (root, args, context) => {
     const userId = context.user.id;
     try {

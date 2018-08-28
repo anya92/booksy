@@ -1,5 +1,13 @@
 export default `
   type Mutation {
+    updateUser(
+      id: ID!
+      firstName: String
+      lastName: String
+      city: String
+      country: String
+    ): User
+
     addBook(
       title: String!
       author: String!
