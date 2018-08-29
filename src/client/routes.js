@@ -37,6 +37,11 @@ const AsyncBookmarks = Loadable({
   loading,
 });
 
+const AsyncAccount = Loadable({
+  loader: () => import('./pages/Account'),
+  loading,
+});
+
 export default [{
   component: App,
   routes: [
@@ -65,5 +70,9 @@ export default [{
       path: '/bookmarks',
       component: requireAuth(AsyncBookmarks),
     },
+    {
+      path: '/account',
+      component: requireAuth(AsyncAccount),
+    }
   ]
 }];
