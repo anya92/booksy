@@ -1,5 +1,5 @@
 import 'babel-polyfill';
-import React from 'react';
+import React, { Component } from 'react';
 import { hydrate } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
@@ -11,6 +11,7 @@ import { HttpLink } from 'apollo-link-http';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 import Loadable from 'react-loadable';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import routes from './routes';
 
@@ -43,15 +44,39 @@ const apolloClient = new ApolloClient({
     dataIdFromObject: o => o.id,
     connectToDevtools: true,
   }).restore(window.__APOLLO_STATE__),
-}); 
+});
+
+const theme = createMuiTheme({
+  palette: {
+    type: 'light',
+  },
+});
+
+class Main extends Component {
+  componentDidMount = () => {
+    const jssStyles = document.getElementById('jss-server-side');
+    if (jssStyles && jssStyles.parentNode) {
+      jssStyles.parentNode.removeChild(jssStyles);
+    }
+  }
+  
+  render() {
+    return (
+      <ApolloProvider client={apolloClient}>
+        <BrowserRouter>
+          <div>{renderRoutes(routes)}</div>
+        </BrowserRouter>
+      </ApolloProvider>
+    );
+  }
+}
+
 
 Loadable.preloadReady().then(() => {
   hydrate(
-    <ApolloProvider client={apolloClient}>
-      <BrowserRouter>
-        <div>{ renderRoutes(routes) }</div>
-      </BrowserRouter>
-    </ApolloProvider>, 
+    <MuiThemeProvider theme={theme}>
+      <Main />
+    </MuiThemeProvider>, 
     document.getElementById('root')
   );
 });

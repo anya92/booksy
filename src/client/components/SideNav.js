@@ -101,7 +101,7 @@ class SideNavigation extends Component {
   }
 
   render() {
-    const { auth, classes, mobileOpen } = this.props;
+    const { auth, classes, mobileOpen, toggleDrawer, theme } = this.props;
     
     let numberOfNotAcceptedRequests;
     if (auth) {
@@ -173,7 +173,9 @@ class SideNavigation extends Component {
         <Hidden mdUp>
           <Drawer
             variant="temporary"
+            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
+            onClose={toggleDrawer}
             ModalProps={{
               keepMounted: true,
             }}
@@ -200,4 +202,4 @@ export default compose(
     name: 'fromUser', 
     skip: ({ auth }) => !auth,
   }),
-)(withStyles(styles)(SideNavigation));
+)(withStyles(styles, { withTheme: true })(SideNavigation));

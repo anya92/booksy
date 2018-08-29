@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { renderRoutes } from 'react-router-config';
 import { graphql } from 'react-apollo';
 import { ThemeProvider } from 'styled-components';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import { AUTH_QUERY } from '../graphql/queries';
 
@@ -14,25 +13,9 @@ import { SidePanelProvider } from '../components/SidePanelContext';
 import theme from '../styled/theme';
 import Container from '../styled/Container';
 
-const muiTheme = createMuiTheme({
-  palette: {
-    // primary: green,
-    // accent: red,
-    type: 'light',
-  },
-});
-
 class App extends Component {
   state = {
     mobileOpen: false,
-  }
-
-  componentDidMount() {
-    // Remove the server-side injected CSS.
-    const jssStyles = document.getElementById('jss-server-side');
-    if (jssStyles && jssStyles.parentNode) {
-      jssStyles.parentNode.removeChild(jssStyles);
-    }
   }
 
   handleDrawerToggle = () => {
@@ -49,7 +32,7 @@ class App extends Component {
       <ThemeProvider theme={theme}>
         <SidePanelProvider auth={data.auth}>
           <Header auth={data.auth} toggleDrawer={this.handleDrawerToggle} />
-          <SideNav auth={data.auth} mobileOpen={this.state.mobileOpen} />
+          <SideNav auth={data.auth} mobileOpen={this.state.mobileOpen} toggleDrawer={this.handleDrawerToggle} />
           <Container>
             { data.auth && <Notifications userId={data.auth.id} /> }
             { renderRoutes(route.routes, { auth: data.auth }) }
