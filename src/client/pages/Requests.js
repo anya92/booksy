@@ -48,7 +48,7 @@ const Thead = styled.thead`
 class Request extends Component {
 
   componentDidMount() {
-    document.getElementById('requests-length').style.background = '#DDD';
+    // document.getElementById('requests-length').style.background = '#DDD';
   }
 
   acceptRequest(id) {

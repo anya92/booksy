@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const FETCH_USER_DATA_QUERY = gql`
   query {
@@ -39,7 +41,7 @@ class Account extends Component {
       <form>
         <div>
           <label htmlFor="name">Name</label>
-          <input type="text" id="name" />
+          <Input type="text" id="name" />
         </div>
         <div>
           <label htmlFor="email">Email</label>

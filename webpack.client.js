@@ -35,7 +35,7 @@ const config = {
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(['public']),
+    // new CleanWebpackPlugin(['public']),
     new ReactLoadablePlugin({
       filename: './public/react-loadable.json',
     }),

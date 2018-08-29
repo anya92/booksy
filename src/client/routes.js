@@ -71,7 +71,7 @@ export default [{
       component: requireAuth(AsyncBookmarks),
     },
     {
-      path: '/account',
+      path: '/settings',
       component: requireAuth(AsyncAccount),
     }
   ]

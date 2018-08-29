@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import Input from '@material-ui/core/Input';
+import SearchIcon from '@material-ui/icons/Search';
 
 import { Consumer } from './SidePanelContext';
 
@@ -27,21 +29,23 @@ class Search extends Component {
     };
   }
 
-  componentDidMount() {
-    document.body.addEventListener('click', e => {
-      if (e.target.classList.contains('search__result') || e.target.parentElement.classList.contains('search__result')) {
-        return;
-      }
-      if (e.target == this.input) {
-        return;
-      }
+  onClickEvent = e => {
+    if (e.target.classList.contains('search__result') || e.target.parentElement.classList.contains('search__result')) {
+      return;
+    }
+    if (e.target == this.input) {
+      return;
+    }
 
-      this.setState(() => ({ displayResults: false }));
-    });
+    this.setState(() => ({ displayResults: false }));
+  }
+
+  componentDidMount() {
+    document.body.addEventListener('click', this.onClickEvent);
   }
 
   componentWillUnmount() {
-    document.body.removeEventListener('click');
+    document.body.removeEventListener('click', this.onClickEvent);
   }
 
   handleInputChange(e) {
@@ -93,22 +97,38 @@ class Search extends Component {
 
   render() {
     return (
-      <Navbar.SearchBar id="search-bar">
+      <div id="search-bar" style={{
+        background: 'rgba(255, 255, 255, 0.15)',
+        display: 'flex',
+        borderRadius: '2px',
+        margin: '0 10px',
+      }}>
         <Consumer>
           {(context) => (
             <React.Fragment>
-              <Navbar.SearchInput>
-                <i className="fa fa-search" />
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '2px 5px',
+              }}>
+                <SearchIcon style={{ margin: '0 20px' }} />
                 <input
                   ref={ref => (this.input = ref)}
-                  type="text" 
-                  placeholder="Search books"
+                  type="search"
+                  placeholder="Search..."
                   value={this.state.search}
                   onChange={e => this.handleInputChange(e)}
                   onKeyUp={e => this.handleInputKeyUp(e, context)}
                   onFocus={() => this.setState(() => ({ displayResults: true }))}
+                  style={{
+                    color: '#FFF',
+                    width: '120px',
+                    border: 'none',
+                    background: 'transparent',
+                    padding: '2px 8px',
+                  }}
                 />
-              </Navbar.SearchInput>
+              </div>
               <Navbar.Icon 
                 className="fa fa-times"
                 onClick={() => {
@@ -138,7 +158,7 @@ class Search extends Component {
             </React.Fragment>
           )}
         </Consumer>
-      </Navbar.SearchBar>
+      </div>
     )
   }
 }

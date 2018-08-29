@@ -131,6 +131,7 @@ export const SearchResults = styled.div`
   top: 100%;
   box-shadow: 0 0 10px rgba(0, 0, 0, .2);
   z-index: 5;
+  color: #333;
 `;
 
 export const SearchResult = styled.div`

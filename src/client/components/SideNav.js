@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { NavLink } from 'react-router-dom';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import { withStyles } from '@material-ui/core/styles';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import Badge from '@material-ui/core/Badge';
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
 
 import {
   FETCH_REQUESTS_TO_USER_QUERY,
@@ -12,12 +23,31 @@ import {
   REQUEST_ACCEPTED_SUBSCRIPTION,
 } from '../graphql/subscriptions';
 
-import * as SideNav from '../styled/SideNav';
+// import * as SideNav from '../styled/SideNav';
 
 const categories = ["Science fiction", "Drama", "Fiction", "Romance", "Horror", "Health", "Travel", "Children's", "Science", "History", "Poetry", "Comics", "Fantasy", "Biographies", "Other"];
 
+const styles = theme => ({
+  list: {
+    width: 200,
+  },
+  toolbar: theme.mixins.toolbar,
+  link: {
+    textDecoration: 'none',
+  },
+  active: {
+    background: '#eee'
+  },
+  nested: {
+    paddingLeft: theme.spacing.unit * 4,
+  },
+});
+
 class SideNavigation extends Component {
 
+  state = {
+    categoriesOpen: false,
+  }
   componentDidMount() {
     if (this.props.auth) {
       this.props.toUser.subscribeToMore({
@@ -66,6 +96,10 @@ class SideNavigation extends Component {
     document.getElementById('side-nav').classList.remove('open');
   }
 
+  toggleCategoriesList = () => {
+    this.setState(prevState => ({ categoriesOpen: !prevState.categoriesOpen }));
+  }
+
   render() {
     const { auth } = this.props;
     let numberOfNotAcceptedRequests;
@@ -73,72 +107,69 @@ class SideNavigation extends Component {
       const { requestsToUser } = this.props.toUser;
       numberOfNotAcceptedRequests = requestsToUser.filter(request => !request.accepted).length;
     }
+    const { classes } = this.props;
+
     return (
-      <SideNav.Nav id="side-nav">
+      <Drawer variant="permanent" style={{
+        top: '64px'
+      }}>
         {
-          auth ? (
-            <div>
-              <SideNav.UserInfo>
-                <SideNav.Username>{auth.name}</SideNav.Username>
-                <SideNav.Email>{auth.email}</SideNav.Email>
-              </SideNav.UserInfo>
-              <SideNav.AuthLinks>
-                <NavLink 
-                  onClick={() => this.closeSideNav()} 
-                  activeClassName="active" 
-                  to="/my-shelf"
-                >
-                  My shelf
+          auth
+          && (
+            <React.Fragment>
+              <div className={classes.toolbar} />
+              <List className={classes.list}>
+                <NavLink to="/my-shelf" className={classes.link}>
+                  <ListItem button>
+                    <ListItemText primary="My shelf" />
+                  </ListItem>
                 </NavLink>
-                <NavLink 
-                  onClick={() => this.closeSideNav()} 
-                  activeClassName="active" 
-                  to="/add"
-                >
-                  Add a new book
+                <NavLink to="/add" className={classes.link}>
+                  <ListItem button>
+                    <ListItemText primary="Add a new book" />
+                  </ListItem>
                 </NavLink>
-                <NavLink 
-                  onClick={() => this.closeSideNav()} 
-                  activeClassName="active" 
-                  to="/requests"
-                >
-                  Requests 
-                  <span id="requests-length" style={{ background: '#DDD', padding: '8px' }}>
-                    { numberOfNotAcceptedRequests }
-                  </span>
+                <NavLink to="/requests" className={classes.link}>
+                  <ListItem button>
+                    <Badge color="primary" badgeContent={numberOfNotAcceptedRequests}>
+                      <ListItemText primary="Book requests" />
+                    </Badge>
+                  </ListItem>
                 </NavLink>
-                <NavLink 
-                  onClick={() => this.closeSideNav()} 
-                  activeClassName="active" 
-                  to="/account"
-                >
-                  Settings
+                <NavLink to="/settings" className={classes.link}>
+                  <ListItem button>
+                    <ListItemText primary="Account" />
+                  </ListItem>
                 </NavLink>
-                <NavLink 
-                  onClick={() => this.closeSideNav()} 
-                  activeClassName="active" 
-                  to="/bookmarks"
-                >
-                  Bookmarks
+                <NavLink to="/bookmarks" className={classes.link}>
+                  <ListItem button>
+                    <ListItemText primary="Bookmarks" />
+                  </ListItem>
                 </NavLink>
-                <a href="/auth/logout">Logout</a>
-              </SideNav.AuthLinks>
-            </div>  
-          ) : (
-            <SideNav.AuthLinks>
-              <a href="/auth/google">Login with Google</a>
-            </SideNav.AuthLinks>
+              </List>
+              <Divider />
+            </React.Fragment>
           )
         }
-        <SideNav.Categories>
-          <h4>Categories</h4>
-          {
-            categories.map((category, i) => (
-              <div key={i}>{category}</div>
-            ))
-          }
-        </SideNav.Categories>
-      </SideNav.Nav>
+        { !auth && <div className={classes.toolbar} /> }
+        <List>
+          <ListItem button onClick={this.toggleCategoriesList}>
+            <ListItemText primary="Book Categories" />
+            { this.state.categoriesOpen ? <ExpandLess /> : <ExpandMore /> }
+          </ListItem>
+          <Collapse in={this.state.categoriesOpen} timeout="auto" unmountOnExit>
+            <List component="div">
+              {
+                categories.map((category, i) => (
+                  <ListItem button key={i}>
+                    <ListItemText secondary={category} />
+                  </ListItem>
+                ))
+              }
+            </List>
+          </Collapse>
+        </List>
+      </Drawer>
     );
   }
 };
@@ -152,4 +183,4 @@ export default compose(
     name: 'fromUser', 
     skip: ({ auth }) => !auth,
   }),
-)(SideNavigation);
+)(withStyles(styles)(SideNavigation));
