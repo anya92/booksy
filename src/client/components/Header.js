@@ -8,12 +8,17 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { withStyles } from '@material-ui/core/styles';
 // import * as Navbar from '../styled/Header';
-import Search from './Search';
+// import Search from './Search';
 
 const styles = theme => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-  }
+  },
+  navIconHide: {
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
 })
 
 class Navbar extends Component {
@@ -22,16 +27,18 @@ class Navbar extends Component {
   }
 
   render() {
-    const { auth, classes } = this.props;
+    const { auth, classes, toggleDrawer } = this.props;
 
     return (
-      <div style={{
-        flexGrow: 1,
-        zIndex: 1200,
-      }}>
+      <div>
         <AppBar className={classes.appBar}>
           <Toolbar>
-            <IconButton color="inherit" aria-label="Menu">
+            <IconButton 
+              color="inherit" 
+              aria-label="Menu"
+              onClick={toggleDrawer}
+              className={classes.navIconHide} 
+            >
               <MenuIcon />
             </IconButton>
             <Typography variant="title" style={{ flexGrow: 1 }}>

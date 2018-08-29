@@ -7,11 +7,11 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import { withStyles } from '@material-ui/core/styles';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import Badge from '@material-ui/core/Badge';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import Hidden from '@material-ui/core/Hidden';
 
 import {
   FETCH_REQUESTS_TO_USER_QUERY,
@@ -101,23 +101,20 @@ class SideNavigation extends Component {
   }
 
   render() {
-    const { auth } = this.props;
+    const { auth, classes, mobileOpen } = this.props;
+    
     let numberOfNotAcceptedRequests;
     if (auth) {
       const { requestsToUser } = this.props.toUser;
       numberOfNotAcceptedRequests = requestsToUser.filter(request => !request.accepted).length;
     }
-    const { classes } = this.props;
 
-    return (
-      <Drawer variant="permanent" style={{
-        top: '64px'
-      }}>
+    const drawer = (
+      <div>
         {
-          auth
-          && (
+          auth && (
             <React.Fragment>
-              <div className={classes.toolbar} />
+              { !mobileOpen && <div className={classes.toolbar} /> }
               <List className={classes.list}>
                 <NavLink to="/my-shelf" className={classes.link}>
                   <ListItem button>
@@ -151,11 +148,11 @@ class SideNavigation extends Component {
             </React.Fragment>
           )
         }
-        { !auth && <div className={classes.toolbar} /> }
+        { (!auth && !mobileOpen) && <div className={classes.toolbar} />}
         <List>
           <ListItem button onClick={this.toggleCategoriesList}>
             <ListItemText primary="Book Categories" />
-            { this.state.categoriesOpen ? <ExpandLess /> : <ExpandMore /> }
+            {this.state.categoriesOpen ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={this.state.categoriesOpen} timeout="auto" unmountOnExit>
             <List component="div">
@@ -169,7 +166,27 @@ class SideNavigation extends Component {
             </List>
           </Collapse>
         </List>
-      </Drawer>
+      </div>
+    )
+    return (
+      <React.Fragment>
+        <Hidden mdUp>
+          <Drawer
+            variant="temporary"
+            open={mobileOpen}
+            ModalProps={{
+              keepMounted: true,
+            }}
+          >
+            { drawer }
+          </Drawer>
+        </Hidden>
+        <Hidden smDown>
+          <Drawer variant="permanent" open>
+            { drawer }
+          </Drawer>
+        </Hidden>
+      </React.Fragment>
     );
   }
 };

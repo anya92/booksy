@@ -23,6 +23,10 @@ const muiTheme = createMuiTheme({
 });
 
 class App extends Component {
+  state = {
+    mobileOpen: false,
+  }
+
   componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.getElementById('jss-server-side');
@@ -31,6 +35,10 @@ class App extends Component {
     }
   }
 
+  handleDrawerToggle = () => {
+    this.setState(prevState => ({ mobileOpen: !prevState.mobileOpen }));
+  };
+
   render() {
     const { data, route } = this.props;
 
@@ -38,17 +46,16 @@ class App extends Component {
     if (data.error) return <div>Error</div>;
   
     return (
-
-        <ThemeProvider theme={theme}>
-          <SidePanelProvider auth={data.auth}>
-            <Header auth={data.auth} />
-            <SideNav auth={data.auth} />
-            <Container>
-              { data.auth && <Notifications userId={data.auth.id} /> }
-              { renderRoutes(route.routes, { auth: data.auth }) }
-            </Container>
-          </SidePanelProvider>
-        </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <SidePanelProvider auth={data.auth}>
+          <Header auth={data.auth} toggleDrawer={this.handleDrawerToggle} />
+          <SideNav auth={data.auth} mobileOpen={this.state.mobileOpen} />
+          <Container>
+            { data.auth && <Notifications userId={data.auth.id} /> }
+            { renderRoutes(route.routes, { auth: data.auth }) }
+          </Container>
+        </SidePanelProvider>
+      </ThemeProvider>
     );
   }
 }
