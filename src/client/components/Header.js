@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { withStyles } from '@material-ui/core/styles';
 // import * as Navbar from '../styled/Header';
-// import Search from './Search';
+import SearchBar from './SearchBar';
 
 const styles = theme => ({
   appBar: {
@@ -41,13 +41,13 @@ class Navbar extends Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="title" style={{ flexGrow: 1 }}>
+            <Typography variant="headline" style={{ flexGrow: 1, fontFamily: 'Pacifico' }}>
               <Link to="/" style={{
                 color: '#FFF',
                 textDecoration: 'none',
               }}>Booksy</Link>
             </Typography>
-            {/* <Search /> */}
+            <SearchBar />
             {
               !auth
               ? (
