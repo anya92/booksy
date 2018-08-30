@@ -27,6 +27,9 @@ export default (req, client, context) => {
 
   const theme = createMuiTheme({
     palette: {
+      primary: {
+        main: '#0097e6'
+      },
       type: 'light'
     },
   });
@@ -63,7 +66,7 @@ export default (req, client, context) => {
           <title>booksy</title>
           <!--<link rel="stylesheet" href="https://unpkg.com/modern-normalize@0.4.0/modern-normalize.css">
           <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
-          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,900">
           <link href="https://fonts.googleapis.com/css?family=Pacifico|Nunito:300,400:700|Open+Sans:300,400,700" rel="stylesheet">
           <!--<link rel="stylesheet" href="modern-normalize.css"/>-->
           ${styleTags}

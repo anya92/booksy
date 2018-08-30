@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import { NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
@@ -28,18 +29,13 @@ import {
 const categories = ["Science fiction", "Drama", "Fiction", "Romance", "Horror", "Health", "Travel", "Children's", "Science", "History", "Poetry", "Comics", "Fantasy", "Biographies", "Other"];
 
 const styles = theme => ({
-  list: {
-    width: 200,
+  drawer: {
+    background: '#eee',
+    width: 240,
   },
   toolbar: theme.mixins.toolbar,
   link: {
     textDecoration: 'none',
-  },
-  active: {
-    background: '#eee'
-  },
-  nested: {
-    paddingLeft: theme.spacing.unit * 4,
   },
 });
 
@@ -47,7 +43,9 @@ class SideNavigation extends Component {
 
   state = {
     categoriesOpen: false,
+    activeLink: '',
   }
+
   componentDidMount() {
     if (this.props.auth) {
       this.props.toUser.subscribeToMore({
@@ -101,8 +99,8 @@ class SideNavigation extends Component {
   }
 
   render() {
-    const { auth, classes, mobileOpen, toggleDrawer, theme } = this.props;
-    
+    const { auth, classes, mobileOpen, toggleDrawer, theme, location: { pathname } } = this.props;
+
     let numberOfNotAcceptedRequests;
     if (auth) {
       const { requestsToUser } = this.props.toUser;
@@ -117,29 +115,28 @@ class SideNavigation extends Component {
               { !mobileOpen && <div className={classes.toolbar} /> }
               <List className={classes.list}>
                 <NavLink to="/my-shelf" className={classes.link}>
-                  <ListItem button>
+                  <ListItem button selected={pathname == '/my-shelf'}>
                     <ListItemText primary="My shelf" />
                   </ListItem>
                 </NavLink>
                 <NavLink to="/add" className={classes.link}>
-                  <ListItem button>
+                  <ListItem button selected={pathname == '/add'}>
                     <ListItemText primary="Add a new book" />
                   </ListItem>
                 </NavLink>
                 <NavLink to="/requests" className={classes.link}>
-                  <ListItem button>
-                    <Badge color="primary" badgeContent={numberOfNotAcceptedRequests}>
-                      <ListItemText primary="Book requests" />
-                    </Badge>
+                  <ListItem button selected={pathname == '/requests'}>
+                    <ListItemText primary="Book requests" />
+                    <Badge color="primary" badgeContent={numberOfNotAcceptedRequests}><div /></Badge>
                   </ListItem>
                 </NavLink>
                 <NavLink to="/settings" className={classes.link}>
-                  <ListItem button>
+                  <ListItem button selected={pathname == '/settings'}>
                     <ListItemText primary="Account" />
                   </ListItem>
                 </NavLink>
                 <NavLink to="/bookmarks" className={classes.link}>
-                  <ListItem button>
+                  <ListItem button selected={pathname == '/bookmarks'}>
                     <ListItemText primary="Bookmarks" />
                   </ListItem>
                 </NavLink>
@@ -179,12 +176,13 @@ class SideNavigation extends Component {
             ModalProps={{
               keepMounted: true,
             }}
+            classes={{ paper: classes.drawer }}
           >
             { drawer }
           </Drawer>
         </Hidden>
         <Hidden smDown>
-          <Drawer variant="permanent" open>
+          <Drawer variant="permanent" open classes={{ paper: classes.drawer }}>
             { drawer }
           </Drawer>
         </Hidden>
@@ -202,4 +200,4 @@ export default compose(
     name: 'fromUser', 
     skip: ({ auth }) => !auth,
   }),
-)(withStyles(styles, { withTheme: true })(SideNavigation));
+)(withRouter(withStyles(styles, { withTheme: true })(SideNavigation)));
