@@ -3,8 +3,7 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import SearchIcon from '@material-ui/icons/Search';
 import Hidden from '@material-ui/core/Hidden';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import styled from 'styled-components';
 
 import { Consumer } from './SidePanelContext';
@@ -49,7 +48,6 @@ class SearchBar extends Component {
     search: '',
     results: [],
     displayResults: false,
-    selectedIndex: 1,
   }
 
   onClickEvent = e => {
@@ -59,7 +57,6 @@ class SearchBar extends Component {
     if (e.target == this.input) {
       return;
     }
-
     this.setState(() => ({ displayResults: false }));
   }
 
@@ -80,14 +77,14 @@ class SearchBar extends Component {
     // ENTER_KEY_CODE = 13
     // UP_ARROW_KEY_CODE = 38
     // DOWN_ARROW_KEY_CODE = 40
-
+    
     if (![13, 38, 40].includes(e.keyCode)) {
       return;
     }
     const results = document.querySelectorAll('.search__result');
-    const currentActiveResult = document.querySelector('.active');
+    const currentActiveResult = document.querySelector('.search__result.active');
     let nextActiveResult;
-
+    
     if (e.keyCode == 40 && currentActiveResult) {
       nextActiveResult = currentActiveResult.nextElementSibling || results[0];
     } else if (e.keyCode == 40) {
@@ -142,15 +139,6 @@ class SearchBar extends Component {
                     onFocus={() => this.setState(() => ({ displayResults: true }))}
                   />
                 </InputContainer>
-                {/* <Navbar.Icon 
-                  className="fa fa-times"
-                  onClick={() => {
-                    document.getElementById('search-bar').classList.add('hide');
-                    setTimeout(() => (
-                      document.getElementById('search-bar').classList.remove('display')
-                    ), 500);
-                  }}
-                /> */}
                 {
                   this.state.displayResults && 
                   <Navbar.SearchResults innerRef={ref => (this.searchResults = ref)}>
@@ -161,8 +149,10 @@ class SearchBar extends Component {
                           onClick={() => context.showPanel(book.id)}
                           className="search__result"
                           id={book.id}>
-                          <div>{book.title}</div>
-                          <div>{book.author}</div>
+                          <ListItemText
+                            primary={book.title}
+                            secondary={book.author}
+                          />
                         </Navbar.SearchResult>
                       ))
                     }
