@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import { withStyles } from '@material-ui/core/styles';
 import { toast } from 'react-toastify';
+import TextField from '@material-ui/core/TextField';
 
 import * as Form from '../styled/Form';
 import { ButtonsContainer, Button } from '../styled/Buttons';
+
+const styles = () => ({
+  textInput: {
+
+  }
+});
 
 class BookForm extends Component {
   constructor(props) {
@@ -24,23 +32,23 @@ class BookForm extends Component {
     let timeout = this.timeout = null;
   }
 
-  googleBooksAPICall() {    
-    clearTimeout(this.timeout);
+  // googleBooksAPICall() {    
+  //   clearTimeout(this.timeout);
 
-    this.timeout = setTimeout(async () => {
-      if (this.state.title) {
-        const res = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${this.state.title}&maxResults=5`);
-        const apiResults = res.data.items.map(({ volumeInfo: result }) => ({
-          title: result.title,
-          author: result.authors && result.authors[0],
-          image: result.imageLinks && result.imageLinks.thumbnail,
-          description: result.description,
-          categories: result.categories,
-        }));
-        this.setState({ apiResults });
-      }
-    }, 500);
-  }
+  //   this.timeout = setTimeout(async () => {
+  //     if (this.state.title) {
+  //       const res = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${this.state.title}&maxResults=5`);
+  //       const apiResults = res.data.items.map(({ volumeInfo: result }) => ({
+  //         title: result.title,
+  //         author: result.authors && result.authors[0],
+  //         image: result.imageLinks && result.imageLinks.thumbnail,
+  //         description: result.description,
+  //         categories: result.categories,
+  //       }));
+  //       this.setState({ apiResults });
+  //     }
+  //   }, 500);
+  // }
 
   handleInputChange(e, type) {
     const { value } = e.target;
@@ -63,18 +71,23 @@ class BookForm extends Component {
   render() {
     const categoryOptions = ["Science fiction", "Drama", "Fiction", "Romance", "Horror", "Health", "Travel", "Children's", "Science", "History", "Poetry", "Comics", "Fantasy", "Biographies", "Other"]; // todo alphabetical order
     return (
-      <Form.Grid> 
+      <div> 
         <form onSubmit={e => this.onSubmit(e)}>
           {/* Title */}
-          <Form.Element>
-            <label>Title</label>
-            <input 
-              type="text" 
+          {/* <Form.Element> */}
+            {/* <label>Title</label> */}
+            <TextField
+              id="title"
+              label="Title"
+              fullWidth
+              required
+              margin="normal"
+              // type="text" 
               value={this.state.title}
               onChange={e => this.handleInputChange(e, 'title')}
               // onKeyUp={() => this.googleBooksAPICall()}
             />
-          </Form.Element>
+          {/* </Form.Element> */}
           {/* Author */}
           <Form.Element>
             <label>Author</label>
@@ -161,9 +174,9 @@ class BookForm extends Component {
             <Button type="submit">Save</Button>
           </ButtonsContainer>
         </form>
-      </Form.Grid>
+      </div>
     );
   }
 }
 
-export default BookForm;
+export default withStyles(styles)(BookForm);

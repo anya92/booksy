@@ -3,6 +3,7 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import SearchIcon from '@material-ui/icons/Search';
 import Hidden from '@material-ui/core/Hidden';
+import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import styled from 'styled-components';
 
@@ -95,6 +96,7 @@ class SearchBar extends Component {
       nextActiveResult = results[results.length - 1];
     } else if (e.keyCode == 13) {
       context.showPanel(currentActiveResult.id);
+      this.setState(() => ({ displayResults: false }))
       return;
     }
     if (currentActiveResult) {
@@ -146,13 +148,11 @@ class SearchBar extends Component {
                       this.state.results.map(book => (
                         <Navbar.SearchResult 
                           key={book.id} 
-                          onClick={() => context.showPanel(book.id)}
                           className="search__result"
+                          onClick={() => context.showPanel(book.id)}
                           id={book.id}>
-                          <ListItemText
-                            primary={book.title}
-                            secondary={book.author}
-                          />
+                            <div>{book.title}</div>
+                            <div>{book.author}</div>
                         </Navbar.SearchResult>
                       ))
                     }

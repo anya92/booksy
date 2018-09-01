@@ -1,5 +1,6 @@
 import React from 'react';
-import { ApolloProvider, renderToStringWithData } from 'react-apollo';
+import { renderToString } from 'react-dom/server';
+import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { StaticRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import { ServerStyleSheet, StyleSheetManager } from 'styled-components';
@@ -28,7 +29,7 @@ export default (req, client, context) => {
   const theme = createMuiTheme({
     palette: {
       primary: {
-        main: '#0097e6'
+        main: '#34ace0'
       },
       type: 'light'
     },
@@ -36,23 +37,39 @@ export default (req, client, context) => {
 
   const generateClassName = createGenerateClassName();
 
-  const App = (
+  let App = (
     <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-      <ApolloProvider client={client}>
-        <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
-          <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
+      <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
+      <MuiThemeProvider theme={theme} sheetsManager={sheetsManager} disableStylesGeneration={true}>
+          <ApolloProvider client={client}>
             <StyleSheetManager sheet={sheet.instance}>
               <StaticRouter location={req.path} context={context}>
                 <div>{renderRoutes(routes)}</div>
               </StaticRouter>
             </StyleSheetManager>
-          </MuiThemeProvider>
-        </JssProvider>
-      </ApolloProvider>
+          </ApolloProvider>
+        </MuiThemeProvider>
+      </JssProvider>
     </Loadable.Capture>
   );
 
-  return renderToStringWithData(App).then(content => {
+  return getDataFromTree(App).then(() => {
+    App = (
+      <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+        <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
+          <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
+            <ApolloProvider client={client}>
+              <StyleSheetManager sheet={sheet.instance}>
+                <StaticRouter location={req.path} context={context}>
+                  <div>{renderRoutes(routes)}</div>
+                </StaticRouter>
+              </StyleSheetManager>
+            </ApolloProvider>
+          </MuiThemeProvider>
+        </JssProvider>
+      </Loadable.Capture>
+    );
+    const content = renderToString(App);
     let bundles = getBundles(stats, modules);
     const initialState = client.extract();
     const styleTags = sheet.getStyleTags();
