@@ -98,6 +98,7 @@ class BookForm extends Component {
   render() {
     const categoryOptions = ["Biographies", "Children's", "Comics", "Drama", "Fantasy", "Fiction", "Horror", "Poetry", "Romance", "Science fiction", "Other"]; 
     const { classes, theme } = this.props;
+    // TODO tags
     return (
       <div> 
         <form onSubmit={e => this.onSubmit(e)} className={classes.form}>
@@ -213,27 +214,27 @@ class BookForm extends Component {
               />
             </FormGroup>
           </div>
+          <div>
+            <Button
+              variant="contained"
+              size="large"
+              color="secondary"
+              className={classes.button}
+              onClick={this.props.onCancel}  
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              className={classes.button}
+              type="submit"
+            >
+              Save
+            </Button>
+          </div>
         </form>
-        <div>
-          <Button
-            variant="contained"
-            size="large"
-            color="secondary"
-            className={classes.button}
-            onClick={this.props.onCancel}  
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="contained"
-            size="large"
-            color="primary"
-            className={classes.button}
-            type="submit"
-          >
-            Save
-          </Button>
-        </div>
       </div>
     );
   }
