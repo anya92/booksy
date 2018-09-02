@@ -1,16 +1,44 @@
 import React, { Component } from 'react';
-// import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import { toast } from 'react-toastify';
+import Typography from "@material-ui/core/Typography";
 import TextField from '@material-ui/core/TextField';
+import ImageIcon from '@material-ui/icons/Image';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Modal from '@material-ui/core/Modal';
+import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import Button from '@material-ui/core/Button';
 
-import * as Form from '../styled/Form';
-import { ButtonsContainer, Button } from '../styled/Buttons';
-
-const styles = () => ({
-  textInput: {
-
-  }
+const styles = theme => ({
+  form: {
+    display: 'grid',
+    gridGap: '20px',
+    gridTemplateColumns: '1fr',
+    [theme.breakpoints.up('md')]: {
+      gridTemplateColumns: '1fr 1fr',
+    },
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+  },
+  modalContent: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
 });
 
 class BookForm extends Component {
@@ -29,7 +57,7 @@ class BookForm extends Component {
       showBookCover: false,
     };
 
-    let timeout = this.timeout = null;
+    // let timeout = this.timeout = null;
   }
 
   // googleBooksAPICall() {    
@@ -57,7 +85,6 @@ class BookForm extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-    // todo validation 
     const { title, author, image, description, category, toBorrow, toSell } = this.state;
     const book = { title, author, image, description, category, toBorrow, toSell };
 
@@ -69,114 +96,147 @@ class BookForm extends Component {
   }
 
   render() {
-    const categoryOptions = ["Science fiction", "Drama", "Fiction", "Romance", "Horror", "Health", "Travel", "Children's", "Science", "History", "Poetry", "Comics", "Fantasy", "Biographies", "Other"]; // todo alphabetical order
+    const categoryOptions = ["Biographies", "Children's", "Comics", "Drama", "Fantasy", "Fiction", "Horror", "Poetry", "Romance", "Science fiction", "Other"]; 
+    const { classes, theme } = this.props;
     return (
       <div> 
-        <form onSubmit={e => this.onSubmit(e)}>
+        <form onSubmit={e => this.onSubmit(e)} className={classes.form}>
           {/* Title */}
-          {/* <Form.Element> */}
-            {/* <label>Title</label> */}
-            <TextField
-              id="title"
-              label="Title"
-              fullWidth
-              required
-              margin="normal"
-              // type="text" 
-              value={this.state.title}
-              onChange={e => this.handleInputChange(e, 'title')}
-              // onKeyUp={() => this.googleBooksAPICall()}
-            />
-          {/* </Form.Element> */}
+          <TextField
+            id="title"
+            label="Title"
+            required
+            margin="normal"
+            className={classes.textField}
+            value={this.state.title}
+            onChange={e => this.handleInputChange(e, 'title')}
+          />
           {/* Author */}
-          <Form.Element>
-            <label>Author</label>
-            <input
-              type="text" 
-              value={this.state.author}
-              onChange={e => this.handleInputChange(e, 'author')}
-            />
-          </Form.Element>
+          <TextField
+            id="author"
+            label="Author"
+            required
+            className={classes.textField}
+            margin="normal"
+            value={this.state.author}
+            onChange={e => this.handleInputChange(e, 'author')}
+          />
           {/* Book Cover */}
-          <Form.Element>
-            <label>Book Cover</label>
-            <Form.ElementWithAddon>
-              <Form.Addon>https://</Form.Addon>
-              <input
-                type="text"
-                value={this.state.image}
-                onChange={e => this.handleInputChange(e, 'image')}
-              />
-              <Form.Addon 
-                onClick={() => this.setState({ showBookCover: true })}>
-                <i className="fa fa-image" />
-              </Form.Addon>
-            </Form.ElementWithAddon>
-            <Form.BookCoverModal
-              open={this.state.showBookCover}
-            >
-              <img src={this.state.image} alt={this.state.title} />
-              <span onClick={() => this.setState({ showBookCover: false })}>&#x2715;</span>
-            </Form.BookCoverModal> 
-          </Form.Element>
-          {/* Description */}
-          <Form.Element>
-            <label>Description</label>
-            <textarea
-              value={this.state.description}
-              onChange={e => this.handleInputChange(e, 'description')}
-              rows={10}
-              style={{ resize: 'none' }}
-            />
-          </Form.Element>
-          {/* to borrow and/or sell */}
-          <Form.Element>
-            <label>Set your book available to</label>
-            <Form.Checkboxes>
-              <Form.Checkbox>
-                <input
-                  type="checkbox"
-                  id="borrow"
-                  checked={this.state.toBorrow}
-                  onChange={() => this.setState(prevState => ({ toBorrow: !prevState.toBorrow }))}
-                />
-                <label htmlFor="borrow">borrow</label>
-              </Form.Checkbox>             
-              <Form.Checkbox>
-                <input
-                  type="checkbox"
-                  id="sell"
-                  checked={this.state.toSell}
-                  onChange={() => this.setState(prevState => ({ toSell: !prevState.toSell }))}
-                />
-                <label htmlFor="sell">sell</label>
-              </Form.Checkbox>           
-            </Form.Checkboxes>    
-          </Form.Element>
-          {/* Category */}
-          <Form.Element>
-            <label>Category</label>
-            <select
-              id="category"
-              value={this.state.category || 'Choose'}
-              onChange={e => this.handleInputChange(e, 'category')}
-            >
-              <option disabled hidden>Choose</option>
-              {
-                categoryOptions.map((category, i) => (
-                  <option key={i} value={category}>{category}</option>
-                ))
+          <FormControl className={classes.textField} margin="normal">
+            <InputLabel htmlFor="book-cover">Book cover link</InputLabel>
+            <Input 
+              id="book-cover"
+              value={this.state.image}
+              onChange={e => this.handleInputChange(e, 'image')}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="Toggle image visibility"
+                    onClick={() => this.setState({ showBookCover: true })}
+                  >
+                    <ImageIcon />
+                  </IconButton>
+                </InputAdornment>
               }
-            </select>
-          </Form.Element>
-          <ButtonsContainer>
-            <Button danger type="button" onClick={this.props.onCancel}>Cancel</Button>
-            <Button type="submit">Save</Button>
-          </ButtonsContainer>
+            />
+            <Modal
+              open={this.state.showBookCover}
+              onClose={() => this.setState({ showBookCover: false })}
+            >
+              <img
+                src={this.state.image}
+                alt={this.state.title}
+                className={classes.modalContent} />
+            </Modal> 
+          </FormControl>
+          {/* Description */}
+          <TextField
+            id="description"
+            label="Description"
+            className={classes.textField}
+            margin="normal"
+            multiline
+            rows={4}
+            value={this.state.description}
+            onChange={e => this.handleInputChange(e, 'description')}
+          />
+          {/* Category */}
+          <FormControl className={classes.textField}>
+            <InputLabel htmlFor="select-category">Category</InputLabel>
+            <Select
+              value={this.state.category}
+              onChange={e => this.handleInputChange(e, 'category')}
+              input={<Input id="select-category" />}
+            >
+              {categoryOptions.map(category => (
+                <MenuItem
+                  key={category}
+                  value={category}
+                  style={{
+                    fontWeight:
+                      this.state.category === category
+                        ? theme.typography.fontWeightMedium
+                        : theme.typography.fontWeightRegular
+                  }}
+                >
+                  {category}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          {/* to borrow and/or sell */}
+          <div>
+            <Typography variant="body1">Set your book available to</Typography>
+            <FormGroup row className={classes.textField}
+              margin="normal">
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={this.state.toBorrow}
+                    onChange={e => this.setState({ toBorrow: e.target.checked })}
+                    value="toBorrow"
+                    color="primary"
+                  />
+                }
+                label="borrow"
+              />
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={this.state.toSell}
+                    onChange={e => this.setState({ toSell: e.target.checked })}
+                    value="toSell"
+                    color="primary"
+                  />
+                }
+                label="sell"
+              />
+            </FormGroup>
+          </div>
         </form>
+        <div>
+          <Button
+            variant="contained"
+            size="large"
+            color="secondary"
+            className={classes.button}
+            onClick={this.props.onCancel}  
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            size="large"
+            color="primary"
+            className={classes.button}
+            type="submit"
+          >
+            Save
+          </Button>
+        </div>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(BookForm);
+export default withStyles(styles, { withTheme: true })(BookForm);

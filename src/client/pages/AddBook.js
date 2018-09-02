@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { graphql } from 'react-apollo';
+import Typography from "@material-ui/core/Typography";
 
 import {
   FETCH_USER_BOOKS_QUERY, 
@@ -31,7 +32,7 @@ class AddBook extends Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Add a new book</h1>
+        <Typography variant="display1">Add a new book</Typography>
         <BookForm
           onSubmit={this.handleSubmit.bind(this)}
           onCancel={this.handleCancel.bind(this)}
