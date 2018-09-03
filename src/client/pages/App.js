@@ -9,6 +9,7 @@ import Header from '../components/Header';
 import SideNav from '../components/SideNav';
 import Notifications from '../components/Notifications';
 import { BookPanelProvider } from '../components/BookPanel/BookPanelContext';
+import ErrorBoundry from '../components/ErrorBoundry';
 
 import theme from '../styled/theme';
 import Container from '../styled/Container';
@@ -30,14 +31,16 @@ class App extends Component {
   
     return (
       <ThemeProvider theme={theme}>
-        <BookPanelProvider auth={data.auth}>
-          <Header auth={data.auth} toggleDrawer={this.handleDrawerToggle} />
-          <SideNav auth={data.auth} mobileOpen={this.state.mobileOpen} toggleDrawer={this.handleDrawerToggle} />
-          <Container>
-            { data.auth && <Notifications userId={data.auth.id} /> }
-            { renderRoutes(route.routes, { auth: data.auth }) }
-          </Container>
-        </BookPanelProvider>
+        {/* <ErrorBoundry> */}
+          <BookPanelProvider auth={data.auth}>
+            <Header auth={data.auth} toggleDrawer={this.handleDrawerToggle} />
+            <SideNav auth={data.auth} mobileOpen={this.state.mobileOpen} toggleDrawer={this.handleDrawerToggle} />
+            <Container>
+              { data.auth && <Notifications userId={data.auth.id} /> }
+              { renderRoutes(route.routes, { auth: data.auth }) }
+            </Container>
+          </BookPanelProvider>
+        {/* </ErrorBoundry> */}
       </ThemeProvider>
     );
   }
