@@ -82,10 +82,7 @@ export default (req, client, context) => {
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>booksy</title>
           <link rel="stylesheet" href="https://unpkg.com/modern-normalize@0.4.0/modern-normalize.css">
-          <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">-->
-          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,900">
-          <link href="https://fonts.googleapis.com/css?family=Pacifico|Nunito:300,400:700|Open+Sans:300,400,700" rel="stylesheet">
-          <!--<link rel="stylesheet" href="modern-normalize.css"/>-->
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Pacifico|Nunito:300,400:700">
           ${styleTags}
         </head>
         <body>
@@ -99,7 +96,7 @@ export default (req, client, context) => {
               return `<script src="/${bundle.file}"></script>`
             }).join('\n')
           }
-          <script src="/${manifest["main.js"]}"></script>
+          <script src="/${manifest["main.js"]}" defer></script>
           <script src="/${manifest["vendor.js"]}"></script>
         </body>
       </html>

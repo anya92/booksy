@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import styled from 'styled-components';
 
-import { Consumer } from './SidePanelContext';
+import { Consumer } from './BookPanel/BookPanelContext';
 
 import * as Navbar from '../styled/Header';
 

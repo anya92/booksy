@@ -5,6 +5,8 @@ import App from './pages/App';
 import requireAuth from './HOC/requireAuth';
 import requireBookOwner from './HOC/requireBookOwner';
 
+import EditBook from './pages/EditBook';
+
 const loading = () => null;
 
 const AsyncHome = Loadable({
@@ -22,10 +24,10 @@ const AsyncAddBook = Loadable({
   loading,
 });
 
-const AsyncEditBook = Loadable({
-  loader: () => import('./pages/EditBook'),
-  loading,
-});
+// const AsyncEditBook = Loadable({
+//   loader: () => import('./pages/EditBook'),
+//   loading,
+// });
 
 const AsyncRequests = Loadable({
   loader: () => import('./pages/Requests'),
@@ -59,8 +61,8 @@ export default [{
       component: requireAuth(AsyncAddBook),
     },
     {
-      path: '/edit/:id',
-      component: requireBookOwner(AsyncEditBook),
+      path: '/edit/:bookId',
+      component: requireBookOwner(EditBook),
     },
     {
       path: '/requests',

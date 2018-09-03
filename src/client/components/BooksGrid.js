@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import FilterAndSort from './FilterAndSort';
 import * as Grid from '../styled/BooksGrid';
 
-import { Consumer } from './SidePanelContext';
+import { Consumer } from './BookPanel/BookPanelContext';
 
 class BooksGrid extends Component {
   constructor(props) {

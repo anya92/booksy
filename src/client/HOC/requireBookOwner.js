@@ -14,9 +14,9 @@ export default function requireBookOwner(WrappedComponent) {
       }
     }
   `, {
-    options: ({ match: { params: { id }} }) => { 
+    options: ({ match: { params: { bookId }} }) => { 
       return { 
-        variables: { id },
+        variables: { id: bookId },
       };
     }
   })(class extends Component {

@@ -1,31 +1,5 @@
 import styled from 'styled-components';
 
-export const Background = styled.div`
-  position: fixed;
-  top: 64px;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 3;
-  background: #555;
-  opacity: 0;
-  animation: show .4s ease-out forwards;
-
-  &.hide {
-    animation: hide .4s ease-out forwards;
-  }
-
-  @keyframes show {
-    from { opacity: 0; }
-    to { opacity: 0.8; }
-  }
-
-  @keyframes hide {
-    from { opacity: 0.8; }
-    to { opacity: 0; }
-  }
-`; 
-
 export const Container = styled.div`
   width: 400px;
   max-width: 100%;
@@ -35,11 +9,12 @@ export const Container = styled.div`
   right: 0;
   padding: 20px 25px;
   background: #FFF;
+  color: #333;
+  font-family: Nunito;
   border-top: 1px solid rgba(0, 0, 0, .14);
   z-index: 4;
   overflow-y: scroll;
   animation: slideIn .6s ease-out forwards;
-  font-family: 'Roboto';
 
   &.hide {
     animation: slideOut .6s ease-out forwards;
@@ -54,16 +29,6 @@ export const Container = styled.div`
     from { right: 0px; }
     to { right: -450px; }
   }
-`;
-
-export const Close = styled.div`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 30px;
-  font-weight: 700;  
-  color: #555;
-  cursor: pointer;
 `;
 
 export const Slide = styled.div`
@@ -82,22 +47,23 @@ export const Slide = styled.div`
   }
 `;
 
-export const Bookmark = styled.div`
-  font-size: 1.5rem;
-  cursor: pointer;
-`;
-
-export const BookAuthor = styled.div`
-  text-align: center;
-  font-size: 18px;
-  font-weight: 700;
+export const TopIcons = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  button {
+    color: #333;
+  }
+  #close-bookPanel {
+    justify-self: end;
+  }
 `;
 
 export const CoverAndTitle = styled.div`
-  margin-top: 40px;
+  margin-top: 20px;
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: 120px 1fr;
+  grid-template-columns: 140px 1fr;
+  text-align: center;
   img {
     width: 100%;
     object-fit: cover;
@@ -105,24 +71,26 @@ export const CoverAndTitle = styled.div`
 `;
 
 export const BookTitle = styled.div`
-  margin-top: 40px;
+  font-size: 32px;
+  font-weight: 700;
+`;
+
+export const BookAuthor = styled.div`
+  font-size: 18px;
   text-align: center;
-  font-size: 30px;
   font-weight: 700;
 `;
 
 export const BookCategory = styled.div`
-  margin-top: 10px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #777;
-  text-align: center;
+  margin-top: 30px;
+  font-size: 16px;
+  color: #555;
 `;
 
 export const BookDescription = styled.div`
-  margin-top: 40px;
+  margin-top: 20px;
   font-size: 16px;
-  color: #555;
+  color: #444;
   font-weight: 400;
   line-height: 1.5;
 `;

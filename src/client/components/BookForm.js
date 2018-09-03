@@ -19,6 +19,7 @@ import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
   form: {
+    marginTop: '40px',
     display: 'grid',
     gridGap: '20px',
     gridTemplateColumns: '1fr',

@@ -8,7 +8,7 @@ import { AUTH_QUERY } from '../graphql/queries';
 import Header from '../components/Header';
 import SideNav from '../components/SideNav';
 import Notifications from '../components/Notifications';
-import { SidePanelProvider } from '../components/SidePanelContext';
+import { BookPanelProvider } from '../components/BookPanel/BookPanelContext';
 
 import theme from '../styled/theme';
 import Container from '../styled/Container';
@@ -30,14 +30,14 @@ class App extends Component {
   
     return (
       <ThemeProvider theme={theme}>
-        <SidePanelProvider auth={data.auth}>
+        <BookPanelProvider auth={data.auth}>
           <Header auth={data.auth} toggleDrawer={this.handleDrawerToggle} />
           <SideNav auth={data.auth} mobileOpen={this.state.mobileOpen} toggleDrawer={this.handleDrawerToggle} />
           <Container>
             { data.auth && <Notifications userId={data.auth.id} /> }
             { renderRoutes(route.routes, { auth: data.auth }) }
           </Container>
-        </SidePanelProvider>
+        </BookPanelProvider>
       </ThemeProvider>
     );
   }

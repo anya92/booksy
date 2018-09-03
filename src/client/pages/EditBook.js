@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
+import Typography from "@material-ui/core/Typography";
 
 import {
   FETCH_BOOK_BY_ID_QUERY,
@@ -40,7 +41,7 @@ class EditBook extends Component {
 
     return (
       <React.Fragment>
-        <h1>Edit <em style={{ fontWeight: '300' }}>{book.title}</em></h1>
+        <Typography variant="display1">Edit <strong>{book.title}</strong></Typography>
         <BookForm
           book={book}
           onSubmit={this.handleSubmit.bind(this)}
@@ -53,9 +54,9 @@ class EditBook extends Component {
 
 export default compose(
   graphql(FETCH_BOOK_BY_ID_QUERY, {
-    options: ({ match: { params: { id }} }) => { 
+    options: ({ match: { params: { bookId }} }) => {
       return { 
-        variables: { id },
+        variables: { id: bookId },
       };
     }
   }),
