@@ -1,29 +1,16 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import SortIcon from "@material-ui/icons/Sort";
-import FilterListIcon from "@material-ui/icons/FilterList";
 
-const sortOptions = [
-  'date added (newest)',
-  'date added (oldest)',
-  'title (A-Z)',
-  'title (Z-A)',
-];
+import Filter from './Filter';
+import Sort from './Sort';
 
-const styles = theme => ({
+const styles = () => ({
   container: {
     borderBottom: '1px solid #fff',
     margin: '10px 0',
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',
     gridGap: '20px',
-  },
-  icon: {
-    fontSize: '20px',
-    marginRight: theme.spacing.unit,
   },
 });
 
@@ -103,68 +90,28 @@ class FilterAndSort extends Component {
 
   render() {
     let categories = new Set(['all']);
-    this.props.books.forEach(book => (book.category && categories.add(book.category.toLowerCase())));
+    this.props.books.forEach(book => 
+      (book.category && categories.add(book.category.toLowerCase()))
+    );
 
     const { classes } = this.props;
     return (
       <div className={classes.container}>
-        <div>
-          <Button
-            aria-haspopup="true"
-            aria-controls="category-menu"
-            aria-label="Category"
-            onClick={this.handleCategoryOpen}
-          >
-            <FilterListIcon className={classes.icon} /> Category
-          </Button>
-          <Menu
-            id="category-menu"
-            anchorEl={this.state.categoryAnchorEl}
-            open={Boolean(this.state.categoryAnchorEl)}
-            onClose={this.handleCategoryClose}
-          >
-            {
-              [...categories].map(category => (
-                <MenuItem
-                  key={category}
-                  selected={category === this.state.category}
-                  onClick={() => this.handleCategoryItemClick(category)}
-                >
-                  {category}
-                </MenuItem>
-              ))
-            }
-          </Menu>
-        </div>
-        <div>
-          <Button
-            
-            aria-haspopup="true"
-            aria-controls="sort-menu"
-            aria-label="Sort by"
-            onClick={this.handleSortOpen}
-          >
-            <SortIcon className={classes.icon} /> Sort by
-          </Button>
-          <Menu
-            id="sort-menu"
-            anchorEl={this.state.sortAnchorEl}
-            open={Boolean(this.state.sortAnchorEl)}
-            onClose={this.handleSortClose}
-          >
-            {
-              sortOptions.map(option => (
-                <MenuItem
-                  key={option}
-                  selected={option === this.state.sortBy}
-                  onClick={() => this.handleSortItemClick(option)}
-                >
-                  { option }
-                </MenuItem>
-              ))
-            }
-          </Menu>
-        </div>
+        <Filter
+          anchorEl={this.state.categoryAnchorEl}
+          category={this.state.category}
+          categories={categories}
+          handleOpen={this.handleCategoryOpen}
+          handleClick={this.handleCategoryItemClick}
+          handleClose={this.handleCategoryClose}
+        />
+        <Sort
+          anchorEl={this.state.sortAnchorEl}
+          sortBy={this.state.sortBy}
+          handleOpen={this.handleSortOpen}
+          handleClick={this.handleSortItemClick}
+          handleClose={this.handleSortClose}
+        />
       </div>
     );
   }

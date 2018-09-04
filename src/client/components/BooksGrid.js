@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import FilterAndSort from './FilterAndSort';
+import FilterAndSort from './FilterAndSort/FilterAndSort';
 import * as Grid from '../styled/BooksGrid';
 
 import { Consumer } from './BookPanel/BookPanelContext';
