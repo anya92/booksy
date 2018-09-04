@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
 import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
 
 import { 
   FETCH_REQUESTS_TO_USER_QUERY,
@@ -9,8 +10,6 @@ import {
 } from '../graphql/queries';
 
 import { ACCEPT_REQUEST_MUTATION } from '../graphql/mutations';
-
-import { ButtonsContainer, Button } from '../styled/Buttons';
 
 const Tr = styled.tr`
   margin: 20px 0;
@@ -23,7 +22,6 @@ const Tr = styled.tr`
   td {
     padding: 12px;
     white-space: nowrap;
-
   } 
 `;
 
@@ -34,24 +32,25 @@ const Table = styled.table`
 `;
 
 const Thead = styled.thead`
-  border-top: 1px solid #eee;
   color: #555;
   font-size: 16px;
   line-height: 28px;
   th {
     padding: 12px;
     text-align: left;
-
   }
 `;
 
 class Request extends Component {
 
   componentDidMount() {
-    // document.getElementById('requests-length').style.background = '#DDD';
+    const badge = document.querySelector('#badge span');
+    if (badge) {
+      badge.style.background = '#34ace0';
+    }
   }
 
-  acceptRequest(id) {
+  acceptRequest = id => {
     this.props.acceptRequest({
       variables: {
         id
@@ -65,7 +64,7 @@ class Request extends Component {
   render() {
     const { 
       toUser: { loading: loadingToUser, error: errorToUser, requestsToUser },
-      fromUser: { loading: loadingFromUser, error: errorFromUSer, requestsFromUser }
+      fromUser: { loading: loadingFromUser, error: errorFromUser, requestsFromUser }
    } = this.props;
    
     if (loadingToUser || loadingFromUser) return <div>Loading...</div>
@@ -90,8 +89,8 @@ class Request extends Component {
               {
                 requestsToUser.map(({ id, sender, requestType, book, date, accepted }, i) => (
                   <Tr key={id}>
-                    <td>{i + 1}</td>
-                    <td>{book.title}</td>
+                    <td><strong>{i + 1}</strong></td>
+                    <td><strong>{book.title}</strong></td>
                     <td>{book.author}</td>
                     <td>{requestType}</td>
                     <td>{sender.name}</td>
@@ -100,7 +99,7 @@ class Request extends Component {
                       { 
                         accepted 
                         ? 'accepted' : 
-                        <Button small onClick={() => this.acceptRequest(id)}>Accept</Button> 
+                        <Button color="primary" variant="outlined" onClick={() => this.acceptRequest(id)}>Accept</Button> 
                       }
                     </td>
                   </Tr> 
@@ -127,8 +126,8 @@ class Request extends Component {
               {
                 requestsFromUser.map(({ id, receiver, requestType, book, date, accepted }, i) => (
                   <Tr key={id}>
-                    <td>{i + 1}</td>
-                    <td>{book.title}</td>
+                    <td><strong>{i + 1}</strong></td>
+                    <td><strong>{book.title}</strong></td>
                     <td>{book.author}</td>
                     <td>{requestType}</td>
                     <td>{receiver.name}</td>

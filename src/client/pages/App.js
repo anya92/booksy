@@ -31,7 +31,7 @@ class App extends Component {
   
     return (
       <ThemeProvider theme={theme}>
-        {/* <ErrorBoundry> */}
+        <ErrorBoundry>
           <BookPanelProvider auth={data.auth}>
             <Header auth={data.auth} toggleDrawer={this.handleDrawerToggle} />
             <SideNav auth={data.auth} mobileOpen={this.state.mobileOpen} toggleDrawer={this.handleDrawerToggle} />
@@ -40,7 +40,7 @@ class App extends Component {
               { renderRoutes(route.routes, { auth: data.auth }) }
             </Container>
           </BookPanelProvider>
-        {/* </ErrorBoundry> */}
+        </ErrorBoundry>
       </ThemeProvider>
     );
   }

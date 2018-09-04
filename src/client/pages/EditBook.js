@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
-import Typography from "@material-ui/core/Typography";
 
 import {
   FETCH_BOOK_BY_ID_QUERY,
@@ -13,7 +12,7 @@ import { EDIT_BOOK_MUTATION } from '../graphql/mutations';
 import BookForm from '../components/BookForm';
 
 class EditBook extends Component {
-  handleSubmit(book) {
+  handleSubmit = book => {
     const { id } = this.props.data.book;
     this.props.mutate({
       variables: {
@@ -29,7 +28,7 @@ class EditBook extends Component {
     .catch(console.log);
   }
 
-  handleCancel() {
+  handleCancel = () => {
     this.props.history.goBack();
   }
 
@@ -41,11 +40,11 @@ class EditBook extends Component {
 
     return (
       <React.Fragment>
-        <Typography variant="display1">Edit <strong>{book.title}</strong></Typography>
+        <h1>Edit <em>{book.title}</em></h1>
         <BookForm
           book={book}
-          onSubmit={this.handleSubmit.bind(this)}
-          onCancel={this.handleCancel.bind(this)}
+          onSubmit={this.handleSubmit}
+          onCancel={this.handleCancel}
         />
       </React.Fragment>
     );

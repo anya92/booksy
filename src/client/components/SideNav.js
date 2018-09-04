@@ -37,6 +37,10 @@ const styles = theme => ({
   link: {
     textDecoration: 'none',
   },
+  badge: {
+    color: '#333',
+    fontWeight: 600,
+  }
 });
 
 class SideNavigation extends Component {
@@ -59,7 +63,7 @@ class SideNavigation extends Component {
           }
           const newRequest = subscriptionData.data.requestSent;
           
-          document.getElementById('requests-length').style.background = '#BADA55';
+          document.querySelector('#badge span').style.background = '#44bd32';
   
           return {
             ...prev,
@@ -127,7 +131,7 @@ class SideNavigation extends Component {
                 <NavLink to="/requests" className={classes.link}>
                   <ListItem button selected={pathname == '/requests'}>
                     <ListItemText primary="Book requests" />
-                    <Badge color="primary" badgeContent={numberOfNotAcceptedRequests}><div /></Badge>
+                    <Badge className={classes.badge} color="primary" id="badge" badgeContent={numberOfNotAcceptedRequests}><div /></Badge>
                   </ListItem>
                 </NavLink>
                 <NavLink to="/settings" className={classes.link}>

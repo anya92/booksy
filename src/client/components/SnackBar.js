@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
+import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
@@ -10,16 +11,19 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 const variantIcon = {
   success: CheckCircleIcon,
   error: ErrorIcon,
-  // info: InfoIcon,
+  info: InfoIcon,
   // warning: WarningIcon,
 };
 
 const styles = theme => ({
   success: {
-    background: 'green',
+    background: '#44bd32',
   },
   error: {
-    background: 'red',
+    background: '#EA2027',
+  },
+  info: {
+    background: '#00a8ff',
   },
   icon: {
     fontSize: 20,

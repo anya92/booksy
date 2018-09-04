@@ -5,12 +5,11 @@ import SnackBar from './SnackBar';
 export default class ErrorBoundry extends Component {
   state = {
     hasError: false,
-    error: '',
+    message: '',
   }
 
   componentDidCatch = (error, info) => {
-    console.log(error)
-    this.setState(() => ({ hasError: true, error }));
+    this.setState(() => ({ hasError: true, message: error.message }));
   }
 
   handleClose = (event, reason) => {
