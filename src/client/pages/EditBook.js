@@ -9,7 +9,7 @@ import {
 
 import { EDIT_BOOK_MUTATION } from '../graphql/mutations';
 
-import BookForm from '../components/BookForm';
+import BookForm from '../components/BookForm/BookForm';
 
 class EditBook extends Component {
   handleSubmit = book => {

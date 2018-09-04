@@ -8,7 +8,7 @@ import {
 
 import { ADD_BOOK_MUTATION } from '../graphql/mutations';
 
-import BookForm from '../components/BookForm';
+import BookForm from '../components/BookForm/BookForm';
 
 class AddBook extends Component {
   handleSubmit(book) {
