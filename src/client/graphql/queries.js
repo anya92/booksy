@@ -54,6 +54,7 @@ export const FETCH_BOOK_BY_ID_QUERY = gql`
         name
         email
       }
+      added
       toBorrow
       toSell
     }

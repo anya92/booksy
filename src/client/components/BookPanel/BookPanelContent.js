@@ -1,4 +1,5 @@
 import React from 'react'
+import { format } from 'date-fns';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Chip from '@material-ui/core/Chip';
@@ -47,7 +48,8 @@ export default ({
           <BookPanel.Slide up>
             <BookPanel.BookDescription>{book.description}</BookPanel.BookDescription>
             <BookPanel.BookOwner>
-              Book owned by <strong>{book.owner.name}</strong>,
+              Book owned by <strong>{book.owner.name}</strong> <br/>
+              added { format(new Date(book.added).toISOString(), 'D MMM YYYY') }
             </BookPanel.BookOwner>
             <Buttons
               auth={auth}

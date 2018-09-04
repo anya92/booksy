@@ -97,10 +97,8 @@ export const BookDescription = styled.div`
 
 export const BookOwner = styled.div`
   font-size: 14px;
-  margin: 20px 0;
   padding: 20px 0;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  line-height: 22px;
 `;
 
 
