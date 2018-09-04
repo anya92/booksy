@@ -5,7 +5,7 @@ import { ThemeProvider } from 'styled-components';
 
 import { AUTH_QUERY } from '../graphql/queries';
 
-import Header from '../components/Header';
+import Header from '../components/Header/Header';
 import SideNav from '../components/SideNav';
 import Notifications from '../components/Notifications';
 import { BookPanelProvider } from '../components/BookPanel/BookPanelContext';

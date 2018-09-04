@@ -3,36 +3,10 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import SearchIcon from '@material-ui/icons/Search';
 import Hidden from '@material-ui/core/Hidden';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import styled from 'styled-components';
 
-import { Consumer } from './BookPanel/BookPanelContext';
+import { Consumer } from '../BookPanel/BookPanelContext';
 
-import * as Navbar from '../styled/Header';
-
-const InputContainer = styled.div`
-  display: flex;
-  alignItems: center;
-  padding: 6px 5px;
-  input {
-    color: #FFF;
-    width: 160px;
-    height: 100%;
-    border: 0;
-    background: transparent;
-    padding: 2px 8px;
-    transition: width .3s ease-out;
-    font-family: Roboto;
-    &:focus {
-      outline: none;
-      width: 200px;
-    }
-    &::placeholder {
-      color: rgba(255, 255, 255, 0.5);
-    }
-  }
-`;
+import { Container, InputContainer, SearchResults, SearchResult } from './SearchBarStyled';
 
 const FETCH_BOOK = gql`
   query SearchBook($filter: String!) {
@@ -69,17 +43,20 @@ class SearchBar extends Component {
     document.body.removeEventListener('click', this.onClickEvent);
   }
 
-  handleInputChange(e) {
+  handleInputChange = e => {
     const { value } = e.target;
-    this.setState(() => ({ search: value }), () => this.searchBook());
+    this.setState(() => ({
+      search: value,
+    }), () => this.searchBook());
   }
 
-  handleInputKeyUp(e, context) {
+  handleInputKeyUp = (e, context) => {
     // ENTER_KEY_CODE = 13
+    // ESC_KEY_CODE = 27
     // UP_ARROW_KEY_CODE = 38
     // DOWN_ARROW_KEY_CODE = 40
     
-    if (![13, 38, 40].includes(e.keyCode)) {
+    if (![13, 27, 38, 40].includes(e.keyCode)) {
       return;
     }
     const results = document.querySelectorAll('.search__result');
@@ -96,16 +73,19 @@ class SearchBar extends Component {
       nextActiveResult = results[results.length - 1];
     } else if (e.keyCode == 13) {
       context.showPanel(currentActiveResult.id);
-      this.setState(() => ({ displayResults: false }))
+      this.setState(() => ({ displayResults: false }));
       return;
+    } else if (e.keyCode == 27) {
+      this.setState(() => ({ displayResults: false }));
     }
+
     if (currentActiveResult) {
       currentActiveResult.classList.remove('active');
     }
     nextActiveResult.classList.add('active');
   }
 
-  searchBook() {
+  searchBook = () => {
     const { search } = this.state;
     this.props.client.query({
       query: FETCH_BOOK,
@@ -117,15 +97,15 @@ class SearchBar extends Component {
     });
   }
 
+  handleResultClick = (context, bookId) => {
+    context.showPanel(bookId);
+    this.setState(() => ({ displayResults: false }));
+  }
+
   render() {
     return (
       <Hidden xsDown>
-        <div id="search-bar" style={{
-          background: 'rgba(255, 255, 255, 0.15)',
-          display: 'flex',
-          borderRadius: '2px',
-          margin: '0 10px',
-        }}>
+        <Container>
           <Consumer>
             {(context) => (
               <React.Fragment>
@@ -143,27 +123,27 @@ class SearchBar extends Component {
                 </InputContainer>
                 {
                   this.state.displayResults && 
-                  <Navbar.SearchResults innerRef={ref => (this.searchResults = ref)}>
+                  <SearchResults>
                     {
                       this.state.results.map(book => (
-                        <Navbar.SearchResult 
+                        <SearchResult 
                           key={book.id} 
                           className="search__result"
-                          onClick={() => context.showPanel(book.id)}
+                          onClick={() => this.handleResultClick(context, book.id)}
                           id={book.id}>
-                            <div>{book.title}</div>
+                            <div><strong>{book.title}</strong></div>
                             <div>{book.author}</div>
-                        </Navbar.SearchResult>
+                        </SearchResult>
                       ))
                     }
-                  </Navbar.SearchResults>
+                  </SearchResults>
                 }
               </React.Fragment>
             )}
           </Consumer>
-        </div>
+        </Container>
       </Hidden>
-    )
+    );
   }
 }
 
