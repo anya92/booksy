@@ -4,7 +4,7 @@ import { graphql, compose } from 'react-apollo';
 import { FETCH_BOOKMARKS_QUERY } from '../graphql/queries';
 import loadingAndErrorHandler from '../HOC/loadingAndErrorHandler';
 
-import BooksGrid from '../components/BooksGrid';
+import BooksGrid from '../components/BooksGrid/BooksGrid';
 
 const Bookmarks = ({ bookmarks, auth }) => (
   <React.Fragment>

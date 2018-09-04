@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { renderRoutes } from 'react-router-config';
 import { graphql } from 'react-apollo';
 import { ThemeProvider } from 'styled-components';
+import { withStyles } from '@material-ui/core/styles';
 
 import { AUTH_QUERY } from '../graphql/queries';
 
@@ -12,7 +13,21 @@ import { BookPanelProvider } from '../components/BookPanel/BookPanelContext';
 import ErrorBoundry from '../components/ErrorBoundry';
 
 import theme from '../styled/theme';
-import Container from '../styled/Container';
+
+const styles = theme => ({
+  container: {
+    fontFamily: "'Nunito', 'Open Sans', sans-serif",
+    color: '#333',
+    padding: '20px',
+    paddingTop: '80px',
+    margin: '0 auto',
+    maxWidth: '100%',
+    [theme.breakpoints.up('md')]: {
+      paddingRight: '40px',
+      paddingLeft: '280px',
+    }
+  }
+});
 
 class App extends Component {
   state = {
@@ -24,7 +39,7 @@ class App extends Component {
   };
 
   render() {
-    const { data, route } = this.props;
+    const { data, route, classes } = this.props;
 
     if (data.loading) return <div>Loading...</div>;
     if (data.error) return <div>Error</div>;
@@ -35,10 +50,10 @@ class App extends Component {
           <BookPanelProvider auth={data.auth}>
             <Header auth={data.auth} toggleDrawer={this.handleDrawerToggle} />
             <SideNav auth={data.auth} mobileOpen={this.state.mobileOpen} toggleDrawer={this.handleDrawerToggle} />
-            <Container>
+            <div className={classes.container}>
               { data.auth && <Notifications userId={data.auth.id} /> }
               { renderRoutes(route.routes, { auth: data.auth }) }
-            </Container>
+            </div>
           </BookPanelProvider>
         </ErrorBoundry>
       </ThemeProvider>
@@ -46,4 +61,4 @@ class App extends Component {
   }
 }
 
-export default graphql(AUTH_QUERY)(App);
+export default graphql(AUTH_QUERY)(withStyles(styles)(App));
