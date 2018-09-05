@@ -5,7 +5,7 @@ const User = `
     id: ID!
     googleId: ID!
     email: String
-    name: String
+    username: String
     firstName: String
     lastName: String
     city: String

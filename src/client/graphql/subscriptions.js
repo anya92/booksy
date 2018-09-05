@@ -6,7 +6,7 @@ export const REQUEST_SENT_SUBSCRIPTION = gql`
       id
       requestType
       receiver {
-        name
+        username
       }
       book {
         id
@@ -14,7 +14,7 @@ export const REQUEST_SENT_SUBSCRIPTION = gql`
         author
       }
       sender {
-        name
+        username
       }
       date
       accepted
@@ -29,7 +29,7 @@ export const REQUEST_ACCEPTED_SUBSCRIPTION = gql`
       id
       requestType
       receiver {
-        name
+        username
       }
       book {
         id
@@ -37,7 +37,7 @@ export const REQUEST_ACCEPTED_SUBSCRIPTION = gql`
         author
       }
       sender {
-        name
+        username
       }
       date
       accepted

@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const userSchema = new Schema({
   googleId: String,
-  name: String,
+  username: String,
   email: String,
   bookmarks: [
     { type: Schema.Types.ObjectId, ref: 'Book' }

@@ -28,8 +28,8 @@ export default ({ data, requestType, formatDate, acceptRequest }) => {
                 <td>{request.requestType}</td>
                 {
                   requestType == 'to_user'
-                    ? <td>{request.sender.name}</td>
-                    : <td>{request.receiver.name}</td>
+                    ? <td>{request.sender.username}</td>
+                    : <td>{request.receiver.username}</td>
                 }
                 <td>{ formatDate(request.date) } ago</td>
                 {

@@ -7,7 +7,7 @@ import UserForm from '../components/UserForm/UserForm';
 export const FETCH_USER_DATA_QUERY = gql`
   query User($id: ID!) {
     user(id: $id) {
-      name
+      username
       email
       firstName
       lastName

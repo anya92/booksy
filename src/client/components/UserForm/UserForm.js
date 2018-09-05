@@ -9,7 +9,7 @@ import Form from './Form';
 const UPDATE_USER_MUTATION = gql`
   mutation UpdateUser(
     $id: ID!
-    $name: String
+    $username: String
     $firstName: String
     $lastName: String
     $city: String
@@ -17,7 +17,7 @@ const UPDATE_USER_MUTATION = gql`
   ) {
     updateUser(
       id: $id
-      name: $name
+      username: $username
       firstName: $firstName
       lastName: $lastName
       city: $city
@@ -30,11 +30,11 @@ const UPDATE_USER_MUTATION = gql`
 
 class UserForm extends Component {
   state = {
-    name: this.props.user.name,
-    firstName: this.props.user.firstName,
-    lastName: this.props.user.lastName,
-    city: this.props.user.city,
-    country: this.props.user.country,
+    username: this.props.user.username || '',
+    firstName: this.props.user.firstName || '',
+    lastName: this.props.user.lastName || '',
+    city: this.props.user.city || '',
+    country: this.props.user.country || '',
   }
 
   handleChange = (e, type) => {

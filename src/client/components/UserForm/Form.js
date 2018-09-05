@@ -15,12 +15,12 @@ const styles = theme => ({
   },
 });
 
-const Form = ({ name, email, firstName, lastName, city, country, handleSubmit, handleChange, classes }) => {
+const Form = ({ username, email, firstName, lastName, city, country, handleSubmit, handleChange, classes }) => {
   return (
     <form onSubmit={e => handleSubmit(e)} className={classes.form}>
       <Input
-        name="name"
-        value={name}
+        name="username"
+        value={username}
         handleChange={handleChange}
       />
       <Input

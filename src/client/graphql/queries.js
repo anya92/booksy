@@ -5,7 +5,7 @@ export const AUTH_QUERY = gql`
     auth {
       id
       email
-      name
+      username
       bookmarks {
         id
       }
@@ -51,7 +51,7 @@ export const FETCH_BOOK_BY_ID_QUERY = gql`
       category
       owner {
         id
-        name
+        username
         email
       }
       added
@@ -67,7 +67,7 @@ export const FETCH_REQUESTS_TO_USER_QUERY = gql`
       id
       requestType
       receiver {
-        name
+        username
       }
       book {
         id
@@ -75,7 +75,7 @@ export const FETCH_REQUESTS_TO_USER_QUERY = gql`
         author
       }
       sender {
-        name
+        username
       }
       date
       accepted
@@ -90,7 +90,7 @@ export const FETCH_REQUESTS_FROM_USER_QUERY = gql`
       id
       requestType
       receiver {
-        name
+        username
       }
       book {
         id
@@ -98,7 +98,7 @@ export const FETCH_REQUESTS_FROM_USER_QUERY = gql`
         author
       }
       sender {
-        name
+        username
       }
       date
       accepted

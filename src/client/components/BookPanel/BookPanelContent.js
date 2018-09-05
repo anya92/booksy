@@ -48,7 +48,7 @@ export default ({
           <BookPanel.Slide up>
             <BookPanel.BookDescription>{book.description}</BookPanel.BookDescription>
             <BookPanel.BookOwner>
-              Book owned by <strong>{book.owner.name}</strong> <br/>
+              Book owned by <strong>{book.owner.username}</strong> <br/>
               added { format(new Date(book.added).toISOString(), 'D MMM YYYY') }
             </BookPanel.BookOwner>
             <Buttons

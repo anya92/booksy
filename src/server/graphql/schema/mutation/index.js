@@ -2,7 +2,7 @@ export default `
   type Mutation {
     updateUser(
       id: ID!
-      name: String
+      username: String
       firstName: String
       lastName: String
       city: String

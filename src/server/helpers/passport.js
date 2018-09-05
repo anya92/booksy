@@ -32,7 +32,7 @@ passport.use(
           // save new user
           new User({ 
             googleId: profile.id, 
-            name: profile.displayName, 
+            username: profile.displayName, 
             email: profile.emails[0].value, 
           })
             .save()
