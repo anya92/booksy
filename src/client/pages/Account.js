@@ -27,7 +27,10 @@ const Account = ({ auth: { id } }) => (
       if (error) return `Error!: ${error}`;
 
       return (
-        <UserForm user={data.user} userId={id} />
+        <React.Fragment>
+          <h1>Your profile</h1>
+          <UserForm user={data.user} userId={id} />
+        </React.Fragment>
       );
     }}
   </Query>

@@ -4,6 +4,8 @@ import gql from 'graphql-tag';
 
 import { FETCH_USER_DATA_QUERY } from '../../pages/Account';
 
+import Form from './Form';
+
 const UPDATE_USER_MUTATION = gql`
   mutation UpdateUser(
     $id: ID!
@@ -57,38 +59,13 @@ class UserForm extends Component {
   }
 
   render() {
-    const { name, firstName, lastName, city, country } = this.state;
-
     return (
-      <form onSubmit={e => this.handleSubmit(e)}>
-        <div>
-          <label htmlFor="name">Name</label>
-          <input type="text" id="name" value={name} onChange={e => this.handleChange(e, 'name')} />
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input type="email" id="email" disabled value={this.props.user.email} />
-        </div>
-        <div>
-          <label htmlFor="first-name">First Name</label>
-          <input type="text" id="first-name" value={firstName} onChange={e => this.handleChange(e, 'firstName')} />
-        </div>
-        <div>
-          <label htmlFor="last-name">Last Name</label>
-          <input type="text" id="last-name" value={lastName} onChange={e => this.handleChange(e, 'lastName')} />
-        </div>
-        <div>
-          <label htmlFor="city">City</label>
-          <input type="text" id="city" value={city} onChange={e => this.handleChange(e, 'city')} />
-        </div>
-        <div>
-          <label htmlFor="country">Country</label>
-          <input type="text" id="country" value={country} onChange={e => this.handleChange(e, 'country')} />
-        </div>
-        <div>
-          {this.state.loading ? <button>Loading...</button> : <button type="submit">Save</button> }
-        </div>
-      </form>
+      <Form 
+        {...this.state}
+        email={this.props.user.email}
+        handleSubmit={this.handleSubmit}
+        handleChange={this.handleChange}
+      />
     );
   }
 }
