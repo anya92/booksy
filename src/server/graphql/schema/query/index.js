@@ -6,6 +6,7 @@ import Request from './request';
 const Query = `
   type Query {
     auth: User
+    user(id: ID!): User
     book(id: ID!): Book
     books: [Book]
     userBooks: [Book]

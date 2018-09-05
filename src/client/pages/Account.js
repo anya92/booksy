@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
-import { graphql, compose } from 'react-apollo';
+import React from 'react';
+import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 
-const FETCH_USER_DATA_QUERY = gql`
-  query {
-    auth {
-      id
+import UserForm from '../components/UserForm/UserForm';
+
+export const FETCH_USER_DATA_QUERY = gql`
+  query User($id: ID!) {
+    user(id: $id) {
       name
       email
       firstName
@@ -16,59 +15,22 @@ const FETCH_USER_DATA_QUERY = gql`
       country
     }
   }
-`
+`;
 
-class Account extends Component {
-  state = {
-    name: '',
-    firstName: '',
-    lastName: '',
-    city: '',
-    country: ''
-  }
+const Account = ({ auth: { id } }) => (
+  <Query 
+    query={FETCH_USER_DATA_QUERY}
+    variables={{ id }}
+  >
+    {({ loading, error, data }) => {
+      if (loading) return <div>Loading</div>;
+      if (error) return `Error!: ${error}`;
 
-  handleChange = () => {
+      return (
+        <UserForm user={data.user} userId={id} />
+      );
+    }}
+  </Query>
+);
 
-  }
-
-  render() {
-    // const { loading, error, auth } = this.props.data;
-
-    // if (loading) return <div />;
-    // if (error) return <div>Error</div>;
-    
-    return (
-      <form>
-        <div>
-          <label htmlFor="name">Name</label>
-          <Input type="text" id="name" />
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input type="email" id="email" disabled />
-        </div>
-        <div>
-          <label htmlFor="first-name">First Name</label>
-          <input type="text" id="first-name" />
-        </div>
-        <div>
-          <label htmlFor="last-name">Last Name</label>
-          <input type="text" id="last-name" />
-        </div>
-        <div>
-          <label htmlFor="city">City</label>
-          <input type="text" id="city" />
-        </div>
-        <div>
-          <label htmlFor="country">Country</label>
-          <input type="text" id="country" />
-        </div>
-        <div>
-          <button type="submit">Save</button>
-        </div>
-      </form>
-    );
-  }
-}
-
-export default graphql(FETCH_USER_DATA_QUERY)(Account);
+export default Account;

@@ -1,11 +1,21 @@
 import mongoose from 'mongoose';
 
+const User = mongoose.model('User');
 const Book = mongoose.model('Book');
 const Request = mongoose.model('Request');
 
 export default {
   auth: (root, args, context) => {
     return context.user;
+  },
+
+  user: async (root, args) => {
+    try {
+      const user = await User.findById(args.id);
+      return user;
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   book: async (root, { id }, context) => {

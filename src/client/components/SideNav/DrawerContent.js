@@ -55,8 +55,8 @@ const DrawerContent = ({
                   <Badge className={classes.badge} color="primary" id="badge" badgeContent={number}><div /></Badge>
                 </ListItem>
               </NavLink>
-              <NavLink to="/settings" className={classes.link}>
-                <ListItem button selected={pathname == '/settings'}>
+              <NavLink to="/account" className={classes.link}>
+                <ListItem button selected={pathname == '/account'}>
                   <ListItemText primary="Account" />
                 </ListItem>
               </NavLink>
