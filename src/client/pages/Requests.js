@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
-import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
+
+import Table from '../components/Table/Table';
 
 import { 
   FETCH_REQUESTS_TO_USER_QUERY,
@@ -10,36 +10,6 @@ import {
 } from '../graphql/queries';
 
 import { ACCEPT_REQUEST_MUTATION } from '../graphql/mutations';
-
-const Tr = styled.tr`
-  margin: 20px 0;
-  color: #333;
-  font-size: 14px;
-  line-height: 28px;
-  &:nth-child(odd) {
-    background: #EEE;
-  }
-  td {
-    padding: 12px;
-    white-space: nowrap;
-  } 
-`;
-
-const Table = styled.table`
-  margin-top: 20px;
-  border-collapse: collapse;
-  width: 100%;
-`;
-
-const Thead = styled.thead`
-  color: #555;
-  font-size: 16px;
-  line-height: 28px;
-  th {
-    padding: 12px;
-    text-align: left;
-  }
-`;
 
 class Request extends Component {
 
@@ -61,6 +31,10 @@ class Request extends Component {
     });
   }
 
+  formatDate = date => {
+    return distanceInWordsToNow(new Date(date).toISOString());
+  }
+
   render() {
     const { 
       toUser: { loading: loadingToUser, error: errorToUser, requestsToUser },
@@ -72,73 +46,18 @@ class Request extends Component {
     return (
       <div>
         <h1>Requests to you</h1>
-        <div style={{ maxWidth: '100%', overflowX: 'auto' }}>
-          <Table>
-            <Thead>
-              <tr>
-                <th>#</th>
-                <th>title</th>
-                <th>author</th>
-                <th>type</th>
-                <th>sender</th>
-                <th>time</th>
-                <th>status</th>
-              </tr>
-            </Thead>
-            <tbody>
-              {
-                requestsToUser.map(({ id, sender, requestType, book, date, accepted }, i) => (
-                  <Tr key={id}>
-                    <td><strong>{i + 1}</strong></td>
-                    <td><strong>{book.title}</strong></td>
-                    <td>{book.author}</td>
-                    <td>{requestType}</td>
-                    <td>{sender.name}</td>
-                    <td>{ distanceInWordsToNow(new Date(date).toISOString()) } ago</td>
-                    <td>
-                      { 
-                        accepted 
-                        ? 'accepted' : 
-                        <Button color="primary" variant="outlined" onClick={() => this.acceptRequest(id)}>Accept</Button> 
-                      }
-                    </td>
-                  </Tr> 
-                ))
-              }
-            </tbody>
-          </Table>
-        </div>
+        <Table
+          data={requestsToUser}
+          requestType="to_user"
+          formatDate={this.formatDate}
+          acceptRequest={this.acceptRequest}
+        />
         <h1>Your requests</h1>
-        <div style={{ maxWidth: '100%', overflowX: 'auto' }}>
-          <Table>
-            <Thead>
-              <tr>
-                <th>#</th>
-                <th>title</th>
-                <th>author</th>
-                <th>type</th>
-                <th>receiver</th>
-                <th>time</th>
-                <th>status</th>
-              </tr>
-            </Thead>
-            <tbody>
-              {
-                requestsFromUser.map(({ id, receiver, requestType, book, date, accepted }, i) => (
-                  <Tr key={id}>
-                    <td><strong>{i + 1}</strong></td>
-                    <td><strong>{book.title}</strong></td>
-                    <td>{book.author}</td>
-                    <td>{requestType}</td>
-                    <td>{receiver.name}</td>
-                    <td>{ distanceInWordsToNow(new Date(date).toISOString()) } ago</td>
-                    <td>{ accepted ? 'accepted' : 'not accepted' }</td>
-                  </Tr> 
-                ))
-              }
-            </tbody>
-          </Table>
-        </div>
+        <Table
+          data={requestsFromUser}
+          requestType="from_user"
+          formatDate={this.formatDate}
+        />
       </div>
     );
   }
