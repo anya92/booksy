@@ -7,8 +7,8 @@ import { withStyles } from '@material-ui/core/styles';
 import { AUTH_QUERY } from '../graphql/queries';
 
 import Header from '../components/Header/Header';
-import SideNav from '../components/SideNav';
-import Notifications from '../components/Notifications';
+import SideNav from '../components/SideNav/SideNav';
+import Notifications from '../components/Notifications/Notifications';
 import { BookPanelProvider } from '../components/BookPanel/BookPanelContext';
 import ErrorBoundry from '../components/ErrorBoundry';
 

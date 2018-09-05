@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import SnackBar from './SnackBar';
+import SnackBar from './Notifications/SnackBar';
 
 export default class ErrorBoundry extends Component {
   state = {
