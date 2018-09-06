@@ -78,10 +78,12 @@ const DrawerContent = ({
         <Collapse in={categoriesOpen} timeout="auto" unmountOnExit>
           <List component="div">
             {
-              categories.map((category, i) => (
-                <ListItem button key={i}>
-                  <ListItemText secondary={`${category._id} (${category.count})`} />
-                </ListItem>
+              categories.map(({ _id, count }) => (
+                <NavLink to={`/books/${_id.toLowerCase()}`} key={_id} className={classes.link}>
+                  <ListItem button selected={pathname == `/books/${_id.toLowerCase()}`}>
+                    <ListItemText secondary={`${_id} (${count})`} />
+                  </ListItem>
+                </NavLink>
               ))
             }
           </List>

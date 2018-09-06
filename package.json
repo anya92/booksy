@@ -6,12 +6,12 @@
     "dotenv": "variables.env"
   },
   "scripts": {
-    "start": "node build/bundle.js",
+    "start": "set NODE_ENV=production && node build/bundle.js",
     "dev": "npm-run-all --parallel dev:*",
     "dev:start": "nodemon --watch build --exec node build/bundle.js",
     "dev:build-server": "webpack --config webpack.server.js --watch --mode development",
     "dev:build-client": "webpack --config webpack.client.js --watch --mode development",
-    "build": "npm-run-all --parallel prod:*",
+    "build": "npm run prod:build-client && npm run prod:build-server",
     "prod:build-server": "webpack --config webpack.server.js --mode production",
     "prod:build-client": "webpack --config webpack.client.prod.js --mode production"
   },

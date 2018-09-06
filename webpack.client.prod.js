@@ -14,6 +14,7 @@ const config = {
     filename: '[name].[chunkhash].js',
     publicPath: '/assets/',
   },
+  mode: process.env.NODE_ENV || 'development',
   module: {
     rules: [
       {

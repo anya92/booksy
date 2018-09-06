@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -40,7 +41,13 @@ export default ({
               <div>
                 <BookPanel.BookTitle>{book.title}</BookPanel.BookTitle>
                 <BookPanel.BookCategory>
-                  { book.category && <Chip label={`# ${book.category}`} variant="outlined" /> }
+                  { 
+                    book.category && (
+                      <Link to={`/books/${book.category}`} onClick={closePanel}>
+                        <Chip label={`# ${book.category}`} />
+                      </Link>
+                    )
+                  }
                 </BookPanel.BookCategory>
               </div>
             </BookPanel.CoverAndTitle>

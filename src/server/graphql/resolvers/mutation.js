@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 import {
   pubsub,
   sendNotification,
-  NOTIFICATION_TOPIC,
   REQUEST_SENT_TOPIC,
   REQUEST_ACCEPTED_TOPIC,
 } from './subscriptionHelpers';
@@ -46,16 +45,20 @@ export default {
 
   removeBook: async (root, { id }, context) => {
     const userId = context.user.id;
-    const book = await Book.findById(id);
-    if (userId == book.owner.id) {
-      await Book.remove(book, err => {
-        if (err) {
-          sendNotification(userId, 'error', `${err}`)
-        } else {
-          sendNotification(userId, 'success', `Successfully deleted ${book.title}.`);
-          return null;
-        }
-      });
+    try {
+      const book = await Book.findById(id);
+      if (userId == book.owner.id) {
+        await Book.remove(book, err => {
+          if (err) {
+            sendNotification(userId, 'error', `${err}`)
+          } else {
+            sendNotification(userId, 'success', `Successfully deleted ${book.title}.`);
+            return null;
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error);
     }
   },
 

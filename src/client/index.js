@@ -23,7 +23,7 @@ const httpLink = new HttpLink({
 
 const wsLink = new WebSocketLink({
   uri: 'ws://localhost:7777/graphql',
-  // uri: 'wss://booksy.now.sh/subscriptions',
+  // uri: 'wss://booksy.now.sh/graphql',
   options: {
     reconnect: true
   },
@@ -58,6 +58,7 @@ const theme = createMuiTheme({
 class Main extends Component {
   componentDidMount = () => {
     const jssStyles = document.getElementById('jss-server-side');
+    console.log('mui',jssStyles)
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
