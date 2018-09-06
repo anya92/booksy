@@ -37,12 +37,13 @@ class BooksGrid extends Component {
 
   render() {
     const { books } = this.state;
-    const { classes } = this.props;
+    const { classes, skipFilter } = this.props;
     return (
       <div>
         <FilterAndSort
           books={this.props.books}
           setBooks={this.setBooks}
+          skipFilter={skipFilter}
         />
         <Consumer>
           {(context) => (

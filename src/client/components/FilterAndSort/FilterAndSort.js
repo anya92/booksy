@@ -94,17 +94,19 @@ class FilterAndSort extends Component {
       (book.category && categories.add(book.category.toLowerCase()))
     );
 
-    const { classes } = this.props;
+    const { classes, skipFilter } = this.props;
     return (
       <div className={classes.container}>
-        <Filter
-          anchorEl={this.state.categoryAnchorEl}
-          category={this.state.category}
-          categories={categories}
-          handleOpen={this.handleCategoryOpen}
-          handleClick={this.handleCategoryItemClick}
-          handleClose={this.handleCategoryClose}
-        />
+        { 
+          !skipFilter && <Filter
+            anchorEl={this.state.categoryAnchorEl}
+            category={this.state.category}
+            categories={categories}
+            handleOpen={this.handleCategoryOpen}
+            handleClick={this.handleCategoryItemClick}
+            handleClose={this.handleCategoryClose}
+          />
+        }
         <Sort
           anchorEl={this.state.sortAnchorEl}
           sortBy={this.state.sortBy}

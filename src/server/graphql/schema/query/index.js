@@ -10,6 +10,7 @@ const Query = `
     user(id: ID!): User
     book(id: ID!): Book
     books: [Book]
+    booksByCategory(category: String): [Book]
     userBooks: [Book]
     bookmarks: [Book]
     categories: [Category]

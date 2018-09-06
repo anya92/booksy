@@ -32,6 +32,12 @@ export default {
     return books;
   },
 
+  booksByCategory: async (root, { category }) => {
+    const regex = new RegExp(`${category}`, 'i');
+    const books = await Book.find({ category: regex });
+    return books;
+  },
+
   userBooks: async (root, args, context) => {
     const books = await Book.find({ owner: context.user.id }).sort({added: 'descending'});
     return books;

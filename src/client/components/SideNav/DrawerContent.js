@@ -21,13 +21,12 @@ const styles = theme => ({
   }
 });
 
-const categories = ["Science fiction", "Drama", "Fiction", "Romance", "Horror", "Health", "Travel", "Children's", "Science", "History", "Poetry", "Comics", "Fantasy", "Biographies", "Other"];
-
 const DrawerContent = ({
   auth,
   mobileOpen,
   pathname,
   number,
+  categories,
   categoriesOpen,
   toggleCategoriesList,
   classes,
@@ -81,7 +80,7 @@ const DrawerContent = ({
             {
               categories.map((category, i) => (
                 <ListItem button key={i}>
-                  <ListItemText secondary={category} />
+                  <ListItemText secondary={`${category._id} (${category.count})`} />
                 </ListItem>
               ))
             }

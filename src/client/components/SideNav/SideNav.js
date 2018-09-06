@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import Drawer from '@material-ui/core/Drawer';
 import { withStyles } from '@material-ui/core/styles';
@@ -17,7 +18,16 @@ import {
   REQUEST_ACCEPTED_SUBSCRIPTION,
 } from '../../graphql/subscriptions';
 
-const styles = theme => ({
+const FETCH_CATEGORIES_LIST_QUERY = gql`
+  query {
+    categories {
+      _id
+      count
+    }
+  }
+`;
+
+const styles = () => ({
   drawer: {
     background: '#eee',
     width: 240,
@@ -106,6 +116,7 @@ class SideNavigation extends Component {
               mobileOpen={mobileOpen}
               pathname={pathname}
               number={numberOfNotAcceptedRequests}
+              categories={this.props.data.categories}
               categoriesOpen={this.state.categoriesOpen}
               toggleCategoriesList={this.toggleCategoriesList}
             />
@@ -118,6 +129,7 @@ class SideNavigation extends Component {
               mobileOpen={mobileOpen}
               pathname={pathname}
               number={numberOfNotAcceptedRequests}
+              categories={this.props.data.categories}
               categoriesOpen={this.state.categoriesOpen}
               toggleCategoriesList={this.toggleCategoriesList}
             />
@@ -129,6 +141,7 @@ class SideNavigation extends Component {
 };
 
 export default compose(
+  graphql(FETCH_CATEGORIES_LIST_QUERY),
   graphql(FETCH_REQUESTS_TO_USER_QUERY, {
     name: 'toUser', 
     skip: ({ auth }) => !auth,

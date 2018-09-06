@@ -93,11 +93,11 @@ export default (req, client, context) => {
           </script>
           ${
             bundles.map(bundle => {
-              return `<script src="/${bundle.file}"></script>`
+              return `<script src="/assets/${bundle.file}"></script>`
             }).join('\n')
           }
-          <script src="/${manifest["main.js"]}" defer></script>
-          <script src="/${manifest["vendor.js"]}"></script>
+          <script src="${manifest["main.js"]}" defer></script>
+          <script src="${manifest["vendor.js"]}"></script>
         </body>
       </html>
     `);

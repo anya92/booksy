@@ -5,10 +5,9 @@ import Loadable from 'react-loadable';
 const loading = () => null;
 
 const AsyncBookPanel = Loadable({
-  loader: () => import('./BookPanel'),
+  loader: () => import(/* webpackChunkName: "book_panel" */ './BookPanel'),
   loading,
 });
-
 
 const { Provider, Consumer } = React.createContext();
 

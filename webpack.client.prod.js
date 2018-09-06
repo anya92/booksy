@@ -11,7 +11,8 @@ const config = {
   },
   output: {
     path: path.resolve(__dirname, 'public'),
-    filename: '[name].[chunkhash].js'
+    filename: '[name].[chunkhash].js',
+    publicPath: '/assets/',
   },
   module: {
     rules: [
