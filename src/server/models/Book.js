@@ -24,7 +24,10 @@ const bookSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  category: String,
+  category: {
+    type: String,
+    default: 'Other',
+  },
   toBorrow: {
     type: Boolean,
     default: true,
@@ -44,6 +47,14 @@ bookSchema.index({
   title: 'text',
   author: 'text',
 });
+
+bookSchema.statics.getCategoriesList = function() {
+  return this.aggregate([
+    { $unwind: '$category' },
+    { $group: { _id: '$category', count: { $sum: 1 } } },
+    { $sort: { count: -1 } }
+  ]);
+}
 
 function autopopulate(next) {
   this.populate('owner');

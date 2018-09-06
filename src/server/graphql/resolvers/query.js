@@ -44,6 +44,11 @@ export default {
     return bookmarks;
   },
 
+  categories: async () => {
+    const categories = await Book.getCategoriesList();
+    return categories;
+  },
+
   requestsToUser: async (root, args, context) => {
     const requests = await Request.find({ receiver: context.user.id }).sort({ date: 'descending' });
     return requests;
