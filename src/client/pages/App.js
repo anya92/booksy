@@ -12,8 +12,6 @@ import Notifications from '../components/Notifications/Notifications';
 import { BookPanelProvider } from '../components/BookPanel/BookPanelContext';
 import ErrorBoundry from '../components/ErrorBoundry';
 
-import theme from '../styled/theme';
-
 const styles = theme => ({
   container: {
     fontFamily: "'Nunito', 'Open Sans', sans-serif",
@@ -45,18 +43,16 @@ class App extends Component {
     if (data.error) return <div>Error</div>;
   
     return (
-      <ThemeProvider theme={theme}>
-        <ErrorBoundry>
-          <BookPanelProvider auth={data.auth}>
-            <Header auth={data.auth} toggleDrawer={this.handleDrawerToggle} />
-            <SideNav auth={data.auth} mobileOpen={this.state.mobileOpen} toggleDrawer={this.handleDrawerToggle} />
-            <div className={classes.container}>
-              { data.auth && <Notifications userId={data.auth.id} /> }
-              { renderRoutes(route.routes, { auth: data.auth }) }
-            </div>
-          </BookPanelProvider>
-        </ErrorBoundry>
-      </ThemeProvider>
+      <ErrorBoundry>
+        <BookPanelProvider auth={data.auth}>
+          <Header auth={data.auth} toggleDrawer={this.handleDrawerToggle} />
+          <SideNav auth={data.auth} mobileOpen={this.state.mobileOpen} toggleDrawer={this.handleDrawerToggle} />
+          <div className={classes.container}>
+            { data.auth && <Notifications userId={data.auth.id} /> }
+            { renderRoutes(route.routes, { auth: data.auth }) }
+          </div>
+        </BookPanelProvider>
+      </ErrorBoundry>
     );
   }
 }

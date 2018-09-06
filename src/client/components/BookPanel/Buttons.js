@@ -1,7 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import { ButtonsContainer } from '../../styled/Buttons';
+import styled from 'styled-components';
+
+const ButtonsContainer = styled.div`
+  margin-top: 20px;
+  max-width: 400px;
+  display: grid;
+  grid-gap: 20px;
+  grid-template-columns: 1fr 1fr;
+`;
 
 export default ({ auth, book, isOwner, removeBook, closePanel, requestBook }) => {
   if (!auth) {
