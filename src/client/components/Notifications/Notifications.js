@@ -15,7 +15,7 @@ class Notifications extends Component {
     const { notification } = this.props.data;
     const prevNotification = prevProps.data.notification;
     if (notification && !prevNotification) return true;
-    if (notification && (prevNotification.message !== notification.message)) {
+    if (notification && (prevNotification.id !== notification.id)) {
       return true;
     }
     return null;
@@ -58,6 +58,7 @@ const notificationSubscription = gql`
     notification(userId: $userId) {
       type
       message
+      id
     }
   }
 `;
