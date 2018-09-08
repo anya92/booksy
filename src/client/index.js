@@ -12,7 +12,6 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 import Loadable from 'react-loadable';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-
 import routes from './routes';
 
 const httpLink = new HttpLink({
