@@ -38,26 +38,9 @@ export default (req, client, context) => {
   const generateClassName = createGenerateClassName();
 
   let App = (
-    <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-      <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
-      <MuiThemeProvider theme={theme} sheetsManager={sheetsManager} disableStylesGeneration={true}>
-          <ApolloProvider client={client}>
-            <StyleSheetManager sheet={sheet.instance}>
-              <StaticRouter location={req.path} context={context}>
-                <div>{renderRoutes(routes)}</div>
-              </StaticRouter>
-            </StyleSheetManager>
-          </ApolloProvider>
-        </MuiThemeProvider>
-      </JssProvider>
-    </Loadable.Capture>
-  );
-
-  return getDataFromTree(App).then(() => {
-    App = (
+    <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
       <Loadable.Capture report={moduleName => modules.push(moduleName)}>
-        <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
-          <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
+        <MuiThemeProvider theme={theme} sheetsManager={sheetsManager} disableStylesGeneration={true}>
             <ApolloProvider client={client}>
               <StyleSheetManager sheet={sheet.instance}>
                 <StaticRouter location={req.path} context={context}>
@@ -66,8 +49,25 @@ export default (req, client, context) => {
               </StyleSheetManager>
             </ApolloProvider>
           </MuiThemeProvider>
-        </JssProvider>
       </Loadable.Capture>
+    </JssProvider>
+  );
+
+  return getDataFromTree(App).then(() => {
+    App = (
+      <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
+        <Loadable.Capture report={moduleName => modules.push(moduleName)}>
+            <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
+              <ApolloProvider client={client}>
+                <StyleSheetManager sheet={sheet.instance}>
+                  <StaticRouter location={req.path} context={context}>
+                    <div>{renderRoutes(routes)}</div>
+                  </StaticRouter>
+                </StyleSheetManager>
+              </ApolloProvider>
+            </MuiThemeProvider>
+        </Loadable.Capture>
+      </JssProvider>
     );
     const content = renderToString(App);
     let bundles = getBundles(stats, modules);

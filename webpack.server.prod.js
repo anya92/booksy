@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const path = require('path');
 const nodeExternals = require('webpack-node-externals');
 
@@ -8,7 +9,7 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js'
   },
-  mode: 'development',
+  mode: 'production',
   module: {
     rules: [
       {
@@ -25,6 +26,11 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"production"',
+    }),
+  ],
   externals: [
     nodeExternals(),
   ],

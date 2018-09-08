@@ -6,14 +6,14 @@
     "dotenv": "variables.env"
   },
   "scripts": {
-    "start": "set NODE_ENV=production && node build/bundle.js",
+    "start": "node build/bundle.js",
     "dev": "npm-run-all --parallel dev:*",
     "dev:start": "nodemon --watch build --exec node build/bundle.js",
-    "dev:build-server": "webpack --config webpack.server.js --watch --mode development",
-    "dev:build-client": "webpack --config webpack.client.js --watch --mode development",
-    "build": "npm run prod:build-client && npm run prod:build-server",
-    "prod:build-server": "webpack --config webpack.server.js --mode production",
-    "prod:build-client": "webpack --config webpack.client.prod.js --mode production"
+    "dev:build-server": "webpack --config webpack.server.js --watch",
+    "dev:build-client": "webpack --config webpack.client.js --watch",
+    "build": "NODE_ENV=production && npm run prod:build-client && npm run prod:build-server",
+    "prod:build-server": "webpack --config webpack.server.prod.js",
+    "prod:build-client": "webpack --config webpack.client.prod.js"
   },
   "keywords": [
     "react",
@@ -56,6 +56,7 @@
     "react": "^16.4.2",
     "react-apollo": "^2.1.11",
     "react-dom": "^16.4.2",
+    "react-jss": "^8.6.1",
     "react-loadable": "^5.5.0",
     "react-router-config": "^1.0.0-beta.4",
     "react-router-dom": "^4.2.2",

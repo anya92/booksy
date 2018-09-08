@@ -58,7 +58,6 @@ const theme = createMuiTheme({
 class Main extends Component {
   componentDidMount = () => {
     const jssStyles = document.getElementById('jss-server-side');
-    console.log('mui',jssStyles)
     if (jssStyles && jssStyles.parentNode) {
       jssStyles.parentNode.removeChild(jssStyles);
     }
@@ -75,12 +74,11 @@ class Main extends Component {
   }
 }
 
-
 Loadable.preloadReady().then(() => {
   hydrate(
     <MuiThemeProvider theme={theme}>
       <Main />
-    </MuiThemeProvider>, 
+    </MuiThemeProvider>,
     document.getElementById('root')
   );
 });

@@ -1,11 +1,11 @@
+const webpack = require('webpack');
 const path = require('path');
-const merge = require('webpack-merge');
-const baseConfig = require('./webpack.base');
 const ReactLoadablePlugin = require('react-loadable/webpack').ReactLoadablePlugin;
 const ManifestPlugin = require('webpack-manifest-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-const config = {
+module.exports = {
+  target: 'web',
   entry: {
     main: './src/client/index.js',
   },
@@ -14,9 +14,14 @@ const config = {
     filename: '[name].[chunkhash].js',
     publicPath: '/assets/',
   },
-  mode: process.env.NODE_ENV || 'development',
+  mode: 'production',
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: 'babel-loader'
+      },
       {
         test: /\.css$/,
         use: [
@@ -27,12 +32,24 @@ const config = {
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(['public']),
+    new CleanWebpackPlugin(['public/*']),
     new ReactLoadablePlugin({
       filename: './public/react-loadable.json',
     }),
     new ManifestPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': '"production"',
+    }),
   ],
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendor',
+          chunks: 'all'
+        }
+      }
+    }
+  },
 };
-
-module.exports = merge(baseConfig, config);
