@@ -4,6 +4,8 @@
 
 Live: https://booksy.now.sh
 
+GraphQL Playground: https://booksy.now.sh/graphql
+
 ### User stories:
 
 1. I can view all books posted by every user. ✔
